@@ -1,0 +1,117 @@
+{
+  "report_id": "re_20250317_002",
+  "edition_number": 2,
+  "issue_type": "REGULAR_BIWEEKLY",
+  "status": "PUBLISHED",
+  "published_at": "2025-03-17T09:00:00Z",
+  "data_as_of": "2025-03-14",
+  "market_context_note": "S&P 500이 연고점 대비 약 8% 조정을 받은 가운데, 금리 경로 불확실성과 기업 실적 시즌 전 관망 심리가 혼재하고 있다. 이번 에디션은 조정 과정에서 펀더멘털 대비 과도하게 하락한 중대형주 5개를 선별했다.",
+  "screening_run_id": "scr_20250315_001",
+  "stocks": [
+    {
+      "report_item_id": "ri_20250317_002_MFGI",
+      "ticker": "MFGI",
+      "company_name": "Meridian Fastening Group Inc.",
+      "exchange": "NYSE",
+      "sector": "Industrials",
+      "industry": "Industrial Machinery & Supplies",
+      "current_price": { "value": 41.30, "currency": "USD", "as_of": "2025-03-14T21:00:00Z" },
+      "market_cap_usd_b": 8.4,
+      "one_line_thesis": "건설·자동차 사이클 하단에서 섹터 대비 33% 할인, 복합 촉매 3/3 충족",
+      "valuation_signal": { "sector_discount_pct": 33.3, "signal_label": "STRONG_SIGNAL" },
+      "catalyst_badges": [
+        { "catalyst_id": "A", "status": "MET" },
+        { "catalyst_id": "B", "status": "MET" },
+        { "catalyst_id": "C", "status": "MET" }
+      ],
+      "risk_level_overall": "MEDIUM",
+      "data_quality_summary": { "flag_count": 1, "highest_severity": "INFO" }
+    },
+    {
+      "report_item_id": "ri_20250317_002_RVNC",
+      "ticker": "RVNC",
+      "company_name": "Ravencroft Bancorp Inc.",
+      "exchange": "NYSE",
+      "sector": "Financials",
+      "industry": "Regional Banks",
+      "current_price": { "value": 28.75, "currency": "USD", "as_of": "2025-03-14T21:00:00Z" },
+      "market_cap_usd_b": 4.2,
+      "one_line_thesis": "지역은행 섹터 P/B 중앙값 대비 28% 할인, NIM 개선 기대와 어닝 촉매 보유",
+      "valuation_signal": { "sector_discount_pct": 28.1, "signal_label": "MODERATE_SIGNAL" },
+      "catalyst_badges": [
+        { "catalyst_id": "A", "status": "MET" },
+        { "catalyst_id": "B", "status": "MET" },
+        { "catalyst_id": "C", "status": "NOT_MET" }
+      ],
+      "risk_level_overall": "MEDIUM",
+      "data_quality_summary": { "flag_count": 0, "highest_severity": "NONE" }
+    },
+    {
+      "report_item_id": "ri_20250317_002_HLTH",
+      "ticker": "HLTH",
+      "company_name": "HealthCore Systems Corp.",
+      "exchange": "NASDAQ",
+      "sector": "Health Care",
+      "industry": "Health Care Services",
+      "current_price": { "value": 54.20, "currency": "USD", "as_of": "2025-03-14T21:00:00Z" },
+      "market_cap_usd_b": 6.8,
+      "one_line_thesis": "의료비 청구 소프트웨어 점유율 확대 기대, 52주 고점 대비 -34% 과매도 구간",
+      "valuation_signal": { "sector_discount_pct": 22.4, "signal_label": "MODERATE_SIGNAL" },
+      "catalyst_badges": [
+        { "catalyst_id": "A", "status": "MET" },
+        { "catalyst_id": "B", "status": "UNVERIFIABLE" },
+        { "catalyst_id": "C", "status": "MET" }
+      ],
+      "risk_level_overall": "MEDIUM",
+      "data_quality_summary": { "flag_count": 2, "highest_severity": "WARNING" }
+    },
+    {
+      "report_item_id": "ri_20250317_002_CSTM",
+      "ticker": "CSTM",
+      "company_name": "Creston Consumer Brands Ltd.",
+      "exchange": "NYSE",
+      "sector": "Consumer Staples",
+      "industry": "Packaged Foods & Meats",
+      "current_price": { "value": 33.60, "currency": "USD", "as_of": "2025-03-14T21:00:00Z" },
+      "market_cap_usd_b": 5.1,
+      "one_line_thesis": "원가 정상화와 브랜드 포트폴리오 재편 기대, 3년 히스토리 하위 12th percentile",
+      "valuation_signal": { "sector_discount_pct": 18.6, "signal_label": "MODERATE_SIGNAL" },
+      "catalyst_badges": [
+        { "catalyst_id": "A", "status": "MET" },
+        { "catalyst_id": "B", "status": "NOT_MET" },
+        { "catalyst_id": "C", "status": "MET" }
+      ],
+      "risk_level_overall": "LOW",
+      "data_quality_summary": { "flag_count": 0, "highest_severity": "NONE" }
+    },
+    {
+      "report_item_id": "ri_20250317_002_ENXT",
+      "ticker": "ENXT",
+      "company_name": "EnerNext Resources Corp.",
+      "exchange": "NYSE",
+      "sector": "Energy",
+      "industry": "Oil & Gas Exploration & Production",
+      "current_price": { "value": 19.85, "currency": "USD", "as_of": "2025-03-14T21:00:00Z" },
+      "market_cap_usd_b": 3.8,
+      "one_line_thesis": "EV/EBITDA 섹터 대비 41% 할인, 유가 반등 시 빠른 현금흐름 회복 기대",
+      "valuation_signal": { "sector_discount_pct": 41.2, "signal_label": "STRONG_SIGNAL" },
+      "catalyst_badges": [
+        { "catalyst_id": "A", "status": "MET" },
+        { "catalyst_id": "B", "status": "MET" },
+        { "catalyst_id": "C", "status": "MET" }
+      ],
+      "risk_level_overall": "HIGH",
+      "data_quality_summary": { "flag_count": 1, "highest_severity": "WARNING" }
+    }
+  ],
+  "disclaimer_blocks": [
+    {
+      "block_id": "db_header_std",
+      "position": "HEADER",
+      "content": "본 리포트는 투자 권유가 아닙니다. 제시된 분석은 공개된 데이터에 기반한 정보 제공 목적이며, 투자 손익을 보장하지 않습니다. 모든 투자 결정은 투자자 본인의 판단과 책임 하에 이루어져야 합니다.",
+      "is_required": true
+    }
+  ],
+  "created_at": "2025-03-15T08:00:00Z",
+  "last_updated_at": "2025-03-17T09:00:00Z"
+}

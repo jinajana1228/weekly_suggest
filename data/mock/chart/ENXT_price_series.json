@@ -1,0 +1,110 @@
+{
+  "ticker": "ENXT",
+  "company_name": "EnerNext Resources Corp.",
+  "series_type": "DAILY_OHLCV",
+  "currency": "USD",
+  "data_from": "2024-03-15",
+  "data_to": "2025-03-14",
+  "total_points": 52,
+  "reference_lines": [
+    { "label": "WEEK_52_HIGH", "value": 34.60, "color_hint": "red" },
+    { "label": "WEEK_52_LOW", "value": 17.20, "color_hint": "green" }
+  ],
+  "interest_range_band": {
+    "lower_bound": 19.00,
+    "upper_bound": 23.50,
+    "label": "관심 가격 구간",
+    "color_hint": "blue"
+  },
+  "event_markers": [
+    {
+      "date": "2024-05-06",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q1 2024 실적 발표",
+      "description": "Q1 2024 실적 발표 — 유가 강세 기반 EBITDA 개선, 생산량 전망 상향",
+      "is_future": false
+    },
+    {
+      "date": "2024-08-05",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q2 2024 실적 발표",
+      "description": "Q2 2024 실적 발표 — WTI 유가 하락 영향, 생산비용 상승으로 마진 압박",
+      "is_future": false
+    },
+    {
+      "date": "2024-11-04",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q3 2024 실적 발표",
+      "description": "Q3 2024 실적 발표 — 유가 급락 직격탄, EPS 크게 하회, 배당 삭감 발표",
+      "is_future": false
+    },
+    {
+      "date": "2025-02-10",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q4 2024 실적 발표",
+      "description": "Q4 2024 실적 발표 — 비용 절감 효과 반영, 저점 통과 기대감 형성",
+      "is_future": false
+    },
+    {
+      "date": "2025-05-05",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q1 2025 실적 발표 (예정)",
+      "description": "Q1 2025 실적 발표 예정 — WTI 유가 회복 여부 및 생산량 가이던스 주목",
+      "is_future": true
+    }
+  ],
+  "data": [
+    { "date": "2024-03-15", "open": 32.80, "high": 34.10, "low": 32.40, "close": 33.60, "volume": 1850000, "adjusted_close": 33.60 },
+    { "date": "2024-03-19", "open": 33.60, "high": 34.60, "low": 33.10, "close": 34.20, "volume": 2120000, "adjusted_close": 34.20 },
+    { "date": "2024-03-22", "open": 34.20, "high": 34.60, "low": 33.50, "close": 34.00, "volume": 1780000, "adjusted_close": 34.00 },
+    { "date": "2024-03-26", "open": 34.00, "high": 34.50, "low": 33.20, "close": 33.70, "volume": 1650000, "adjusted_close": 33.70 },
+    { "date": "2024-04-02", "open": 33.70, "high": 34.20, "low": 32.90, "close": 33.40, "volume": 1590000, "adjusted_close": 33.40 },
+    { "date": "2024-04-09", "open": 33.40, "high": 33.90, "low": 32.60, "close": 33.10, "volume": 1520000, "adjusted_close": 33.10 },
+    { "date": "2024-04-16", "open": 33.10, "high": 33.60, "low": 32.20, "close": 32.70, "volume": 1480000, "adjusted_close": 32.70 },
+    { "date": "2024-04-23", "open": 32.70, "high": 33.20, "low": 31.80, "close": 32.30, "volume": 1440000, "adjusted_close": 32.30 },
+    { "date": "2024-04-30", "open": 32.30, "high": 32.80, "low": 31.40, "close": 31.90, "volume": 1400000, "adjusted_close": 31.90 },
+    { "date": "2024-05-06", "open": 31.90, "high": 33.50, "low": 31.50, "close": 33.10, "volume": 3680000, "adjusted_close": 33.10 },
+    { "date": "2024-05-14", "open": 33.10, "high": 33.60, "low": 32.30, "close": 32.80, "volume": 1720000, "adjusted_close": 32.80 },
+    { "date": "2024-05-21", "open": 32.80, "high": 33.30, "low": 31.90, "close": 32.40, "volume": 1580000, "adjusted_close": 32.40 },
+    { "date": "2024-05-28", "open": 32.40, "high": 32.90, "low": 31.50, "close": 32.00, "volume": 1520000, "adjusted_close": 32.00 },
+    { "date": "2024-06-04", "open": 32.00, "high": 32.50, "low": 31.10, "close": 31.60, "volume": 1460000, "adjusted_close": 31.60 },
+    { "date": "2024-06-11", "open": 31.60, "high": 32.10, "low": 30.70, "close": 31.20, "volume": 1420000, "adjusted_close": 31.20 },
+    { "date": "2024-06-18", "open": 31.20, "high": 31.70, "low": 30.30, "close": 30.80, "volume": 1380000, "adjusted_close": 30.80 },
+    { "date": "2024-06-25", "open": 30.80, "high": 31.30, "low": 29.90, "close": 30.40, "volume": 1350000, "adjusted_close": 30.40 },
+    { "date": "2024-07-02", "open": 30.40, "high": 30.90, "low": 29.50, "close": 30.00, "volume": 1320000, "adjusted_close": 30.00 },
+    { "date": "2024-07-09", "open": 30.00, "high": 30.50, "low": 29.10, "close": 29.60, "volume": 1290000, "adjusted_close": 29.60 },
+    { "date": "2024-07-16", "open": 29.60, "high": 30.10, "low": 28.70, "close": 29.20, "volume": 1260000, "adjusted_close": 29.20 },
+    { "date": "2024-07-23", "open": 29.20, "high": 29.70, "low": 28.30, "close": 28.80, "volume": 1230000, "adjusted_close": 28.80 },
+    { "date": "2024-07-30", "open": 28.80, "high": 29.30, "low": 27.90, "close": 28.40, "volume": 1200000, "adjusted_close": 28.40 },
+    { "date": "2024-08-05", "open": 28.40, "high": 28.90, "low": 24.60, "close": 25.30, "volume": 4950000, "adjusted_close": 25.30 },
+    { "date": "2024-08-13", "open": 25.30, "high": 26.10, "low": 24.50, "close": 25.70, "volume": 2480000, "adjusted_close": 25.70 },
+    { "date": "2024-08-20", "open": 25.70, "high": 26.40, "low": 24.90, "close": 25.20, "volume": 2050000, "adjusted_close": 25.20 },
+    { "date": "2024-08-27", "open": 25.20, "high": 25.80, "low": 24.30, "close": 24.80, "volume": 1870000, "adjusted_close": 24.80 },
+    { "date": "2024-09-03", "open": 24.80, "high": 25.40, "low": 23.90, "close": 24.40, "volume": 1720000, "adjusted_close": 24.40 },
+    { "date": "2024-09-10", "open": 24.40, "high": 25.00, "low": 23.50, "close": 24.00, "volume": 1650000, "adjusted_close": 24.00 },
+    { "date": "2024-09-17", "open": 24.00, "high": 24.60, "low": 23.10, "close": 23.60, "volume": 1590000, "adjusted_close": 23.60 },
+    { "date": "2024-09-24", "open": 23.60, "high": 24.20, "low": 22.70, "close": 23.20, "volume": 1540000, "adjusted_close": 23.20 },
+    { "date": "2024-10-01", "open": 23.20, "high": 23.80, "low": 22.30, "close": 22.80, "volume": 1490000, "adjusted_close": 22.80 },
+    { "date": "2024-10-08", "open": 22.80, "high": 23.40, "low": 21.90, "close": 22.40, "volume": 1450000, "adjusted_close": 22.40 },
+    { "date": "2024-10-15", "open": 22.40, "high": 23.00, "low": 21.50, "close": 22.00, "volume": 1410000, "adjusted_close": 22.00 },
+    { "date": "2024-10-22", "open": 22.00, "high": 22.60, "low": 21.10, "close": 21.60, "volume": 1370000, "adjusted_close": 21.60 },
+    { "date": "2024-10-29", "open": 21.60, "high": 22.20, "low": 20.70, "close": 21.20, "volume": 1340000, "adjusted_close": 21.20 },
+    { "date": "2024-11-04", "open": 21.20, "high": 21.60, "low": 17.40, "close": 18.10, "volume": 5820000, "adjusted_close": 18.10 },
+    { "date": "2024-11-12", "open": 18.10, "high": 18.80, "low": 17.20, "close": 17.60, "volume": 2980000, "adjusted_close": 17.60 },
+    { "date": "2024-11-19", "open": 17.60, "high": 18.30, "low": 17.20, "close": 17.90, "volume": 2420000, "adjusted_close": 17.90 },
+    { "date": "2024-11-26", "open": 17.90, "high": 18.60, "low": 17.40, "close": 18.20, "volume": 2150000, "adjusted_close": 18.20 },
+    { "date": "2024-12-03", "open": 18.20, "high": 18.90, "low": 17.80, "close": 18.60, "volume": 1980000, "adjusted_close": 18.60 },
+    { "date": "2024-12-10", "open": 18.60, "high": 19.30, "low": 18.10, "close": 19.00, "volume": 1850000, "adjusted_close": 19.00 },
+    { "date": "2024-12-17", "open": 19.00, "high": 19.70, "low": 18.50, "close": 19.40, "volume": 1720000, "adjusted_close": 19.40 },
+    { "date": "2025-01-07", "open": 19.40, "high": 20.10, "low": 18.90, "close": 19.80, "volume": 1650000, "adjusted_close": 19.80 },
+    { "date": "2025-01-14", "open": 19.80, "high": 20.50, "low": 19.30, "close": 20.20, "volume": 1580000, "adjusted_close": 20.20 },
+    { "date": "2025-01-21", "open": 20.20, "high": 20.90, "low": 19.70, "close": 20.60, "volume": 1520000, "adjusted_close": 20.60 },
+    { "date": "2025-01-28", "open": 20.60, "high": 21.30, "low": 20.10, "close": 21.00, "volume": 1460000, "adjusted_close": 21.00 },
+    { "date": "2025-02-04", "open": 21.00, "high": 21.70, "low": 20.40, "close": 21.30, "volume": 1400000, "adjusted_close": 21.30 },
+    { "date": "2025-02-10", "open": 21.30, "high": 22.40, "low": 20.80, "close": 21.90, "volume": 2850000, "adjusted_close": 21.90 },
+    { "date": "2025-02-18", "open": 21.90, "high": 22.50, "low": 21.20, "close": 21.60, "volume": 1580000, "adjusted_close": 21.60 },
+    { "date": "2025-02-25", "open": 21.60, "high": 22.10, "low": 20.80, "close": 21.20, "volume": 1490000, "adjusted_close": 21.20 },
+    { "date": "2025-03-04", "open": 21.20, "high": 21.70, "low": 20.40, "close": 20.80, "volume": 1420000, "adjusted_close": 20.80 },
+    { "date": "2025-03-11", "open": 20.80, "high": 21.20, "low": 19.40, "close": 19.85, "volume": 1650000, "adjusted_close": 19.85 }
+  ]
+}

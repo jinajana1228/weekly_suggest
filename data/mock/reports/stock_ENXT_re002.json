@@ -1,0 +1,261 @@
+{
+  "report_item_id": "ri_20250317_002_ENXT",
+  "report_id": "re_20250317_002",
+  "ticker": "ENXT",
+  "company_name": "EnerNext Resources Corp.",
+  "exchange": "NYSE",
+  "sector": "Energy",
+  "industry": "Oil & Gas Exploration & Production",
+  "stock_info": {
+    "short_description": "텍사스 퍼미안 분지 및 이글포드 셰일 지역에 집중된 독립계 E&P 기업. 일 생산량 약 8.2만 BOE(배럴 오일 환산) 수준이며, 원유 비중이 전체 생산의 약 62%를 차지한다.",
+    "headquarters": "Midland, TX, USA",
+    "market_cap_usd_b": 3.8,
+    "employee_count": { "value": 1840, "status": "CONFIRMED" },
+    "fiscal_year_end": "12-31"
+  },
+  "current_price": { "value": 19.85, "currency": "USD", "as_of": "2025-03-14T21:00:00Z" },
+  "price_context": {
+    "week_52_high": { "value": 34.60, "status": "CONFIRMED" },
+    "week_52_low": { "value": 17.20, "status": "CONFIRMED" },
+    "week_52_position_pct": { "value": 15.1, "status": "CONFIRMED" },
+    "drawdown_from_52w_high_pct": { "value": -42.6, "status": "CONFIRMED" },
+    "price_1m_change_pct": { "value": -11.4, "status": "CONFIRMED" },
+    "price_3m_change_pct": { "value": -28.7, "status": "CONFIRMED" },
+    "price_6m_change_pct": { "value": -38.2, "status": "CONFIRMED" },
+    "price_ytd_change_pct": { "value": -32.1, "status": "CONFIRMED" },
+    "as_of": "2025-03-14"
+  },
+  "interest_price_range": {
+    "status": "CONFIRMED",
+    "lower_bound": 19.00,
+    "upper_bound": 23.50,
+    "basis_metric": "EV/EBITDA",
+    "basis_sector_median_value": 7.0,
+    "conditional_statement": "현재 EV/EBITDA는 약 4.1배로 에너지 E&P 섹터 중앙값(7.0배) 대비 약 41.4% 할인 상태다. WTI 유가 $70~$75 가정 하에 섹터 중앙값 수준으로 멀티플이 수렴할 경우의 이론적 가격 범위는 $19.00~$23.50 수준으로 추산된다. 이는 목표주가가 아니며 유가 가정에 강하게 연동되는 조건부 참고치다.",
+    "disclaimer": "이 가격 범위는 목표주가가 아닙니다. 에너지 섹터의 특성상 유가 변동에 따라 밸류에이션이 크게 달라질 수 있습니다. 투자 손익을 보장하지 않으며, 투자 결정의 근거로 사용해서는 안 됩니다."
+  },
+  "valuation": {
+    "primary_metric": "EV/EBITDA",
+    "metrics": {
+      "fwd_per": { "value": 8.6, "status": "CONFIRMED" },
+      "trailing_per": { "value": 10.2, "status": "CONFIRMED" },
+      "ev_ebitda": { "value": 4.1, "status": "CONFIRMED" },
+      "pb": { "value": 0.92, "status": "CONFIRMED" },
+      "ps": { "value": 1.1, "status": "CONFIRMED" },
+      "p_fcf": { "value": 6.8, "status": "CONFIRMED" }
+    },
+    "valuation_discount_vs_sector": {
+      "status": "CONFIRMED",
+      "metric_used": "EV/EBITDA",
+      "stock_value": 4.1,
+      "sector_median_value": 7.0,
+      "discount_pct": 41.4,
+      "sector_comparison_name": "S&P 500 Energy",
+      "comparison_universe_count": 38
+    },
+    "historical_valuation_position": {
+      "status": "CONFIRMED",
+      "metric_used": "EV/EBITDA",
+      "current_value": 4.1,
+      "three_year_mean": 6.2,
+      "three_year_min": 3.6,
+      "three_year_max": 9.4,
+      "percentile_rank": 15
+    }
+  },
+  "financials": {
+    "status": "CONFIRMED",
+    "fiscal_year": "FY2024",
+    "revenue_ttm_b": { "value": 3.4, "status": "CONFIRMED" },
+    "revenue_growth_yoy_pct": { "value": -8.6, "status": "CONFIRMED" },
+    "operating_income_ttm_b": { "value": 0.61, "status": "CONFIRMED" },
+    "operating_margin_pct": { "value": 17.9, "status": "CONFIRMED" },
+    "net_income_ttm_b": { "value": 0.44, "status": "CONFIRMED" },
+    "eps_ttm": { "value": 2.31, "status": "CONFIRMED" },
+    "eps_fwd_consensus": { "value": 2.68, "status": "CONFIRMED" },
+    "eps_revision_trend": "DOWNWARD",
+    "fcf_ttm_b": { "value": 0.58, "status": "CONFIRMED" },
+    "net_debt_b": { "value": 1.4, "status": "CONFIRMED" },
+    "net_debt_to_ebitda": { "value": 1.6, "status": "CONFIRMED" },
+    "interest_coverage_ratio": { "value": 6.2, "status": "CONFIRMED" },
+    "roe_pct": { "value": 11.6, "status": "CONFIRMED" }
+  },
+  "undervaluation_judgment": {
+    "is_discounted_vs_sector": true,
+    "is_discounted_vs_history": true,
+    "combined_signal": "STRONG_SIGNAL",
+    "primary_discount_drivers": ["유가_하락_사이클", "E&P_투자심리_위축", "에너지전환_장기_수요_불확실성", "2024년_EPS_컨센서스_하향"],
+    "discount_narrative": {
+      "content": "ENXT의 현재 EV/EBITDA 4.1배는 이 종목의 3년 역사 내에서도 하위 15th percentile에 해당하며, 섹터 중앙값 대비 41% 이상 낮다. 유가 하락과 에너지전환 장기 불확실성이 E&P 섹터 전반을 압박한 결과이나, ENXT의 헤징 커버리지(FY2025 생산량의 약 65% 헤지)와 낮은 손익분기 유가($42/배럴)는 현금흐름의 하방 경직성을 제공한다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "valuation.historical_valuation_position.percentile_rank"]
+    }
+  },
+  "catalyst_assessment": {
+    "catalyst_a": {
+      "catalyst_id": "A",
+      "definition_summary": "90일 이내 실적 발표 예정 + 최근 90일 컨센서스 상향 또는 유지",
+      "status": "MET",
+      "evidence": "2025년 4월 30일 1분기 실적 발표 예정. FY2025 EPS 컨센서스는 하향 추세이나 90일 이내 발표 조건 충족. 헤징 효과로 실적 하방이 일정 수준 지지됨.",
+      "data_status": "CONFIRMED"
+    },
+    "catalyst_b": {
+      "catalyst_id": "B",
+      "definition_summary": "애널리스트 평균 목표주가 대비 현재 주가 괴리율 20% 이상 + 커버리지 3명 이상",
+      "status": "MET",
+      "evidence": "커버리지 7개사. 컨센서스 평균 $28.40 기준 현재가($19.85) 대비 괴리율 약 43.1%.",
+      "data_status": "CONFIRMED"
+    },
+    "catalyst_c": {
+      "catalyst_id": "C",
+      "definition_summary": "52주 고점 대비 30% 이상 하락 + 동기간 EPS 컨센서스 하향 폭이 주가 하락의 50% 미만",
+      "status": "MET",
+      "evidence": "52주 고점 대비 -42.6% 하락. 동기간 FY2025 EPS 컨센서스 하향 폭은 약 14.8%로 주가 하락 폭의 약 34.7% 수준.",
+      "data_status": "CONFIRMED"
+    },
+    "met_count": 3,
+    "composite_label": "복합 촉매 3/3 충족"
+  },
+  "bull_case_points": [
+    {
+      "point_id": 1,
+      "summary": "유가 반등 시 FCF 레버리지 극대화 — EV/EBITDA 4배대 진입",
+      "detail": "E&P 기업의 특성상 유가 상승은 매출 원가에 거의 영향 없이 EBITDA로 직결된다. WTI가 $75/배럴 수준으로 회복될 경우 TTM FCF는 현재 $0.58B에서 $0.8B 이상으로 급증할 수 있다.",
+      "confidence": "MEDIUM",
+      "is_data_backed": true
+    },
+    {
+      "point_id": 2,
+      "summary": "헤징 커버리지 65% — 유가 하락 리스크 일부 완충",
+      "detail": "FY2025 예상 생산량의 약 65%가 평균 $68/배럴 수준의 가격으로 헤지되어 있다. 단기 유가 변동성이 실적에 미치는 영향을 일정 수준 제한한다.",
+      "confidence": "HIGH",
+      "is_data_backed": true
+    },
+    {
+      "point_id": 3,
+      "summary": "순부채 감소 추세 — 재무 개선 가시화",
+      "detail": "2023년 순부채 $2.0B에서 2024년 $1.4B으로 감소했다. 잉여현금흐름을 부채 상환에 우선 배분하는 전략이 재무 건전성 개선으로 이어지고 있다.",
+      "confidence": "HIGH",
+      "is_data_backed": true
+    }
+  ],
+  "bear_case_points": [
+    {
+      "point_id": 1,
+      "summary": "유가 추가 하락 시 현금흐름 급격한 악화",
+      "detail": "WTI가 $55/배럴 이하로 하락할 경우 헤징 만료 이후의 FCF 창출 능력이 현저히 낮아진다. 헤징 비율이 2026년부터 감소함을 감안하면 유가 회복이 없을 경우 부채 감축 속도가 둔화된다.",
+      "confidence": "HIGH",
+      "is_data_backed": true
+    },
+    {
+      "point_id": 2,
+      "summary": "E&P 자본집약적 특성 — 지속적 설비투자 부담",
+      "detail": "E&P 사업은 생산량 유지를 위해 연간 $0.6~0.7B 수준의 자본적 지출이 필요하다. 유가 부진 시 자본배분 우선순위(부채 vs. 배당 vs. Capex)를 둘러싼 갈등이 심화될 수 있다.",
+      "confidence": "MEDIUM",
+      "is_data_backed": true
+    },
+    {
+      "point_id": 3,
+      "summary": "에너지전환 장기 수요 감소 우려 — 할인율 구조 반영",
+      "detail": "글로벌 에너지전환 가속화에 따른 장기 원유 수요 피크 아웃 논란이 E&P 섹터 전반의 할인율을 높이고 있다. 이는 단기 유가 반등과 무관하게 구조적 밸류에이션 억제 요인으로 작용한다.",
+      "confidence": "MEDIUM",
+      "is_data_backed": false
+    }
+  ],
+  "structural_risks": [
+    {
+      "risk_id": "sr_enxt_001",
+      "category": "COMPETITIVE",
+      "label": "에너지전환 가속 — 장기 화석연료 수요 감소",
+      "description": "전기차 보급 확대 및 재생에너지 발전 비중 증가에 따라 원유 장기 수요 전망이 점진적으로 하향 조정되고 있다. 이는 E&P 섹터 전반의 적정 밸류에이션 배수를 구조적으로 낮추는 요인으로 작용한다.",
+      "severity": "HIGH",
+      "data_status": "CONFIRMED"
+    },
+    {
+      "risk_id": "sr_enxt_002",
+      "category": "FINANCIAL_HEALTH",
+      "label": "자본집약적 사업 구조 — 지속적 Capex 요구",
+      "description": "퍼미안 및 이글포드 광구 생산량 유지를 위해 연간 상당 규모의 시추 및 완결 비용이 필요하다. FCF 창출이 Capex를 안정적으로 상회하지 못할 경우 재무 유연성이 약화된다.",
+      "severity": "HIGH",
+      "data_status": "CONFIRMED"
+    }
+  ],
+  "short_term_risks": [
+    {
+      "risk_id": "str_enxt_001",
+      "category": "MACRO_SENSITIVITY",
+      "label": "유가 추가 하락 — WTI $60 이하 시나리오",
+      "description": "OPEC+ 증산 또는 글로벌 경기 침체에 따른 수요 감소가 겹칠 경우 WTI가 $60/배럴 이하로 하락할 수 있다. 이 경우 헤징 만료 후 FCF가 급격히 감소한다.",
+      "severity": "HIGH",
+      "data_status": "CONFIRMED"
+    },
+    {
+      "risk_id": "str_enxt_002",
+      "category": "EARNINGS_RISK",
+      "label": "1분기 생산량 가이던스 하향 가능성",
+      "description": "겨울철 혹한 및 장비 가동 중단 이슈로 1분기 생산량이 예상치를 하회할 경우 주가 추가 하락 압박이 발생할 수 있다.",
+      "severity": "MEDIUM",
+      "data_status": "CONFIRMED"
+    }
+  ],
+  "analyst_style_summary": {
+    "why_discounted": {
+      "content": "ENXT는 유가 하락과 에너지전환에 대한 구조적 우려가 겹치며 섹터 내에서도 가장 큰 할인을 받고 있는 E&P 기업이다. EV/EBITDA 4.1배는 자사 3년 역사 하위 15th percentile이자 섹터 중앙값 대비 41% 이상 낮다. 유가 방향성과 에너지전환 속도에 대한 시장 불확실성이 극대화된 시점에 형성된 가격이다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["valuation.historical_valuation_position.percentile_rank", "valuation.valuation_discount_vs_sector"]
+    },
+    "why_worth_revisiting": {
+      "content": "세 가지 촉매 조건을 모두 충족하며, 특히 애널리스트 컨센서스와의 괴리율(43%)은 이번 에디션 5개 종목 중 가장 크다. 헤징 커버리지 65%가 단기 실적 하방을 지지하며, 손익분기 유가($42/배럴)는 현재 유가 대비 충분한 마진을 제공한다. 유가 반등 시 FCF 레버리지 효과가 가장 크게 작용할 수 있는 포지션이다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["catalyst_assessment", "financials.fcf_ttm_b"]
+    },
+    "key_risks_narrative": {
+      "content": "ENXT는 이번 에디션 5개 종목 중 리스크 등급이 유일하게 HIGH다. 유가는 지정학, OPEC+ 정책, 글로벌 경기에 의해 급변할 수 있으며, 에너지전환 가속은 구조적 할인 요인으로 영구화될 수 있다. 단기적으로는 유가가 $60 이하로 하락하는 시나리오에서 헤징 효과가 완충하더라도 주가 하락 압박이 크게 작용한다. 고위험-고기대수익 구조임을 명확히 인식해야 한다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["structural_risks", "short_term_risks.str_enxt_001"]
+    },
+    "investment_context": {
+      "content": "ENXT는 에너지 섹터의 사이클적 저점에서 가장 크게 할인된 종목이나, 그만큼 유가 의존도와 리스크 수준도 높다. 유가 반등 시 가장 빠른 FCF 회복과 멀티플 정상화가 기대되지만, 반대로 유가 추가 하락 또는 에너지전환 가속 시나리오에서는 현재 가격이 바닥이 아닐 수 있다. 에너지 섹터 특성상 유가 전망에 대한 자신의 판단이 투자 결정의 핵심 전제가 되어야 한다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["catalyst_assessment", "valuation.valuation_discount_vs_sector"]
+    },
+    "generated_at": "2025-03-15T11:45:00Z",
+    "model_id": "claude-sonnet-4-6",
+    "reviewer_approved": true
+  },
+  "data_quality_flags": [
+    {
+      "flag_id": "dqf_enxt_001",
+      "field_path": "financials.eps_fwd_consensus",
+      "flag_type": "STALE_DATA",
+      "message": "FY2025 EPS 컨센서스는 유가 $70 가정 기반으로 추정된 것이며, 최근 유가 하락을 반영한 업데이트가 일부 분석기관에서 지연 중.",
+      "severity": "WARNING"
+    }
+  ],
+  "data_sources": [
+    { "source_id": "ds_fmp_001", "provider_name": "Financial Modeling Prep", "data_category": "fundamentals", "as_of": "2025-03-14T20:00:00Z" },
+    { "source_id": "ds_yf_001", "provider_name": "yfinance", "data_category": "price", "as_of": "2025-03-14T21:00:00Z" }
+  ],
+  "disclaimer_blocks": [
+    {
+      "block_id": "db_header_std",
+      "position": "HEADER",
+      "content": "본 리포트는 투자 권유가 아닙니다. 제시된 분석은 공개된 데이터에 기반한 정보 제공 목적이며, 투자 손익을 보장하지 않습니다. 모든 투자 결정은 투자자 본인의 판단과 책임 하에 이루어져야 합니다.",
+      "is_required": true
+    },
+    {
+      "block_id": "db_footer_full",
+      "position": "FOOTER",
+      "content": "본 서비스는 투자자문업 등록 서비스가 아닙니다. 에너지 섹터 종목의 경우 유가 변동성이 밸류에이션에 미치는 영향이 크며, 본 리포트의 분석은 특정 유가 가정에 기반한 조건부 참고치를 포함합니다. 과거의 주가 또는 실적 패턴이 미래 결과를 보장하지 않습니다.",
+      "is_required": true
+    }
+  ],
+  "publication_meta": {
+    "status": "PUBLISHED",
+    "created_at": "2025-03-15T08:00:00Z",
+    "reviewed_by": "editor_01",
+    "reviewed_at": "2025-03-15T14:00:00Z",
+    "published_at": "2025-03-17T09:00:00Z",
+    "last_updated_at": "2025-03-17T09:00:00Z"
+  }
+}

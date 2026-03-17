@@ -1,0 +1,113 @@
+{
+  "ticker": "RVNC",
+  "company_name": "Ravencroft Bancorp Inc.",
+  "series_type": "DAILY_OHLCV",
+  "currency": "USD",
+  "data_from": "2024-03-15",
+  "data_to": "2025-03-14",
+  "total_points": 52,
+  "reference_lines": [
+    { "label": "WEEK_52_HIGH", "value": 41.20, "color_hint": "red" },
+    { "label": "WEEK_52_LOW", "value": 25.30, "color_hint": "green" }
+  ],
+  "interest_range_band": {
+    "lower_bound": 28.00,
+    "upper_bound": 32.50,
+    "label": "관심 가격 구간",
+    "color_hint": "blue"
+  },
+  "event_markers": [
+    {
+      "date": "2024-04-18",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q1 2024 실적 발표",
+      "description": "Q1 2024 실적 발표 — NIM(순이자마진) 소폭 압박, 대출 성장세 둔화 확인",
+      "is_future": false
+    },
+    {
+      "date": "2024-07-18",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q2 2024 실적 발표",
+      "description": "Q2 2024 실적 발표 — 상업용 부동산 대출 부실 증가, 충당금 확대",
+      "is_future": false
+    },
+    {
+      "date": "2024-10-17",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q3 2024 실적 발표",
+      "description": "Q3 2024 실적 발표 — 예상치 하회, 고금리 지속으로 자금조달 비용 급등",
+      "is_future": false
+    },
+    {
+      "date": "2025-01-23",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q4 2024 실적 발표",
+      "description": "Q4 2024 실적 발표 — 소폭 개선, 금리인하 사이클 수혜 기대감 반영",
+      "is_future": false
+    },
+    {
+      "date": "2025-04-17",
+      "event_type": "EARNINGS_RELEASE",
+      "label": "Q1 2025 실적 발표 (예정)",
+      "description": "Q1 2025 실적 발표 예정 — NIM 회복 여부 및 부실채권 추이 확인 예정",
+      "is_future": true
+    }
+  ],
+  "data": [
+    { "date": "2024-03-15", "open": 40.10, "high": 41.00, "low": 39.80, "close": 40.60, "volume": 980000, "adjusted_close": 40.60 },
+    { "date": "2024-03-19", "open": 40.60, "high": 41.20, "low": 40.10, "close": 41.00, "volume": 1050000, "adjusted_close": 41.00 },
+    { "date": "2024-03-22", "open": 41.00, "high": 41.20, "low": 40.30, "close": 40.80, "volume": 890000, "adjusted_close": 40.80 },
+    { "date": "2024-03-26", "open": 40.80, "high": 41.10, "low": 39.90, "close": 40.40, "volume": 920000, "adjusted_close": 40.40 },
+    { "date": "2024-04-02", "open": 40.40, "high": 40.90, "low": 39.60, "close": 40.10, "volume": 870000, "adjusted_close": 40.10 },
+    { "date": "2024-04-09", "open": 40.10, "high": 40.60, "low": 39.20, "close": 39.70, "volume": 940000, "adjusted_close": 39.70 },
+    { "date": "2024-04-16", "open": 39.70, "high": 40.20, "low": 38.90, "close": 39.30, "volume": 860000, "adjusted_close": 39.30 },
+    { "date": "2024-04-18", "open": 39.30, "high": 40.10, "low": 37.60, "close": 38.20, "volume": 2340000, "adjusted_close": 38.20 },
+    { "date": "2024-04-23", "open": 38.20, "high": 38.80, "low": 37.40, "close": 38.50, "volume": 1120000, "adjusted_close": 38.50 },
+    { "date": "2024-04-30", "open": 38.50, "high": 39.00, "low": 37.80, "close": 38.10, "volume": 980000, "adjusted_close": 38.10 },
+    { "date": "2024-05-07", "open": 38.10, "high": 38.70, "low": 37.30, "close": 37.80, "volume": 860000, "adjusted_close": 37.80 },
+    { "date": "2024-05-14", "open": 37.80, "high": 38.40, "low": 37.00, "close": 37.40, "volume": 820000, "adjusted_close": 37.40 },
+    { "date": "2024-05-21", "open": 37.40, "high": 38.10, "low": 36.70, "close": 37.00, "volume": 790000, "adjusted_close": 37.00 },
+    { "date": "2024-05-28", "open": 37.00, "high": 37.60, "low": 36.20, "close": 36.60, "volume": 830000, "adjusted_close": 36.60 },
+    { "date": "2024-06-04", "open": 36.60, "high": 37.20, "low": 35.90, "close": 36.20, "volume": 870000, "adjusted_close": 36.20 },
+    { "date": "2024-06-11", "open": 36.20, "high": 36.80, "low": 35.40, "close": 35.80, "volume": 810000, "adjusted_close": 35.80 },
+    { "date": "2024-06-18", "open": 35.80, "high": 36.50, "low": 35.10, "close": 35.40, "volume": 850000, "adjusted_close": 35.40 },
+    { "date": "2024-06-25", "open": 35.40, "high": 36.00, "low": 34.70, "close": 35.10, "volume": 780000, "adjusted_close": 35.10 },
+    { "date": "2024-07-02", "open": 35.10, "high": 35.70, "low": 34.30, "close": 34.80, "volume": 820000, "adjusted_close": 34.80 },
+    { "date": "2024-07-09", "open": 34.80, "high": 35.40, "low": 34.10, "close": 34.50, "volume": 790000, "adjusted_close": 34.50 },
+    { "date": "2024-07-16", "open": 34.50, "high": 35.10, "low": 33.80, "close": 34.20, "volume": 830000, "adjusted_close": 34.20 },
+    { "date": "2024-07-18", "open": 34.20, "high": 34.60, "low": 31.40, "close": 32.10, "volume": 3150000, "adjusted_close": 32.10 },
+    { "date": "2024-07-23", "open": 32.10, "high": 32.80, "low": 31.20, "close": 32.40, "volume": 1450000, "adjusted_close": 32.40 },
+    { "date": "2024-07-30", "open": 32.40, "high": 33.00, "low": 31.60, "close": 31.90, "volume": 1080000, "adjusted_close": 31.90 },
+    { "date": "2024-08-06", "open": 31.90, "high": 32.50, "low": 31.00, "close": 31.50, "volume": 960000, "adjusted_close": 31.50 },
+    { "date": "2024-08-13", "open": 31.50, "high": 32.10, "low": 30.70, "close": 31.20, "volume": 890000, "adjusted_close": 31.20 },
+    { "date": "2024-08-20", "open": 31.20, "high": 31.80, "low": 30.40, "close": 30.80, "volume": 840000, "adjusted_close": 30.80 },
+    { "date": "2024-08-27", "open": 30.80, "high": 31.40, "low": 30.10, "close": 30.50, "volume": 810000, "adjusted_close": 30.50 },
+    { "date": "2024-09-03", "open": 30.50, "high": 31.00, "low": 29.70, "close": 30.20, "volume": 860000, "adjusted_close": 30.20 },
+    { "date": "2024-09-10", "open": 30.20, "high": 30.80, "low": 29.30, "close": 29.80, "volume": 820000, "adjusted_close": 29.80 },
+    { "date": "2024-09-17", "open": 29.80, "high": 30.40, "low": 29.00, "close": 29.40, "volume": 790000, "adjusted_close": 29.40 },
+    { "date": "2024-09-24", "open": 29.40, "high": 30.00, "low": 28.60, "close": 29.10, "volume": 830000, "adjusted_close": 29.10 },
+    { "date": "2024-10-01", "open": 29.10, "high": 29.70, "low": 28.30, "close": 28.80, "volume": 870000, "adjusted_close": 28.80 },
+    { "date": "2024-10-08", "open": 28.80, "high": 29.40, "low": 28.00, "close": 28.50, "volume": 840000, "adjusted_close": 28.50 },
+    { "date": "2024-10-15", "open": 28.50, "high": 29.10, "low": 27.80, "close": 28.20, "volume": 810000, "adjusted_close": 28.20 },
+    { "date": "2024-10-17", "open": 28.20, "high": 28.50, "low": 25.60, "close": 26.10, "volume": 3820000, "adjusted_close": 26.10 },
+    { "date": "2024-10-22", "open": 26.10, "high": 26.80, "low": 25.30, "close": 25.70, "volume": 1650000, "adjusted_close": 25.70 },
+    { "date": "2024-10-29", "open": 25.70, "high": 26.40, "low": 25.30, "close": 25.90, "volume": 1120000, "adjusted_close": 25.90 },
+    { "date": "2024-11-05", "open": 25.90, "high": 26.60, "low": 25.40, "close": 26.20, "volume": 980000, "adjusted_close": 26.20 },
+    { "date": "2024-11-12", "open": 26.20, "high": 26.90, "low": 25.80, "close": 26.60, "volume": 910000, "adjusted_close": 26.60 },
+    { "date": "2024-11-19", "open": 26.60, "high": 27.30, "low": 26.10, "close": 27.00, "volume": 870000, "adjusted_close": 27.00 },
+    { "date": "2024-11-26", "open": 27.00, "high": 27.70, "low": 26.50, "close": 27.40, "volume": 840000, "adjusted_close": 27.40 },
+    { "date": "2024-12-03", "open": 27.40, "high": 28.00, "low": 26.80, "close": 27.70, "volume": 820000, "adjusted_close": 27.70 },
+    { "date": "2024-12-10", "open": 27.70, "high": 28.40, "low": 27.20, "close": 28.10, "volume": 890000, "adjusted_close": 28.10 },
+    { "date": "2024-12-17", "open": 28.10, "high": 28.70, "low": 27.60, "close": 28.40, "volume": 860000, "adjusted_close": 28.40 },
+    { "date": "2025-01-07", "open": 28.40, "high": 29.00, "low": 27.90, "close": 28.70, "volume": 910000, "adjusted_close": 28.70 },
+    { "date": "2025-01-14", "open": 28.70, "high": 29.30, "low": 28.10, "close": 28.90, "volume": 870000, "adjusted_close": 28.90 },
+    { "date": "2025-01-23", "open": 28.90, "high": 30.20, "low": 28.40, "close": 29.80, "volume": 2180000, "adjusted_close": 29.80 },
+    { "date": "2025-01-28", "open": 29.80, "high": 30.40, "low": 29.10, "close": 29.50, "volume": 1050000, "adjusted_close": 29.50 },
+    { "date": "2025-02-04", "open": 29.50, "high": 30.00, "low": 28.80, "close": 29.20, "volume": 890000, "adjusted_close": 29.20 },
+    { "date": "2025-02-11", "open": 29.20, "high": 29.70, "low": 28.40, "close": 28.90, "volume": 820000, "adjusted_close": 28.90 },
+    { "date": "2025-02-18", "open": 28.90, "high": 29.40, "low": 28.20, "close": 28.60, "volume": 790000, "adjusted_close": 28.60 },
+    { "date": "2025-02-25", "open": 28.60, "high": 29.10, "low": 28.00, "close": 28.80, "volume": 810000, "adjusted_close": 28.80 },
+    { "date": "2025-03-04", "open": 28.80, "high": 29.30, "low": 28.10, "close": 28.90, "volume": 840000, "adjusted_close": 28.90 },
+    { "date": "2025-03-11", "open": 28.90, "high": 29.20, "low": 28.30, "close": 28.75, "volume": 870000, "adjusted_close": 28.75 }
+  ]
+}

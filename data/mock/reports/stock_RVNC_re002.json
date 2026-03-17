@@ -1,0 +1,239 @@
+{
+  "report_item_id": "ri_20250317_002_RVNC",
+  "report_id": "re_20250317_002",
+  "ticker": "RVNC",
+  "company_name": "Ravencroft Bancorp Inc.",
+  "exchange": "NYSE",
+  "sector": "Financials",
+  "industry": "Regional Banks",
+  "stock_info": {
+    "short_description": "중부 및 동남부 미국 지역을 기반으로 한 지역은행. 주택담보대출과 중소기업 대출이 주력이며, 예금 기반이 안정적이다. 총자산 $38B 수준.",
+    "headquarters": "Nashville, TN, USA",
+    "market_cap_usd_b": 4.2,
+    "employee_count": { "value": 6800, "status": "CONFIRMED" },
+    "fiscal_year_end": "12-31"
+  },
+  "current_price": { "value": 28.75, "currency": "USD", "as_of": "2025-03-14T21:00:00Z" },
+  "price_context": {
+    "week_52_high": { "value": 41.20, "status": "CONFIRMED" },
+    "week_52_low": { "value": 25.30, "status": "CONFIRMED" },
+    "week_52_position_pct": { "value": 21.9, "status": "CONFIRMED" },
+    "drawdown_from_52w_high_pct": { "value": -30.2, "status": "CONFIRMED" },
+    "price_1m_change_pct": { "value": -5.1, "status": "CONFIRMED" },
+    "price_3m_change_pct": { "value": -18.7, "status": "CONFIRMED" },
+    "price_6m_change_pct": { "value": -22.4, "status": "CONFIRMED" },
+    "price_ytd_change_pct": { "value": -14.3, "status": "CONFIRMED" },
+    "as_of": "2025-03-14"
+  },
+  "interest_price_range": {
+    "status": "CONFIRMED",
+    "lower_bound": 28.00,
+    "upper_bound": 32.50,
+    "basis_metric": "P/B",
+    "basis_sector_median_value": 1.15,
+    "conditional_statement": "현재 P/B는 약 0.83배로 지역은행 섹터 중앙값(1.15배) 대비 약 28% 할인 상태다. 섹터 중앙값 수준으로 멀티플이 수렴할 경우의 이론적 가격 범위는 $28.00~$32.50 수준으로 추산된다. 이는 목표주가가 아니며 밸류에이션 맥락 이해를 위한 조건부 참고치다.",
+    "disclaimer": "이 가격 범위는 목표주가가 아닙니다. 투자 손익을 보장하지 않으며, 투자 결정의 근거로 사용해서는 안 됩니다."
+  },
+  "valuation": {
+    "primary_metric": "P/B",
+    "metrics": {
+      "fwd_per": { "value": 9.8, "status": "CONFIRMED" },
+      "trailing_per": { "value": 11.2, "status": "CONFIRMED" },
+      "ev_ebitda": { "value": null, "status": "NOT_APPLICABLE" },
+      "pb": { "value": 0.83, "status": "CONFIRMED" },
+      "ps": { "value": 1.8, "status": "CONFIRMED" },
+      "p_fcf": { "value": null, "status": "NOT_APPLICABLE" }
+    },
+    "valuation_discount_vs_sector": {
+      "status": "CONFIRMED",
+      "metric_used": "P/B",
+      "stock_value": 0.83,
+      "sector_median_value": 1.15,
+      "discount_pct": 27.8,
+      "sector_comparison_name": "KBW Regional Bank Index",
+      "comparison_universe_count": 42
+    },
+    "historical_valuation_position": {
+      "status": "CONFIRMED",
+      "metric_used": "P/B",
+      "current_value": 0.83,
+      "three_year_mean": 1.18,
+      "three_year_min": 0.71,
+      "three_year_max": 1.62,
+      "percentile_rank": 14
+    }
+  },
+  "financials": {
+    "status": "CONFIRMED",
+    "fiscal_year": "FY2024",
+    "revenue_ttm_b": { "value": 2.3, "status": "CONFIRMED" },
+    "revenue_growth_yoy_pct": { "value": -3.2, "status": "CONFIRMED" },
+    "operating_income_ttm_b": { "value": 0.48, "status": "CONFIRMED" },
+    "operating_margin_pct": { "value": 20.9, "status": "CONFIRMED" },
+    "net_income_ttm_b": { "value": 0.38, "status": "CONFIRMED" },
+    "eps_ttm": { "value": 2.56, "status": "CONFIRMED" },
+    "eps_fwd_consensus": { "value": 2.93, "status": "CONFIRMED" },
+    "eps_revision_trend": "UPWARD",
+    "fcf_ttm_b": { "value": null, "status": "NOT_APPLICABLE" },
+    "net_debt_b": { "value": null, "status": "NOT_APPLICABLE" },
+    "net_debt_to_ebitda": { "value": null, "status": "NOT_APPLICABLE" },
+    "interest_coverage_ratio": { "value": null, "status": "NOT_APPLICABLE" },
+    "roe_pct": { "value": 9.1, "status": "CONFIRMED" }
+  },
+  "undervaluation_judgment": {
+    "is_discounted_vs_sector": true,
+    "is_discounted_vs_history": true,
+    "combined_signal": "MODERATE_SIGNAL",
+    "primary_discount_drivers": ["NIM_압박_지속", "상업용_부동산_대출_우려", "금리_인하_시기_불확실"],
+    "discount_narrative": {
+      "content": "RVNC의 할인은 지역은행 섹터 전반에 걸친 NIM(순이자마진) 압박 우려와 상업용 부동산 대출 건전성에 대한 시장의 경계심을 반영한다. 그러나 RVNC의 CRE 대출 비중은 동종 대비 낮고, 예금 기반이 안정적이라는 점에서 섹터 평균 수준의 할인이 과도하다는 시각이 존재한다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "financials.roe_pct"]
+    }
+  },
+  "catalyst_assessment": {
+    "catalyst_a": {
+      "catalyst_id": "A",
+      "definition_summary": "90일 이내 실적 발표 예정 + 최근 90일 컨센서스 상향 또는 유지",
+      "status": "MET",
+      "evidence": "2025년 4월 17일 1분기 실적 발표 예정. EPS 컨센서스가 최근 90일간 $2.80 → $2.93으로 상향됨.",
+      "data_status": "CONFIRMED"
+    },
+    "catalyst_b": {
+      "catalyst_id": "B",
+      "definition_summary": "애널리스트 평균 목표주가 대비 현재 주가 괴리율 20% 이상 + 커버리지 3명 이상",
+      "status": "MET",
+      "evidence": "커버리지 6개사. 컨센서스 평균 $36.50 기준 현재가 대비 괴리율 약 26.9%.",
+      "data_status": "CONFIRMED"
+    },
+    "catalyst_c": {
+      "catalyst_id": "C",
+      "definition_summary": "52주 고점 대비 30% 이상 하락 + 동기간 EPS 하향 폭이 주가 하락의 50% 미만",
+      "status": "NOT_MET",
+      "evidence": "52주 고점 대비 -30.2%로 기준에 근접하나, EPS 컨센서스도 동기간 약 8.4% 하향되어 조건 미충족.",
+      "data_status": "CONFIRMED"
+    },
+    "met_count": 2,
+    "composite_label": "촉매 2/3 충족"
+  },
+  "bull_case_points": [
+    {
+      "point_id": 1,
+      "summary": "금리 인하 사이클 진입 시 NIM 압박 해소 기대",
+      "detail": "연준이 금리 인하를 시작하면 조달 비용이 먼저 낮아지는 구조적 특성상, NIM 반등이 예상된다. 시장이 인하 사이클 개시를 인식하는 시점에 지역은행 섹터 전반의 리레이팅이 동반될 수 있다.",
+      "confidence": "MEDIUM",
+      "is_data_backed": true
+    },
+    {
+      "point_id": 2,
+      "summary": "EPS 컨센서스 상향 추세 — 실적 개선 가시화",
+      "detail": "최근 90일간 FY2025 EPS 컨센서스가 $2.80에서 $2.93으로 상향되었다. 이는 애널리스트 커뮤니티의 실적 회복 기대를 반영한다.",
+      "confidence": "HIGH",
+      "is_data_backed": true
+    }
+  ],
+  "bear_case_points": [
+    {
+      "point_id": 1,
+      "summary": "상업용 부동산 대출 부실화 리스크 잠재",
+      "detail": "오피스 공실률 상승 추세 속에서 CRE 대출 포트폴리오의 건전성이 악화될 경우, 대손충당금 추가 적립이 수익성을 압박할 수 있다.",
+      "confidence": "MEDIUM",
+      "is_data_backed": false
+    },
+    {
+      "point_id": 2,
+      "summary": "금리 인하 시기 지연 시 밸류에이션 할인 장기화",
+      "detail": "인플레이션 재상승 시나리오에서 금리 인하가 2026년 이후로 밀릴 경우, 지역은행 섹터의 저평가 상태가 장기화될 수 있다.",
+      "confidence": "MEDIUM",
+      "is_data_backed": true
+    }
+  ],
+  "structural_risks": [
+    {
+      "risk_id": "sr_rvnc_001",
+      "category": "FINANCIAL_HEALTH",
+      "label": "상업용 부동산 대출 건전성 — 잠재 부실 리스크",
+      "description": "오피스 및 소매 부동산 시장 침체가 장기화될 경우 CRE 대출 포트폴리오 건전성 악화 가능성이 있다.",
+      "severity": "MEDIUM",
+      "data_status": "CONFIRMED"
+    },
+    {
+      "risk_id": "sr_rvnc_002",
+      "category": "MACRO_SENSITIVITY",
+      "label": "금리 민감도 — NIM 구조적 변동성",
+      "description": "지역은행의 수익성은 금리 환경에 직접 연동된다. 금리 경로의 불확실성이 지속되는 한 수익 예측 가시성이 낮다.",
+      "severity": "MEDIUM",
+      "data_status": "CONFIRMED"
+    }
+  ],
+  "short_term_risks": [
+    {
+      "risk_id": "str_rvnc_001",
+      "category": "EARNINGS_RISK",
+      "label": "1분기 NIM 추가 압박 여부",
+      "description": "1분기 실적에서 NIM이 예상치를 하회할 경우 주가 재하락 가능성이 있다.",
+      "severity": "MEDIUM",
+      "data_status": "CONFIRMED"
+    },
+    {
+      "risk_id": "str_rvnc_002",
+      "category": "REGULATORY",
+      "label": "지역은행 규제 강화 논의",
+      "description": "2023년 지역은행 사태 이후 강화된 자본 규제 논의가 재부상할 경우 섹터 전반에 부정적으로 작용할 수 있다.",
+      "severity": "LOW",
+      "data_status": "CONFIRMED"
+    }
+  ],
+  "analyst_style_summary": {
+    "why_discounted": {
+      "content": "RVNC는 지역은행 섹터 전반의 디레이팅 흐름에서 자유롭지 못했다. NIM 압박, CRE 대출 건전성 우려, 금리 인하 시기 불확실성이 복합적으로 작용하며 P/B 0.83배까지 내려앉았다. 그러나 RVNC의 CRE 대출 비중은 동종 대비 낮고, 예금 안정성은 양호하다는 점에서 섹터 평균과 동일한 수준의 할인이 다소 과도하다는 시각이 있다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["valuation.historical_valuation_position.percentile_rank", "financials.roe_pct"]
+    },
+    "why_worth_revisiting": {
+      "content": "EPS 컨센서스 상향 추세가 관찰되는 가운데 4월 실적 발표가 예정되어 있다. 만약 NIM이 바닥을 확인하는 지표가 나온다면 빠른 밸류에이션 회복이 가능한 구간이다. 애널리스트 6개사의 평균 목표 대비 26.9% 괴리는 기관의 기대치가 현재 주가에 상당 부분 반영되지 않았음을 시사한다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["catalyst_assessment.catalyst_a", "catalyst_assessment.catalyst_b"]
+    },
+    "key_risks_narrative": {
+      "content": "핵심 리스크는 CRE 대출 건전성과 금리 경로 두 가지다. CRE 포트폴리오 내 부실이 가시화되거나 금리 인하 시기가 2026년 이후로 밀릴 경우, 현재 할인이 적정 수준으로 재정의될 수 있다. 단기적으로는 1분기 실적에서 NIM 방향성이 확인되는 것이 가장 중요한 관찰 포인트다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["structural_risks", "short_term_risks"]
+    },
+    "investment_context": {
+      "content": "RVNC는 지역은행 섹터의 사이클적 저점에서 관찰할 만한 위치에 있다. 금리 인하 사이클 개시가 가시화되는 시점에 섹터 전반의 리레이팅이 동반될 수 있으며, RVNC는 그 중에서도 EPS 상향 모멘텀을 보유한 상대적 우위 종목으로 볼 수 있다. 다만 CRE 우려가 현실화될 경우 이는 구조적 리스크로 전환될 수 있어 1분기 실적 내 자산 건전성 데이터를 반드시 확인해야 한다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["catalyst_assessment", "structural_risks"]
+    },
+    "generated_at": "2025-03-15T10:15:00Z",
+    "model_id": "claude-sonnet-4-6",
+    "reviewer_approved": true
+  },
+  "data_quality_flags": [],
+  "data_sources": [
+    { "source_id": "ds_fmp_001", "provider_name": "Financial Modeling Prep", "data_category": "fundamentals", "as_of": "2025-03-14T20:00:00Z" },
+    { "source_id": "ds_yf_001", "provider_name": "yfinance", "data_category": "price", "as_of": "2025-03-14T21:00:00Z" }
+  ],
+  "disclaimer_blocks": [
+    {
+      "block_id": "db_header_std",
+      "position": "HEADER",
+      "content": "본 리포트는 투자 권유가 아닙니다. 제시된 분석은 공개된 데이터에 기반한 정보 제공 목적이며, 투자 손익을 보장하지 않습니다.",
+      "is_required": true
+    },
+    {
+      "block_id": "db_footer_full",
+      "position": "FOOTER",
+      "content": "본 서비스는 투자자문업 등록 서비스가 아닙니다. 본 리포트에 포함된 모든 분석과 수치는 특정 시점의 공개 데이터를 기반으로 작성되었으며, 이후 변동 사항을 실시간으로 반영하지 않습니다. 과거의 주가 또는 실적 패턴이 미래 결과를 보장하지 않습니다.",
+      "is_required": true
+    }
+  ],
+  "publication_meta": {
+    "status": "PUBLISHED",
+    "created_at": "2025-03-15T08:00:00Z",
+    "reviewed_by": "editor_01",
+    "reviewed_at": "2025-03-15T12:00:00Z",
+    "published_at": "2025-03-17T09:00:00Z",
+    "last_updated_at": "2025-03-17T09:00:00Z"
+  }
+}
