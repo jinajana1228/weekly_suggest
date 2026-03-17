@@ -1,14 +1,12 @@
 # Railway 배포 설정 (weekly_suggest 루트 기준)
-# Railway 대시보드에서 "Root Directory" = 이 파일이 있는 디렉터리로 설정
 #
-# 배포 구조:
-#   - 전체 레포지토리를 Railway에 배포
-#   - 백엔드는 backend/ 서브디렉터리에서 실행
-#   - data/ 디렉터리는 Railway Volume으로 영구화 (선택)
+# 빌드 흐름:
+#   1. Nixpacks가 루트의 requirements.txt + runtime.txt로 Python 3.11 환경 구성
+#   2. pip install -r requirements.txt (→ backend/requirements.txt 포함)
+#   3. startCommand로 backend/ 에서 uvicorn 실행
 
 [build]
 builder = "NIXPACKS"
-buildCommand = "cd backend && pip install -r requirements.txt"
 
 [deploy]
 startCommand = "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
