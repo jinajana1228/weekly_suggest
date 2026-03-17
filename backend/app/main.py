@@ -82,9 +82,12 @@ def _validate_config() -> None:
 
 @app.get("/health")
 async def health_check():
+    # os.getenv 직접 읽기 — pydantic-settings 싱글턴을 거치지 않고
+    # 런타임 환경변수를 즉시 반환한다. settings 캐싱 문제 방어.
     return {
         "status": "ok",
-        "env": settings.APP_ENV,
-        "provider_mode": settings.DATA_PROVIDER_MODE,
+        "env": os.getenv("APP_ENV", settings.APP_ENV),
+        "provider_mode": os.getenv("DATA_PROVIDER_MODE", settings.DATA_PROVIDER_MODE),
         "version": "0.2.0",
+        "build": "20260317-1",   # 이 값이 응답에 보이면 신규 코드가 서빙 중임을 확인
     }
