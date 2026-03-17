@@ -5,6 +5,8 @@
   모든 Admin 엔드포인트는 요청 헤더 `X-Admin-Key: <키>` 를 요구한다.
   빈 값이면 인증 없음 (로컬 개발용).
 """
+import os
+
 from fastapi import APIRouter, Depends, Header, HTTPException
 from pydantic import BaseModel
 
@@ -18,8 +20,15 @@ router = APIRouter()
 # ── Admin 인증 dependency ─────────────────────────────────────
 
 def require_admin(x_admin_key: str | None = Header(None, alias="X-Admin-Key")):
-    """ADMIN_API_KEY 가 설정된 환경에서만 키 검증."""
-    if settings.ADMIN_API_KEY and x_admin_key != settings.ADMIN_API_KEY:
+    """ADMIN_API_KEY 가 설정된 환경에서만 키 검증.
+
+    settings.ADMIN_API_KEY는 import 시점에 고정되므로 Railway 환경변수 주입 타이밍
+    문제가 발생한다. os.getenv()를 요청 시점에 직접 호출해 os.environ을 읽는다.
+    """
+    # os.getenv는 요청 시점에 os.environ을 읽으므로 Railway 주입 타이밍 문제 없음.
+    # settings 싱글톤(import 시 고정)을 fallback으로만 사용.
+    admin_key = os.getenv("ADMIN_API_KEY") or settings.ADMIN_API_KEY
+    if admin_key and x_admin_key != admin_key:
         raise HTTPException(status_code=403, detail="Admin access denied.")
 
 
