@@ -4,7 +4,9 @@ from typing import List
 
 class Settings(BaseSettings):
     # ── 실행 환경 ────────────────────────────────────────────────
-    ENV: str = "development"          # development | production
+    # 주의: 'ENV'는 POSIX 예약 변수 (shell이 /etc/profile 등으로 설정함)
+    # Railway 등 컨테이너 환경에서 충돌을 피하기 위해 APP_ENV를 사용한다.
+    APP_ENV: str = "development"      # development | production
     LOG_LEVEL: str = "INFO"
 
     # ── 데이터 제공자 ─────────────────────────────────────────────
@@ -45,7 +47,7 @@ class Settings(BaseSettings):
 
     @property
     def is_production(self) -> bool:
-        return self.ENV == "production"
+        return self.APP_ENV == "production"
 
     class Config:
         env_file = ".env"

@@ -27,7 +27,7 @@ curl -s "$API_URL/health" | python3 -m json.tool
 ```
 
 - `status`: `ok` 확인
-- `env`: `production` 확인 (development이면 ENV 환경변수 확인)
+- `env`: `production` 확인 (development이면 APP_ENV 환경변수 확인)
 - `provider_mode`: 설정한 모드 확인
 
 ---

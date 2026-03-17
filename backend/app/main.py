@@ -39,7 +39,7 @@ app.include_router(api_router, prefix="/api/v1")
 async def _startup():
     logger.info(
         "Weekly Suggest API starting | env=%s | provider=%s",
-        settings.ENV,
+        settings.APP_ENV,
         settings.DATA_PROVIDER_MODE,
     )
     _validate_config()
@@ -80,7 +80,7 @@ def _validate_config() -> None:
 async def health_check():
     return {
         "status": "ok",
-        "env": settings.ENV,
+        "env": settings.APP_ENV,
         "provider_mode": settings.DATA_PROVIDER_MODE,
         "version": "0.2.0",
     }
