@@ -1,4 +1,5 @@
 import logging
+import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -37,6 +38,9 @@ app.include_router(api_router, prefix="/api/v1")
 
 @app.on_event("startup")
 async def _startup():
+    # 진단 로그: Railway 환경변수 주입 여부 직접 확인
+    logger.info("DIAG os.getenv('APP_ENV') = %r", os.getenv("APP_ENV"))
+    logger.info("DIAG settings.APP_ENV     = %r", settings.APP_ENV)
     logger.info(
         "Weekly Suggest API starting | env=%s | provider=%s",
         settings.APP_ENV,

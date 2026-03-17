@@ -1,8 +1,18 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List
 
 
 class Settings(BaseSettings):
+    # pydantic-settings v2 공식 방식 (class Config 대신 model_config 사용)
+    # env_file이 없어도 환경변수는 항상 읽힌다.
+    # Railway 컨테이너: .env 파일 없음 → 환경변수만 사용
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,   # APP_ENV / app_env 모두 인식
+        extra="ignore",         # 정의되지 않은 환경변수 무시
+    )
+
     # ── 실행 환경 ────────────────────────────────────────────────
     # 주의: 'ENV'는 POSIX 예약 변수 (shell이 /etc/profile 등으로 설정함)
     # Railway 등 컨테이너 환경에서 충돌을 피하기 위해 APP_ENV를 사용한다.
@@ -31,9 +41,6 @@ class Settings(BaseSettings):
     # 빈 값이면 __file__ 기반 자동 해석 (로컬 개발 + Railway 표준 구조)
     # Railway Volume 사용 시: STATE_DB_PATH=/data/state.db
     STATE_DB_PATH: str = ""
-    # 빈 값이면 __file__ 기반 + MOCK_DATA_DIR 설정값 사용
-    # Railway Volume 사용 시: MOCK_DATA_DIR=/data/mock
-    # (file_store.py에서 이미 절대경로 처리 지원)
 
     # ── Admin 보호 ────────────────────────────────────────────────
     # 비어있으면 인증 없음 (로컬 개발용).
@@ -47,11 +54,7 @@ class Settings(BaseSettings):
 
     @property
     def is_production(self) -> bool:
-        return self.APP_ENV == "production"
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+        return self.APP_ENV.lower() == "production"
 
 
 settings = Settings()
