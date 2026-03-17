@@ -114,7 +114,7 @@ async def health_check():
         "env": _runtime_env,
         "provider_mode": _runtime_provider,
         "version": "0.2.0",
-        "build": "20260317-3",
+        "build": "20260317-4-docker",
         "diag_runtime": os.getenv("APP_ENV"),         # 요청 시점 os.getenv 직접 확인용
         "diag_settings": settings.APP_ENV,            # 요청 시점 settings 확인용
         "diag_admin_key_set": bool(os.getenv("ADMIN_API_KEY")),  # admin key 주입 여부

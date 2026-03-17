@@ -1,15 +1,16 @@
 # Railway 배포 설정 (weekly_suggest 루트 기준)
 #
-# 빌드 흐름:
-#   1. Nixpacks가 루트의 requirements.txt + runtime.txt로 Python 3.11 환경 구성
-#   2. pip install -r requirements.txt (→ backend/requirements.txt 포함)
-#   3. startCommand로 backend/ 에서 uvicorn 실행
+# 빌드 방식: Dockerfile (루트 Dockerfile 사용)
+# Nixpacks 에서 전환한 이유:
+#   Nixpacks 래퍼 스크립트 계층으로 인해 Railway Variables 가
+#   uvicorn 프로세스의 os.environ 에 전달되지 않는 문제 발생.
+#   Dockerfile 기반에서는 컨테이너 실행 시 env 가 직접 주입된다.
 
 [build]
-builder = "NIXPACKS"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
