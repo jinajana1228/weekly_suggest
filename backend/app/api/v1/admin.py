@@ -5,10 +5,12 @@
   모든 Admin 엔드포인트는 요청 헤더 `X-Admin-Key: <키>` 를 요구한다.
   빈 값이면 인증 없음 (로컬 개발용).
 
-인증 적용 범위:
-  router = APIRouter(dependencies=[Depends(require_admin)]) 로 라우터 레벨에서
-  일괄 강제한다. 개별 엔드포인트에 Depends를 누락해도 보호가 유지된다.
+인증 적용 방식:
+  router.py 의 include_router(admin.router, dependencies=[Depends(require_admin)]) 로
+  최외곽 include 단계에서 일괄 강제한다.
+  이 방식은 FastAPI 버전과 무관하게 route table 반영이 보장된다.
 """
+import logging
 import os
 
 from fastapi import APIRouter, Depends, Header, HTTPException
@@ -20,24 +22,32 @@ from app.services.provider.factory import get_provider
 from app.storage.file_store import file_store
 from app.storage.state_store import state_store
 
+logger = logging.getLogger("weekly_suggest.admin")
+
 
 # ── Admin 인증 dependency ─────────────────────────────────────
 
 def require_admin(x_admin_key: str | None = Header(None, alias="X-Admin-Key")):
     """ADMIN_API_KEY 가 설정된 환경에서만 키 검증.
 
-    settings.ADMIN_API_KEY는 import 시점에 고정되므로 Railway 환경변수 주입 타이밍
-    문제가 발생한다. os.getenv()를 요청 시점에 직접 호출해 os.environ을 읽는다.
+    os.getenv()를 요청 시점에 직접 호출 — Railway 환경변수 주입 타이밍 문제 우회.
+    진단 로그가 Railway Deploy Logs에 찍히면 dependency가 정상 호출됨을 확인할 수 있다.
     """
-    # os.getenv는 요청 시점에 os.environ을 읽으므로 Railway 주입 타이밍 문제 없음.
-    # settings 싱글톤(import 시 고정)을 fallback으로만 사용.
     admin_key = os.getenv("ADMIN_API_KEY") or settings.ADMIN_API_KEY
+
+    # 진단 로그 — Railway 로그에서 호출 여부 + key 설정 여부 확인용
+    logger.warning(
+        "ADMIN_AUTH diag: key_set=%r header_present=%r",
+        bool(admin_key),
+        bool(x_admin_key),
+    )
+
     if admin_key and x_admin_key != admin_key:
         raise HTTPException(status_code=403, detail="Admin access denied.")
 
 
-# ── 라우터 — 모든 하위 엔드포인트에 require_admin 일괄 적용 ────
-router = APIRouter(dependencies=[Depends(require_admin)])
+# ── 라우터 (dependency는 router.py include_router 단계에서 적용) ──
+router = APIRouter()
 
 
 # ── 요청 모델 ─────────────────────────────────────────────────

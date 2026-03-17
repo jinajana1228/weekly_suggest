@@ -56,11 +56,19 @@ async def _startup():
     logger.info("DIAG os.getenv('APP_ENV')      = %r", os.getenv("APP_ENV"))
     logger.info("DIAG settings.APP_ENV           = %r", settings.APP_ENV)
     logger.info("DIAG _runtime_env (캡처됨)      = %r", _runtime_env)
+    logger.info("DIAG ADMIN_API_KEY set          = %r", bool(os.getenv("ADMIN_API_KEY")))
     logger.info(
         "Weekly Suggest API starting | env=%s | provider=%s",
         _runtime_env,
         _runtime_provider,
     )
+
+    # 등록된 모든 route와 dependency 수를 덤프 — admin route 누락 진단용
+    for route in app.routes:
+        methods = ",".join(sorted(getattr(route, "methods", None) or []))
+        deps = len(getattr(route, "dependencies", []))
+        logger.info("ROUTE_TABLE  %-6s  %-60s  deps=%d", methods, route.path, deps)
+
     _validate_config()
 
 
@@ -70,7 +78,8 @@ def _validate_config() -> None:
     is_prod = _runtime_env.lower() == "production"
 
     if is_prod:
-        if not settings.ADMIN_API_KEY:
+        # os.getenv 직접 확인 — settings 싱글톤 타이밍 문제 우회
+        if not (os.getenv("ADMIN_API_KEY") or settings.ADMIN_API_KEY):
             logger.warning(
                 "SECURITY WARNING: ADMIN_API_KEY is not set in production. "
                 "Admin endpoints are unprotected. Set ADMIN_API_KEY in Railway Variables."
@@ -105,7 +114,8 @@ async def health_check():
         "env": _runtime_env,
         "provider_mode": _runtime_provider,
         "version": "0.2.0",
-        "build": "20260317-2",
-        "diag_runtime": os.getenv("APP_ENV"),    # 요청 시점 os.getenv 직접 확인용
-        "diag_settings": settings.APP_ENV,       # 요청 시점 settings 확인용
+        "build": "20260317-3",
+        "diag_runtime": os.getenv("APP_ENV"),         # 요청 시점 os.getenv 직접 확인용
+        "diag_settings": settings.APP_ENV,            # 요청 시점 settings 확인용
+        "diag_admin_key_set": bool(os.getenv("ADMIN_API_KEY")),  # admin key 주입 여부
     }
