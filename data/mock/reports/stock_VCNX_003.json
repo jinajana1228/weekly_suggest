@@ -1,0 +1,224 @@
+{
+  "report_item_id": "ri_20260317_003_VCNX",
+  "report_id": "re_20260317_003",
+  "ticker": "VCNX",
+  "company_name": "VectoNex Semiconductors Inc.",
+  "exchange": "NASDAQ",
+  "sector": "Information Technology",
+  "industry": "Semiconductors",
+  "stock_info": {
+    "short_description": "엣지 AI 추론 및 IoT용 저전력 반도체 설계 전문 팹리스 기업. 자동차·산업용 AI 칩 시장에서 점유율을 확대하고 있으며, 매출의 65%가 장기 공급 계약 기반이다.",
+    "headquarters": "San Jose, CA, USA",
+    "market_cap_usd_b": 11.4,
+    "employee_count": { "value": 4200, "status": "CONFIRMED" },
+    "fiscal_year_end": "12-31"
+  },
+  "current_price": { "value": 76.30, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+  "price_context": {
+    "week_52_high": { "value": 118.40, "status": "CONFIRMED" },
+    "week_52_low": { "value": 68.50, "status": "CONFIRMED" },
+    "week_52_position_pct": { "value": 15.7, "status": "CONFIRMED" },
+    "drawdown_from_52w_high_pct": { "value": -35.6, "status": "CONFIRMED" },
+    "price_1m_change_pct": { "value": -14.2, "status": "CONFIRMED" },
+    "price_3m_change_pct": { "value": -31.8, "status": "CONFIRMED" },
+    "price_6m_change_pct": { "value": -36.4, "status": "CONFIRMED" },
+    "price_ytd_change_pct": { "value": -24.1, "status": "CONFIRMED" },
+    "as_of": "2026-03-14"
+  },
+  "interest_price_range": {
+    "status": "CONFIRMED",
+    "lower_bound": 73.00,
+    "upper_bound": 84.00,
+    "basis_metric": "Fwd P/E",
+    "basis_sector_median_value": 24.8,
+    "conditional_statement": "현재 Fwd P/E는 약 17.6배로 반도체 섹터 중앙값(24.8배) 대비 약 29% 할인 상태다. 섹터 중앙값 수렴 시 이론적 가격 범위는 $73.00~$84.00 수준으로 추산된다.",
+    "disclaimer": "이 가격 범위는 목표주가가 아닙니다. 투자 손익을 보장하지 않으며, 투자 결정의 근거로 사용해서는 안 됩니다."
+  },
+  "valuation": {
+    "primary_metric": "Fwd P/E",
+    "metrics": {
+      "fwd_per": { "value": 17.6, "status": "CONFIRMED" },
+      "trailing_per": { "value": 20.4, "status": "CONFIRMED" },
+      "ev_ebitda": { "value": 12.8, "status": "CONFIRMED" },
+      "pb": { "value": 3.4, "status": "CONFIRMED" },
+      "ps": { "value": 4.1, "status": "CONFIRMED" },
+      "p_fcf": { "value": 22.1, "status": "CONFIRMED" }
+    },
+    "valuation_discount_vs_sector": {
+      "status": "CONFIRMED",
+      "metric_used": "Fwd P/E",
+      "stock_value": 17.6,
+      "sector_median_value": 24.8,
+      "discount_pct": 29.1,
+      "sector_comparison_name": "Philadelphia Semiconductor Index (SOX) 구성종목",
+      "comparison_universe_count": 30
+    },
+    "historical_valuation_position": {
+      "status": "CONFIRMED",
+      "metric_used": "Fwd P/E",
+      "current_value": 17.6,
+      "three_year_mean": 28.3,
+      "three_year_min": 14.2,
+      "three_year_max": 48.6,
+      "percentile_rank": 9
+    }
+  },
+  "financials": {
+    "status": "CONFIRMED",
+    "fiscal_year": "FY2025",
+    "revenue_ttm_b": { "value": 2.8, "status": "CONFIRMED" },
+    "revenue_growth_yoy_pct": { "value": 22.4, "status": "CONFIRMED" },
+    "operating_income_ttm_b": { "value": 0.62, "status": "CONFIRMED" },
+    "operating_margin_pct": { "value": 22.1, "status": "CONFIRMED" },
+    "net_income_ttm_b": { "value": 0.52, "status": "CONFIRMED" },
+    "eps_ttm": { "value": 4.33, "status": "CONFIRMED" },
+    "eps_fwd_consensus": { "value": 5.18, "status": "CONFIRMED" },
+    "eps_revision_trend": "UP",
+    "fcf_ttm_b": { "value": 0.38, "status": "CONFIRMED" },
+    "net_debt_b": { "value": -0.6, "status": "CONFIRMED" },
+    "net_debt_to_ebitda": { "value": -0.8, "status": "CONFIRMED" },
+    "interest_coverage_ratio": { "value": 42.0, "status": "CONFIRMED" },
+    "roe_pct": { "value": 28.6, "status": "CONFIRMED" }
+  },
+  "undervaluation_judgment": {
+    "is_discounted_vs_sector": true,
+    "is_discounted_vs_history": true,
+    "combined_signal": "STRONG_SIGNAL",
+    "primary_discount_drivers": ["AI_인프라_투자_조정_우려", "반도체_사이클_피크아웃_공포", "관세_공급망_재편_비용", "고배수_섹터_전반_리레이팅"],
+    "discount_narrative": {
+      "content": "VCNX의 할인은 AI 인프라 투자 조정 우려가 반도체 섹터 전반을 압박하는 국면에서 발생했다. 그러나 VCNX의 엣지 AI 칩은 데이터센터 GPU와 달리 자동차·산업 자동화 수요에 기반하며, 이 수요는 AI 인프라 투자 사이클과 독립적이다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "valuation.historical_valuation_position.percentile_rank"]
+    }
+  },
+  "catalyst_assessment": {
+    "catalyst_a": {
+      "catalyst_id": "A",
+      "definition_summary": "90일 이내 실적 발표 예정 + 최근 90일 컨센서스 상향 또는 유지",
+      "status": "MET",
+      "evidence": "2026년 4월 29일 1분기 실적 발표 예정. 최근 90일간 FY2026 EPS 컨센서스 $5.18로 상향(90일 전 $4.94 대비 +4.9%).",
+      "data_status": "CONFIRMED"
+    },
+    "catalyst_b": {
+      "catalyst_id": "B",
+      "definition_summary": "애널리스트 평균 목표주가 대비 현재 주가 괴리율 20% 이상 + 커버리지 3명 이상",
+      "status": "MET",
+      "evidence": "커버리지 18개사. 컨센서스 평균 $104.60 기준 현재가($76.30) 대비 괴리율 약 37.1%.",
+      "data_status": "CONFIRMED"
+    },
+    "catalyst_c": {
+      "catalyst_id": "C",
+      "definition_summary": "52주 고점 대비 30% 이상 하락 + 동기간 EPS 컨센서스 하향 폭이 주가 하락의 50% 미만",
+      "status": "MET",
+      "evidence": "52주 고점 대비 -35.6% 하락. 동기간 EPS 컨센서스는 오히려 상향되어 주가 하락과 역방향.",
+      "data_status": "CONFIRMED"
+    },
+    "met_count": 3,
+    "composite_label": "복합 촉매 3/3 충족"
+  },
+  "bull_case_points": [
+    {
+      "point_id": 1,
+      "summary": "엣지 AI 수요 — 데이터센터 사이클과 독립적",
+      "detail": "VCNX 매출의 주력은 자동차 ADAS 및 산업용 로봇 AI 추론 칩이다. 데이터센터 GPU 수요 조정의 영향을 직접 받지 않으며, 오히려 자동차 AI 도입 가속화의 수혜 위치에 있다.",
+      "confidence": "HIGH",
+      "is_data_backed": true
+    },
+    {
+      "point_id": 2,
+      "summary": "순현금 포지션 + EPS 컨센서스 상향 — 사업 성장 펀더멘털 이상 없음",
+      "detail": "순현금 $0.6B(무차입 상태)로 재무 건전성이 섹터 최상위권이다. EPS 컨센서스가 최근 90일간 상향 조정되며 펀더멘털 모멘텀이 주가 하락과 완전히 역방향이다.",
+      "confidence": "HIGH",
+      "is_data_backed": true
+    },
+    {
+      "point_id": 3,
+      "summary": "밸류에이션 히스토리 하위 9th percentile — 반도체 성장주로서 이례적 저점",
+      "detail": "현재 Fwd P/E 17.6배는 자사 3년 히스토리 하위 9th percentile에 해당한다. 성장률(매출 +22%)을 감안하면 PEG 비율은 0.8배 미만으로 성장 대비 극단적 저평가 구간이다.",
+      "confidence": "MEDIUM",
+      "is_data_backed": true
+    }
+  ],
+  "bear_case_points": [
+    {
+      "point_id": 1,
+      "summary": "반도체 섹터 전반 리레이팅 지속 가능성",
+      "detail": "AI 인프라 투자 조정 우려가 계속될 경우 반도체 섹터 전반의 밸류에이션 재조정이 이어지며 VCNX도 섹터 압박에서 자유롭지 않을 수 있다.",
+      "confidence": "MEDIUM",
+      "is_data_backed": true
+    },
+    {
+      "point_id": 2,
+      "summary": "자동차 AI 칩 수요 — 완성차 생산 감소 직접 연동",
+      "detail": "글로벌 자동차 생산이 관세 영향으로 감소할 경우 VCNX의 핵심 수요 기반도 직접적 영향을 받는다.",
+      "confidence": "MEDIUM",
+      "is_data_backed": true
+    }
+  ],
+  "structural_risks": [
+    {
+      "risk_id": "sr_vcnx_001",
+      "category": "COMPETITIVE",
+      "label": "대형 반도체사의 엣지 AI 시장 진입 가속",
+      "description": "인텔·퀄컴 등 대형 반도체사가 엣지 AI 칩 시장에 자원을 집중하면서 경쟁 압력이 증가하고 있다. 차별화된 설계 역량 유지가 관건이다.",
+      "severity": "HIGH",
+      "data_status": "CONFIRMED"
+    }
+  ],
+  "short_term_risks": [
+    {
+      "risk_id": "str_vcnx_001",
+      "category": "MACRO_SENSITIVITY",
+      "label": "자동차 생산 감소 — 단기 수요 둔화",
+      "description": "관세 영향으로 북미·유럽 완성차 생산 전망이 하향 조정됐다. VCNX 매출의 42%를 차지하는 자동차 칩 수요가 단기 둔화될 수 있다.",
+      "severity": "HIGH",
+      "data_status": "CONFIRMED"
+    }
+  ],
+  "analyst_style_summary": {
+    "why_discounted": {
+      "content": "VCNX는 AI 섹터 전반의 밸류에이션 리셋 과정에서 본질과 무관하게 할인이 부여됐다. 엣지 AI 칩의 수요 기반(자동차·산업)이 데이터센터와 다름에도 시장이 '반도체=AI 인프라 노출'로 일괄 처리한 결과다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["valuation.historical_valuation_position.percentile_rank", "financials.eps_revision_trend"]
+    },
+    "why_worth_revisiting": {
+      "content": "세 가지 촉매를 모두 충족하는 드문 상황이다. EPS 컨센서스가 상향되는 동안 주가가 36% 하락했다 — 이 역방향은 시장 오류 가능성을 시사한다. 4월 실적에서 자동차 고객 주문 유지 여부와 신규 설계수주(design win) 발표가 핵심이다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["catalyst_assessment", "financials.eps_revision_trend"]
+    },
+    "key_risks_narrative": {
+      "content": "대형 반도체사의 엣지 AI 시장 진입과 자동차 생산 감소가 동시에 현실화될 경우, 성장 궤도 자체가 훼손될 수 있다. EPS 컨센서스 상향이 유지되는지 여부가 투자 판단의 핵심 선행 지표다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["structural_risks", "short_term_risks"]
+    },
+    "investment_context": {
+      "content": "VCNX는 펀더멘털(EPS 상향, 순현금, 22% 성장)과 주가(36% 하락) 사이의 괴리가 섹터 내 가장 극단적인 케이스다. 4월 실적에서 자동차 칩 수주가 유지되고 가이던스가 컨센서스를 충족한다면, 현재 Fwd P/E 17.6배는 중기 리레이팅의 출발점으로 해석될 수 있다.",
+      "status": "APPROVED",
+      "data_fields_referenced": ["catalyst_assessment", "valuation.valuation_discount_vs_sector"]
+    },
+    "generated_at": "2026-03-15T11:20:00Z",
+    "model_id": "claude-sonnet-4-6",
+    "reviewer_approved": true
+  },
+  "data_quality_flags": [],
+  "data_sources": [
+    { "source_id": "ds_mock_001", "provider_name": "Mock Data", "data_category": "fundamentals", "as_of": "2026-03-14T20:00:00Z" },
+    { "source_id": "ds_mock_002", "provider_name": "Mock Data", "data_category": "price", "as_of": "2026-03-14T21:00:00Z" }
+  ],
+  "disclaimer_blocks": [
+    {
+      "block_id": "db_header_std",
+      "position": "HEADER",
+      "content": "본 리포트는 투자 권유가 아닙니다. 제시된 분석은 공개된 데이터에 기반한 정보 제공 목적이며, 투자 손익을 보장하지 않습니다. 모든 투자 결정은 투자자 본인의 판단과 책임 하에 이루어져야 합니다.",
+      "is_required": true
+    }
+  ],
+  "publication_meta": {
+    "status": "PUBLISHED",
+    "created_at": "2026-03-15T08:00:00Z",
+    "reviewed_by": "editor_01",
+    "reviewed_at": "2026-03-15T14:00:00Z",
+    "published_at": "2026-03-17T09:00:00Z",
+    "last_updated_at": "2026-03-17T09:00:00Z"
+  }
+}

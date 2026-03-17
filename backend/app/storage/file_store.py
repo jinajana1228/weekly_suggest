@@ -39,9 +39,14 @@ class FileStore:
         return self._read_json("reports/edition_latest.json")
 
     def get_edition_by_number(self, edition_number: int) -> Optional[dict]:
-        if edition_number == 2:
-            return self._read_json("reports/edition_latest.json")
-        return self._read_json(f"reports/edition_{edition_number:03d}_archive.json")
+        result = self._read_json(f"reports/edition_{edition_number:03d}_archive.json")
+        if result is not None:
+            return result
+        # Fallback: check edition_latest.json if its edition_number matches
+        latest = self._read_json("reports/edition_latest.json")
+        if latest and latest.get("edition_number") == edition_number:
+            return latest
+        return None
 
     def get_edition_by_id(self, report_id: str) -> Optional[dict]:
         """report_id로 에디션 JSON 반환.

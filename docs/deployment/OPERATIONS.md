@@ -296,3 +296,85 @@ state_store.update_edition_status("re_20250317_002", "ARCHIVED")
 ```
 
 또는 다음 에디션 발행 시 자동 처리됨.
+
+---
+
+## 현재 실제 동작 구조 (JSON-only 발행)
+
+> **중요**: `data/state.db`는 gitignored + Docker 재배포 시마다 초기화된다.
+> `latest_pointer`는 항상 None → **`edition_latest.json` fallback이 실제 서비스 기반**.
+> scripts/ 디렉토리 없음 — 현재는 JSON 파일 직접 편집으로 발행.
+
+### 실제 latest 반영 경로
+
+```
+/reports/latest 요청
+  1. state_store.get_latest_pointer() → None (DB 초기화됨)
+  2. fallback: file_store.get_latest_edition()
+  3. → edition_latest.json 반환
+```
+
+따라서 `edition_latest.json`을 새 에디션으로 교체 + git push 만으로 발행 완료.
+
+### 현재 환경 기준 VOL.N 발행 절차
+
+```bash
+cd ~/Desktop/Vibe\ Coding/weekly_suggest
+
+# Step 1: 현재 latest → archive 보존 (status=ARCHIVED로 수정)
+cp data/mock/reports/edition_latest.json \
+   data/mock/reports/edition_0NNminus1_archive.json
+# 편집기에서 edition_0NNminus1_archive.json 의 "status": "PUBLISHED" → "ARCHIVED"
+
+# Step 2: edition_latest.json 을 새 에디션으로 교체
+# (report_id, edition_number, stocks 등 모두 VOL.N 내용으로)
+
+# Step 3: edition_0NN_archive.json 동일 내용으로 생성 (API 일관성)
+cp data/mock/reports/edition_latest.json \
+   data/mock/reports/edition_0NN_archive.json
+
+# Step 4: 종목 상세 파일 생성
+# 파일명: stock_{TICKER}_{NNN}.json
+# NNN = report_id.split("_")[-1]  예: re_20260317_003 → 003
+
+# Step 5: JSON 문법 검증
+python3 -c "
+import json, pathlib
+for f in pathlib.Path('data/mock/reports').glob('*.json'):
+    try: json.load(open(f)); print(f'OK  {f.name}')
+    except Exception as e: print(f'ERR {f.name}: {e}')
+"
+
+# Step 6: 커밋 + 배포
+git add data/mock/reports/
+git commit -m "publish: VOL.N re_YYYYMMDD_NNN 정기 발행"
+git push
+# → Railway 자동 Docker 재빌드 → 배포 완료 (~3분)
+```
+
+### 파일 네이밍 규칙
+
+| 파일 | 패턴 | 예시 |
+|------|------|------|
+| 최신 에디션 | `edition_latest.json` | — |
+| 아카이브 에디션 | `edition_{NNN}_archive.json` | `edition_002_archive.json` |
+| 종목 상세 | `stock_{TICKER}_{NNN}.json` | `stock_NXPW_003.json` |
+
+### 배포 후 검증 (smoke test)
+
+```bash
+API=https://weeklysuggest-production.up.railway.app
+
+# latest 확인
+curl -s "$API/api/v1/reports/latest" | python3 -c "
+import sys, json; d = json.load(sys.stdin)['data']
+print('edition:', d['edition_number'], '|', d['report_id'])
+print('tickers:', [s['ticker'] for s in d['stocks']])
+"
+
+# archive 에디션 수 확인
+curl -s "$API/api/v1/archive" | python3 -c "
+import sys, json; arr = json.load(sys.stdin)['data']
+for e in arr: print(f'VOL.{e[\"edition_number\"]}  {e[\"status\"]}  {e[\"report_id\"]}')
+"
+```
