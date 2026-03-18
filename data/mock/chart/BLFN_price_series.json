@@ -467,6 +467,6 @@
     "lower_bound": 50.5,
     "upper_bound": 58.0,
     "label": "관심 가격 구간",
-    "color_hint": "blue"
+    "color_hint": "rgba(59,130,246,0.12)"
   }
 }

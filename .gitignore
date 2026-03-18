@@ -47,6 +47,10 @@ ehthumbs.db
 .pytest_cache/
 htmlcov/
 
+# ── 발행 준비 staging (초안 파일은 추적 제외) ────────────────
+data/staging/*.json
+data/prep_report_*.json
+
 # ── 로그 ──────────────────────────────────────────────────────
 *.log
 logs/

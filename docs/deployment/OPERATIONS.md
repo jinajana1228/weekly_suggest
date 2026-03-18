@@ -44,11 +44,11 @@ data/mock/reports/
   stock_STRL_003.json
   stock_VCNX_003.json
   stock_DFTL_003.json
-  stock_MFGI_re002.json        ← VOL.2 종목 상세
-  stock_RVNC_re002.json
-  stock_HLTH_re002.json
-  stock_CSTM_re002.json
-  stock_ENXT_re002.json
+  stock_MFGI_002.json          ← VOL.2 종목 상세
+  stock_RVNC_002.json
+  stock_HLTH_002.json
+  stock_CSTM_002.json
+  stock_ENXT_002.json
 ```
 
 ### latest 반영 경로 (실제 동작)
@@ -134,9 +134,12 @@ GET /api/v1/reports/latest
     └─ GROWTH_BENEFICIARY 용어 사용 금지 (2026-03-18 이후 폐기)
 [ ] MOCK_UNIVERSE에 신규 종목 추가 시 market_growth_hint + policy_tailwind_hint 필드 설정
     └─ 두 필드 모두 0.0–1.0 범위 직접 설정
-[ ] 차트 JSON 5개 작성 → data/mock/chart/{TICKER}_price_series.json
-    └─ interest_range_band 키: lower_bound / upper_bound 사용 (low/high 사용 금지)
-    └─ git add 후 커밋 필수 (untracked 상태로 push 시 Railway에 파일 없음)
+[ ] 차트 JSON 5개 → data/mock/chart/{TICKER}_price_series.json
+    └─ screen 단계에서 신규 종목 자동 생성됨 (기존 파일은 덮어쓰지 않음)
+    └─ current_price / week_52_high / week_52_low 없으면 자동 생성 생략 → 수동 보완
+    └─ interest_range_band 키: lower_bound / upper_bound 표준 스키마 자동 적용
+    └─ commit 단계에서 차트 파일 자동 포함 (git add 별도 불필요)
+       단, screen → commit 사이 기간이 길면 screen 출력의 git add 안내 참고
 [ ] market_context_note 문구 준비 (이번 에디션 시황 요약)
 ```
 
@@ -225,18 +228,32 @@ python scripts\publish_release.py preflight --strict ^
   --context-note "이번 에디션 시황 요약 문구"
 ```
 
-4가지 항목을 검사한다:
+5가지 항목을 검사한다:
 
-| 점검 항목 | 기본 모드 | `--strict` 모드 |
-|-----------|-----------|-----------------|
-| market_context_note 미입력 | ERROR | ERROR |
-| 필수 필드 누락 | ERROR | ERROR |
-| narrative PLACEHOLDER/빈 값 | ERROR | ERROR |
-| narrative DRAFT 상태 | WARN | ERROR |
-| placeholder 마커 잔존 | WARN | WARN |
+| # | 점검 항목 | 기본 모드 | `--strict` 모드 |
+|---|-----------|-----------|-----------------|
+| 1 | market_context_note 미입력 | ERROR | ERROR |
+| 2 | 종목 필수 필드 누락 | ERROR | ERROR |
+| 3 | narrative PLACEHOLDER/빈 값 | ERROR | ERROR |
+| 3 | narrative DRAFT 상태 | WARN | ERROR |
+| 4 | placeholder 마커 잔존 | WARN | WARN |
+| **5** | **차트 파일 없음** | **ERROR** | **ERROR** |
+| **5** | **price_series 비어 있음** | **ERROR** | **ERROR** |
+| **5** | **interest_range_band 스키마 불일치** | **ERROR** | **ERROR** |
+| **5** | **reference_lines / event_markers 없음** | **WARN** | **WARN** |
 
 - **ERROR** (exit 1): prepare 실행 차단
 - **WARN**: prepare 실행 허용, 검토 권장
+
+**차트 검사 상세** (`[5/5]` 단계):
+- `data/mock/chart/{TICKER}_price_series.json` 파일 존재 여부
+- `data` 또는 `price_series` 배열 비어있지 않음
+- `interest_range_band` 존재 시 `lower_bound`/`upper_bound` 키 확인 (`low`/`high`만 있으면 ERROR → 관심구간 미표시)
+- `reference_lines`, `event_markers` 존재 여부 (없으면 WARN)
+
+> **Admin UI 대안**: `/admin` 페이지 접속 → 상단 "Preflight 점검" 패널 → **"점검 실행"** 버튼
+> CLI 없이 브라우저에서 차트·Narrative·선정 유형·미완성 마커를 종목별로 확인 가능.
+> ERROR 0건이면 "발행 가능" 배지 표시 — WARN 은 발행 차단하지 않음.
 
 ---
 
@@ -278,6 +295,15 @@ python scripts\publish_release.py commit
 - `y` 입력 시 git add → commit → push 순서로 자동 실행
 - 커밋 메시지 기본값: `publish: VOL.N re_YYYYMMDD_NNN 정기 발행`
 
+**자동 포함 파일 (git add에서 누락 없음):**
+| 파일 | 포함 조건 |
+|------|-----------|
+| `edition_latest.json` | 항상 |
+| `edition_{N-1:03d}_archive.json` | VOL.2 이상 |
+| `stock_{TICKER}_{NNN}.json` × 5개 | 항상 |
+| `data/mock/chart/{TICKER}_price_series.json` × 5개 | **자동 포함 (신규 추가)** |
+| `data/mock/chart/` 내 기타 untracked 파일 | git status로 자동 감지 후 포함 |
+
 커밋 메시지 직접 지정:
 ```cmd
 python scripts\publish_release.py commit --message "publish: VOL.4 re_20260331_004 정기 발행"
@@ -300,29 +326,72 @@ Railway 재배포 완료 후 실행한다.
 python scripts\publish_release.py verify
 ```
 
-6가지 항목을 자동 확인하고 통과/실패를 출력한다:
+**백엔드(Railway) + 프론트엔드(Vercel) 합산 8가지 항목**을 자동 확인한다.
+출력은 `[백엔드 Railway]` / `[프론트엔드 Vercel]` 두 블록으로 분리된다.
 
-| 체크 | 기대 결과 |
-|------|-----------|
-| `/health` | 정상 응답, admin_key_set |
-| `/reports/latest` | 신규 VOL.N, 5종목 일치 |
-| `/archive` | 각 VOL 1건씩, 중복 없음 |
-| `/archive/N-1` | ARCHIVED 상태 |
-| `/stocks/{TICKER}` | 종목 상세 응답 |
-| `/admin/review-tasks` | HTTP 403 |
+**백엔드 Railway 검증 (①~⑦):**
 
-> **추가 수동 검증 항목 (스크립트 미포함, 직접 curl 확인)**
+| # | 체크 | 기대 결과 | 실패 시 |
+|---|------|-----------|---------|
+| ① | `/health` | 정상 응답, admin_key_set | exit 1 |
+| ② | `/reports/latest` | 신규 VOL.N, 5종목 일치 | exit 1 |
+| ③ | `/archive` | 각 VOL 1건씩, 중복 없음 | exit 1 |
+| ④ | `/archive/N-1` | ARCHIVED 상태 | exit 1 |
+| ⑤ | `/stocks/{TICKER}` | 종목 상세 응답 (첫 번째 종목) | exit 1 |
+| ⑥ | `/admin/review-tasks` | HTTP 403 | exit 1 |
+| ⑦ | `/chart/{TICKER}` × 5개 | HTTP 200, `series > 0` | exit 1 |
+
+**프론트엔드 Vercel 검증 (⑧):**
+
+| # | 체크 URL | 기대 결과 | 실패 시 |
+|---|----------|-----------|---------|
+| ⑧-1 | `Vercel /` | HTTP 200 | exit 1 |
+| ⑧-2 | `Vercel /archive` | HTTP 200 | exit 1 |
+| ⑧-3 | `Vercel /report/{report_item_id}?report_id=...` × 5개 | HTTP 200 | exit 1 |
+
+- 종목 상세 URL은 `edition_latest.json`의 `report_item_id` + `report_id` 기반으로 자동 생성
+- HTTP 200 이 아닌 모든 응답(404 포함)은 FAIL
+- **404가 떴을 때**: Vercel SSR 캐시 지연일 수 있음 → 3~5분 후 재실행 권장
+
+출력 예시:
+```
+  ─────────────────────────────────────────────
+  [백엔드 Railway]
+  ─────────────────────────────────────────────
+  [v] [OK  ]  /health                            build=xxx  admin_key_set=True
+  [v] [OK  ]  /chart/NXPW                        HTTP 200  series=52
+  [x] [FAIL]  /chart/STRL                        HTTP 500
+
+  ─────────────────────────────────────────────
+  [프론트엔드 Vercel]
+  ─────────────────────────────────────────────
+  [v] [OK  ]  Vercel /                           HTTP 200
+  [v] [OK  ]  Vercel /archive                    HTTP 200
+  [v] [OK  ]  Vercel /report/ri_20260317_003_NXPW  HTTP 200
+  [x] [FAIL]  Vercel /report/ri_20260317_003_STRL  HTTP 404  ← 상세 페이지 없음
+
+  =========================================
+  결과: 10/12 통과  실패 백엔드 1건 / 프론트엔드 1건 -- 위 항목 확인
+  =========================================
+```
+
+추가 옵션:
+```cmd
+REM Vercel URL 직접 지정
+python scripts\publish_release.py verify --frontend https://weekly-suggest.vercel.app
+
+REM Vercel 검증 생략 (Railway만 검사)
+python scripts\publish_release.py verify --skip-frontend
+
+REM API URL 직접 지정
+python scripts\publish_release.py verify --api https://weeklysuggest-production.up.railway.app
+```
+
+> **수동 검증 항목 (스크립트 미포함)**
 >
 > | 체크 | 기대 결과 |
 > |------|-----------|
-> | `/chart/{TICKER}?period_days=365` (5개 각각) | HTTP 200, `price_series.length > 0` |
 > | `/reports/latest` → stocks[*].selection_type | `GROWTH_TRAJECTORY` 3개, `UNDERVALUED` 2개 |
-> | Vercel 종목 상세 5페이지 | HTTP 200 (404 아닌지) |
-
-API URL 직접 지정 (기본값과 다를 경우):
-```cmd
-python scripts\publish_release.py verify --api https://weeklysuggest-production.up.railway.app
-```
 
 ---
 

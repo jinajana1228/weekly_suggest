@@ -1,0 +1,182 @@
+name: Biweekly Publish Preparation (D-1)
+
+# 격주 일요일 KST 자정 = UTC 일요일 15:00 에 자동 실행.
+# 짝수 ISO 주만 실행 (홀수 주는 step 에서 early-exit).
+# workflow_dispatch 로 수동 트리거 가능.
+
+on:
+  schedule:
+    - cron: '0 15 * * 0'   # 매주 일요일 UTC 15:00 = KST 월요일 00:00
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: '데이터 제공자 (mock / fmp / yfinance / hybrid)'
+        required: false
+        default: 'mock'
+      dry_run:
+        description: 'dry-run -- 파일 변경 없이 검증만'
+        required: false
+        default: 'false'
+        type: boolean
+      context_note:
+        description: '이번 에디션 시황 요약 (preflight 용, 선택)'
+        required: false
+        default: ''
+      force_run:
+        description: '짝수/홀수 주 체크 무시하고 강제 실행'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  prepare:
+    name: D-1 Auto Preparation
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. 격주 체크 (짝수 ISO 주만 실행) ─────────────────
+      - name: Check publication week
+        id: week_check
+        run: |
+          WEEK=$(date +%V)
+          FORCE="${{ github.event.inputs.force_run || 'false' }}"
+          if [ "$FORCE" = "true" ]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "강제 실행 모드 (week $WEEK)"
+          elif (( 10#$WEEK % 2 == 0 )); then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "발행 주 (짝수 week $WEEK) -- 준비 실행"
+          else
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "비발행 주 (홀수 week $WEEK) -- 건너뜀"
+          fi
+
+      # ── 2. Checkout ────────────────────────────────────────
+      - name: Checkout repository
+        if: steps.week_check.outputs.skip != 'true'
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 3. Python 설정 ────────────────────────────────────
+      - name: Set up Python 3.11
+        if: steps.week_check.outputs.skip != 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: 'backend/requirements.txt'
+
+      # ── 4. 의존성 설치 ────────────────────────────────────
+      - name: Install backend dependencies
+        if: steps.week_check.outputs.skip != 'true'
+        run: pip install -r backend/requirements.txt
+
+      # ── 5. D-1 자동 준비 실행 ─────────────────────────────
+      - name: Run biweekly preparation
+        if: steps.week_check.outputs.skip != 'true'
+        id: prep
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          DATA_PROVIDER_MODE: ${{ github.event.inputs.provider || 'mock' }}
+        run: |
+          PROVIDER="${{ github.event.inputs.provider || 'mock' }}"
+          DRY="${{ github.event.inputs.dry_run || 'false' }}"
+
+          CMD="python scripts/biweekly_prep.py --provider $PROVIDER"
+          [ "$DRY" = "true" ] && CMD="$CMD --dry-run"
+
+          CONTEXT="${{ github.event.inputs.context_note }}"
+          [ -n "$CONTEXT" ] && CMD="$CMD --context-note '$CONTEXT'"
+
+          eval $CMD
+
+      # ── 6. 변경된 staging 파일을 prep 브랜치에 push ───────
+      - name: Commit staging files to prep branch
+        if: >
+          steps.week_check.outputs.skip != 'true' &&
+          github.event.inputs.dry_run != 'true'
+        id: commit
+        run: |
+          git config user.name  "weekly-suggest-bot"
+          git config user.email "bot@weekly-suggest.local"
+
+          BRANCH="prep/biweekly-$(date +%Y%m%d)"
+          git checkout -b "$BRANCH" 2>/dev/null || git checkout "$BRANCH"
+
+          git add data/staging/ 2>/dev/null || true
+          git add data/prep_report_*.json 2>/dev/null || true
+
+          if git diff --staged --quiet; then
+            echo "변경 파일 없음 -- 커밋 생략"
+            echo "branch=" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "auto: D-1 biweekly prep $(date +%Y-%m-%d) [skip ci]"
+            git push origin "$BRANCH" --force
+            echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+            echo "staging 파일을 $BRANCH 에 push 완료"
+          fi
+
+      # ── 7. Actions summary ────────────────────────────────
+      - name: Write job summary
+        if: steps.week_check.outputs.skip != 'true'
+        run: |
+          BRANCH="${{ steps.commit.outputs.branch }}"
+
+          echo "## Weekly Suggest -- 격주 발행 D-1 준비 결과" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 항목 | 값 |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|------|----|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 실행 시각 | $(date -u '+%Y-%m-%d %H:%M UTC') |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Provider | ${{ github.event.inputs.provider || 'mock' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          python3 - <<'PY'
+import json, glob, os
+files = sorted(glob.glob('data/prep_report_*.json'))
+if not files:
+    print("리포트 파일 없음")
+else:
+    with open(files[-1], encoding='utf-8') as f:
+        r = json.load(f)
+    print("| 단계 | 상태 |")
+    print("|------|------|")
+    icons = {'OK': 'OK', 'SKIPPED': 'SKIP', 'WARN': 'WARN', 'FAILED': 'FAIL'}
+    for s in r.get('steps', []):
+        label = icons.get(s['status'], s['status'])
+        print(f"| {s['step']} | {label} |")
+    print()
+    print(f"**전체 결과: {r.get('overall', '')}**")
+PY
+          >> "$GITHUB_STEP_SUMMARY"
+
+          if [ -n "$BRANCH" ]; then
+            {
+              echo ""
+              echo "### 운영자 다음 단계"
+              echo ""
+              echo "branch: \`$BRANCH\`"
+              echo ""
+              printf '```\n'
+              echo "git pull && git checkout $BRANCH"
+              echo ""
+              echo "python scripts/publish_release.py review --show"
+              echo "python scripts/publish_release.py review --approve-all --reviewer 편집자명"
+              echo "python scripts/publish_release.py preflight --strict --context-note 시황요약"
+              echo "python scripts/publish_release.py prepare --stocks-dir data/staging --context-note 시황요약"
+              echo "python scripts/publish_release.py commit"
+              echo "python scripts/publish_release.py verify"
+              printf '```\n'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # ── 8. 비발행 주 summary ──────────────────────────────
+      - name: Skip summary
+        if: steps.week_check.outputs.skip == 'true'
+        run: |
+          {
+            echo "## Weekly Suggest -- 비발행 주 (건너뜀)"
+            echo ""
+            echo "이번 주 (week $(date +%V))는 발행 주가 아닙니다."
+            echo "다음 발행 주에 자동 실행됩니다."
+          } >> "$GITHUB_STEP_SUMMARY"

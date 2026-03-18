@@ -58,11 +58,11 @@ data/mock/reports/
   stock_STRL_003.json
   stock_VCNX_003.json
   stock_DFTL_003.json
-  stock_MFGI_re002.json      ← VOL.2 종목 상세 (5개)
-  stock_RVNC_re002.json
-  stock_HLTH_re002.json
-  stock_CSTM_re002.json
-  stock_ENXT_re002.json
+  stock_MFGI_002.json        ← VOL.2 종목 상세 (5개)
+  stock_RVNC_002.json
+  stock_HLTH_002.json
+  stock_CSTM_002.json
+  stock_ENXT_002.json
 
 data/mock/chart/             ← 10개 전체 (VOL.3 차트 복구 완료 ✅)
   NXPW_price_series.json     ← VOL.3 신규 (2026-03-17 생성)

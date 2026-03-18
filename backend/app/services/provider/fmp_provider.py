@@ -104,7 +104,7 @@ class FMPDataProvider(IDataProvider):
         ratios = ratios_data[0] if isinstance(ratios_data, list) and ratios_data else {}
 
         # 필드명을 valuation/analysis 엔진이 기대하는 키로 정규화
-        return {
+        snapshot = {
             "ticker": ticker,
             "company_name": profile.get("companyName", ""),
             "sector": profile.get("sector", ""),
@@ -125,6 +125,13 @@ class FMPDataProvider(IDataProvider):
             "52w_high": profile.get("range", "").split("-")[-1].strip() if profile.get("range") else None,
             "52w_low": profile.get("range", "").split("-")[0].strip() if profile.get("range") else None,
         }
+
+        # 재무 데이터 포함 (report_builder._assemble() 이 financials 필드로 직접 사용)
+        financials = self.get_financials(ticker)
+        if financials:
+            snapshot["financials"] = financials
+
+        return snapshot
 
     def get_price_series(self, ticker: str, period_days: int) -> list[dict]:
         """FMP /v3/historical-price-full/{ticker} 주간 OHLCV 반환."""
@@ -147,6 +154,90 @@ class FMPDataProvider(IDataProvider):
             }
             for item in reversed(historical)  # 오래된 순으로 정렬
         ]
+
+    def get_financials(self, ticker: str) -> Optional[dict]:
+        """
+        FMP /v3/income-statement + /v3/key-metrics-ttm 로 재무 요약 반환.
+
+        report_builder._assemble() 의 financials 필드 구조에 맞춤:
+          revenue_ttm_b, revenue_growth_yoy_pct, operating_income_ttm_b,
+          operating_margin_pct, net_income_ttm_b, eps_ttm, eps_fwd_consensus,
+          eps_revision_trend, fcf_ttm_b, net_debt_b, net_debt_to_ebitda,
+          interest_coverage_ratio, roe_pct
+        """
+        def _dv(v, status="CONFIRMED"):
+            return {"value": v, "status": status if v is not None else "UNAVAILABLE"}
+
+        # 소득계산서 최근 2기 (YoY 성장률 계산용)
+        income_data = self._get(f"/v3/income-statement/{ticker}", limit=2)
+        rows = income_data if isinstance(income_data, list) else []
+        curr = rows[0] if rows else {}
+        prev = rows[1] if len(rows) > 1 else {}
+
+        # TTM 지표 (ROE, FCF yield, D/E 등)
+        metrics_data = self._get(f"/v3/key-metrics-ttm/{ticker}")
+        m = metrics_data[0] if isinstance(metrics_data, list) and metrics_data else {}
+
+        # ── 수익 ────────────────────────────────────────────────
+        rev_curr = curr.get("revenue")
+        rev_prev = prev.get("revenue")
+        rev_b    = round(rev_curr / 1e9, 2) if rev_curr else None
+
+        rev_growth = None
+        if rev_curr and rev_prev and rev_prev != 0:
+            rev_growth = round((rev_curr - rev_prev) / abs(rev_prev) * 100, 1)
+
+        op_inc = curr.get("operatingIncome")
+        op_inc_b = round(op_inc / 1e9, 4) if op_inc else None
+        op_margin = (
+            round(curr.get("operatingIncomeRatio", 0) * 100, 1)
+            if curr.get("operatingIncomeRatio") is not None else None
+        )
+
+        net_inc = curr.get("netIncome")
+        net_inc_b = round(net_inc / 1e9, 4) if net_inc else None
+
+        eps = curr.get("eps")
+
+        # ── EPS 컨센서스 (key-metrics-ttm에 없으므로 UNAVAILABLE) ──
+        eps_fwd = None
+
+        # ── FCF (key-metrics-ttm의 freeCashFlowPerShareTTM * 주식 수로 근사) ──
+        fcf_ps   = m.get("freeCashFlowPerShareTTM")
+        shares   = m.get("weightedAverageSharesOutTTM") or curr.get("weightedAverageShsOut")
+        fcf_b    = round(fcf_ps * shares / 1e9, 4) if (fcf_ps and shares) else None
+
+        # ── 부채 지표 ────────────────────────────────────────────
+        net_debt_b = None
+        cash = curr.get("cashAndCashEquivalents") or curr.get("netCashProvidedByOperatingActivities")
+        total_debt = curr.get("totalDebt") or curr.get("longTermDebt")
+        if cash is not None and total_debt is not None:
+            net_debt_b = round((total_debt - cash) / 1e9, 4)
+
+        nd_ebitda = m.get("netDebtToEBITDATTM")
+        int_cov   = m.get("interestCoverageTTM")
+        roe       = round(m.get("roeTTM") * 100, 1) if m.get("roeTTM") is not None else None
+
+        if not curr and not m:
+            return None
+
+        return {
+            "status": "CONFIRMED",
+            "fiscal_year": str(curr.get("calendarYear", ""))[:4] or "N/A",
+            "revenue_ttm_b":           _dv(rev_b),
+            "revenue_growth_yoy_pct":  _dv(rev_growth),
+            "operating_income_ttm_b":  _dv(op_inc_b),
+            "operating_margin_pct":    _dv(op_margin),
+            "net_income_ttm_b":        _dv(net_inc_b),
+            "eps_ttm":                 _dv(eps),
+            "eps_fwd_consensus":       _dv(eps_fwd, "UNAVAILABLE"),
+            "eps_revision_trend":      "NEUTRAL",
+            "fcf_ttm_b":               _dv(fcf_b),
+            "net_debt_b":              _dv(net_debt_b),
+            "net_debt_to_ebitda":      _dv(nd_ebitda),
+            "interest_coverage_ratio": _dv(int_cov),
+            "roe_pct":                 _dv(roe),
+        }
 
     def get_consensus_data(self, ticker: str) -> Optional[dict]:
         """FMP /v4/price-target-consensus 기반 컨센서스 데이터."""

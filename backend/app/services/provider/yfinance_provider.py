@@ -29,16 +29,113 @@ def _yf():
         )
 
 
+# ── yfinance 모드용 정적 유니버스 ──────────────────────────────
+# yfinance는 스크리너 API가 없으므로 대표 미국 주식 목록을 내장.
+# 섹터별 분산 / 시총 $2B 이상 기준으로 선별한 40개 종목.
+# 각 항목의 시총·거래량은 대략적 추정값 -- 실제값은 get_stock_snapshot 으로 보완됨.
+_YFINANCE_STATIC_UNIVERSE: list[dict] = [
+    # Industrials
+    {"ticker": "HON",  "company_name": "Honeywell International", "sector": "Industrials",
+     "market_cap_usd_b": 130.0, "avg_daily_volume_m": 2.5, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "EMR",  "company_name": "Emerson Electric", "sector": "Industrials",
+     "market_cap_usd_b": 55.0, "avg_daily_volume_m": 2.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "ITW",  "company_name": "Illinois Tool Works", "sector": "Industrials",
+     "market_cap_usd_b": 65.0, "avg_daily_volume_m": 1.2, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "GWW",  "company_name": "W.W. Grainger", "sector": "Industrials",
+     "market_cap_usd_b": 43.0, "avg_daily_volume_m": 0.3, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Financials
+    {"ticker": "USB",  "company_name": "U.S. Bancorp", "sector": "Financials",
+     "market_cap_usd_b": 65.0, "avg_daily_volume_m": 6.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "TFC",  "company_name": "Truist Financial", "sector": "Financials",
+     "market_cap_usd_b": 50.0, "avg_daily_volume_m": 8.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "CFG",  "company_name": "Citizens Financial Group", "sector": "Financials",
+     "market_cap_usd_b": 16.0, "avg_daily_volume_m": 4.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "HBAN", "company_name": "Huntington Bancshares", "sector": "Financials",
+     "market_cap_usd_b": 18.0, "avg_daily_volume_m": 9.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Health Care
+    {"ticker": "CVS",  "company_name": "CVS Health", "sector": "Health Care",
+     "market_cap_usd_b": 75.0, "avg_daily_volume_m": 7.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "HCA",  "company_name": "HCA Healthcare", "sector": "Health Care",
+     "market_cap_usd_b": 70.0, "avg_daily_volume_m": 1.2, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "MCK",  "company_name": "McKesson Corporation", "sector": "Health Care",
+     "market_cap_usd_b": 60.0, "avg_daily_volume_m": 0.7, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "CI",   "company_name": "Cigna Group", "sector": "Health Care",
+     "market_cap_usd_b": 80.0, "avg_daily_volume_m": 1.5, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Consumer Staples
+    {"ticker": "KO",   "company_name": "Coca-Cola", "sector": "Consumer Staples",
+     "market_cap_usd_b": 260.0, "avg_daily_volume_m": 13.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "PEP",  "company_name": "PepsiCo", "sector": "Consumer Staples",
+     "market_cap_usd_b": 220.0, "avg_daily_volume_m": 4.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "MO",   "company_name": "Altria Group", "sector": "Consumer Staples",
+     "market_cap_usd_b": 90.0, "avg_daily_volume_m": 8.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "KHC",  "company_name": "Kraft Heinz", "sector": "Consumer Staples",
+     "market_cap_usd_b": 30.0, "avg_daily_volume_m": 7.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Energy
+    {"ticker": "VLO",  "company_name": "Valero Energy", "sector": "Energy",
+     "market_cap_usd_b": 44.0, "avg_daily_volume_m": 3.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "PSX",  "company_name": "Phillips 66", "sector": "Energy",
+     "market_cap_usd_b": 50.0, "avg_daily_volume_m": 3.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "MPC",  "company_name": "Marathon Petroleum", "sector": "Energy",
+     "market_cap_usd_b": 56.0, "avg_daily_volume_m": 3.5, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "OKE",  "company_name": "ONEOK Inc.", "sector": "Energy",
+     "market_cap_usd_b": 45.0, "avg_daily_volume_m": 3.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Information Technology
+    {"ticker": "CSCO", "company_name": "Cisco Systems", "sector": "Information Technology",
+     "market_cap_usd_b": 200.0, "avg_daily_volume_m": 15.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "HPQ",  "company_name": "HP Inc.", "sector": "Information Technology",
+     "market_cap_usd_b": 32.0, "avg_daily_volume_m": 7.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "INTC", "company_name": "Intel Corporation", "sector": "Information Technology",
+     "market_cap_usd_b": 100.0, "avg_daily_volume_m": 40.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "IBM",  "company_name": "IBM", "sector": "Information Technology",
+     "market_cap_usd_b": 160.0, "avg_daily_volume_m": 3.5, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Communication Services
+    {"ticker": "VZ",   "company_name": "Verizon Communications", "sector": "Communication Services",
+     "market_cap_usd_b": 175.0, "avg_daily_volume_m": 18.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "T",    "company_name": "AT&T Inc.", "sector": "Communication Services",
+     "market_cap_usd_b": 140.0, "avg_daily_volume_m": 35.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "PARA", "company_name": "Paramount Global", "sector": "Communication Services",
+     "market_cap_usd_b": 8.0, "avg_daily_volume_m": 9.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Consumer Discretionary
+    {"ticker": "F",    "company_name": "Ford Motor Company", "sector": "Consumer Discretionary",
+     "market_cap_usd_b": 45.0, "avg_daily_volume_m": 50.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "GM",   "company_name": "General Motors", "sector": "Consumer Discretionary",
+     "market_cap_usd_b": 47.0, "avg_daily_volume_m": 20.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "LKQ",  "company_name": "LKQ Corporation", "sector": "Consumer Discretionary",
+     "market_cap_usd_b": 9.0, "avg_daily_volume_m": 1.5, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Materials
+    {"ticker": "LYB",  "company_name": "LyondellBasell Industries", "sector": "Materials",
+     "market_cap_usd_b": 25.0, "avg_daily_volume_m": 2.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "MOS",  "company_name": "The Mosaic Company", "sector": "Materials",
+     "market_cap_usd_b": 8.0, "avg_daily_volume_m": 4.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Utilities
+    {"ticker": "SO",   "company_name": "Southern Company", "sector": "Utilities",
+     "market_cap_usd_b": 75.0, "avg_daily_volume_m": 4.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "PCG",  "company_name": "PG&E Corporation", "sector": "Utilities",
+     "market_cap_usd_b": 35.0, "avg_daily_volume_m": 8.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    # Real Estate
+    {"ticker": "VNO",  "company_name": "Vornado Realty Trust", "sector": "Real Estate",
+     "market_cap_usd_b": 6.0, "avg_daily_volume_m": 2.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+    {"ticker": "SLG",  "company_name": "SL Green Realty", "sector": "Real Estate",
+     "market_cap_usd_b": 3.0, "avg_daily_volume_m": 1.0, "has_operating_income": True, "is_adr": False, "in_bankruptcy": False},
+]
+
+
 class YFinanceDataProvider(IDataProvider):
     """yfinance 라이브러리 기반 실데이터 제공자 (가격 중심)."""
 
     def get_universe_candidates(self, filters: dict) -> list[dict]:
         """
-        yfinance는 유니버스 스크리닝을 지원하지 않습니다.
-        실제 사용 시 별도 유니버스 리스트(CSV 등)와 조합해야 합니다.
+        yfinance는 스크리너 API가 없으므로 내장 정적 유니버스 반환.
+        각 후보의 시총/거래량은 추정값이며, pipeline._enrich_candidate_for_scoring()
+        에서 get_stock_snapshot() 호출로 실제값으로 보완된다.
         """
-        logger.warning("YFinanceDataProvider.get_universe_candidates() — 지원 안 됨, 빈 리스트 반환")
-        return []
+        min_cap = filters.get("min_market_cap_usd_b", 2.0)
+        candidates = [
+            c for c in _YFINANCE_STATIC_UNIVERSE
+            if c["market_cap_usd_b"] >= min_cap
+        ]
+        logger.info("YFinance 정적 유니버스: %d개 후보 (시총 $%.1fB 이상)", len(candidates), min_cap)
+        return candidates
 
     def get_stock_snapshot(self, ticker: str) -> Optional[dict]:
         """yfinance Ticker.info로 기본 스냅샷 반환."""

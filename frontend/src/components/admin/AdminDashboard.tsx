@@ -31,6 +31,85 @@ async function adminFetch<T>(
   return json.data;
 }
 
+// ── Staging 타입 ─────────────────────────────────────────────
+
+type NarrativeStatus = "APPROVED" | "DRAFT" | "PLACEHOLDER" | "MISSING";
+
+type StagingTicker = {
+  ticker:                  string;
+  file:                    string;
+  reviewer_approved:       boolean;
+  reviewed_by:             string | null;
+  reviewed_at:             string | null;
+  publication_meta_status: string;
+  narrative_blocks:        Record<string, NarrativeStatus>;
+  all_approved:            boolean;
+  model_id:                string;
+};
+
+type StagingStatus = {
+  staging_dir_exists: boolean;
+  draft_count:        number;
+  ready_count:        number;
+  tickers:            StagingTicker[];
+};
+
+type NarrativeBlock = {
+  content: string;
+  status:  NarrativeStatus;
+};
+
+// ── Preflight 타입 ───────────────────────────────────────────
+
+type CheckStatus = "OK" | "WARN" | "ERROR";
+
+type PreflightCheck = {
+  id:     string;
+  label:  string;
+  status: CheckStatus;
+  detail: string;
+};
+
+type PreflightTicker = {
+  ticker:  string;
+  overall: CheckStatus;
+  checks:  PreflightCheck[];
+};
+
+type PreflightResult = {
+  staging_dir_exists: boolean;
+  checked_at:         string;
+  summary: {
+    total:       number;
+    ok_count:    number;
+    warn_count:  number;
+    error_count: number;
+    publishable: boolean;
+  };
+  tickers: PreflightTicker[];
+};
+
+type NarrativeData = {
+  ticker:            string;
+  blocks:            Record<string, NarrativeBlock>;
+  reviewer_approved: boolean;
+  model_id:          string;
+};
+
+const BLOCK_LABELS: Record<string, string> = {
+  why_discounted:       "할인 원인",
+  why_worth_revisiting: "재방문 근거",
+  key_risks_narrative:  "핵심 리스크",
+  investment_context:   "투자 맥락",
+};
+
+const NARRATIVE_STATUS_STYLE: Record<string, string> = {
+  APPROVED:    "text-accent-green bg-green-950 border-green-900",
+  DRAFT:       "text-yellow-500 bg-yellow-950/60 border-yellow-900",
+  PLACEHOLDER: "text-accent-red bg-red-950 border-red-900",
+  MISSING:     "text-text-muted bg-bg-overlay border-border-default",
+};
+
 // ── 상태 스타일 ───────────────────────────────────────────────
 
 const ITEM_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
@@ -254,6 +333,12 @@ export function AdminDashboard() {
       {isPending && (
         <div className="mb-4 text-xs text-text-muted">처리 중...</div>
       )}
+
+      {/* 발행 준비 상태 (Staging) */}
+      <StagingDraftPanel adminKey={adminKey} />
+
+      {/* Preflight 점검 패널 */}
+      <PreflightPanel adminKey={adminKey} />
 
       {/* 태스크 목록 */}
       {tasks.length === 0 ? (
@@ -493,6 +578,507 @@ function DecisionResult({
           <span className="text-text-muted">— {decision.reason}</span>
         )}
       </div>
+    </div>
+  );
+}
+
+// ── StagingDraftPanel ─────────────────────────────────────────
+
+function StagingDraftPanel({ adminKey }: { adminKey: string }) {
+  const [status,   setStatus]   = useState<StagingStatus | null>(null);
+  const [loading,  setLoading]  = useState(false);
+  const [error,    setError]    = useState<string | null>(null);
+  const [approving, setApproving] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (adminKey) loadStatus(adminKey);
+  }, [adminKey]);
+
+  async function loadStatus(key: string) {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await adminFetch<StagingStatus>("/admin/staging/review-status", key);
+      setStatus(data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleApprove(ticker: string) {
+    setApproving(ticker);
+    setError(null);
+    try {
+      await adminFetch(`/admin/staging/${ticker}/approve-narrative`, adminKey, { method: "POST" });
+      await loadStatus(adminKey);
+    } catch (e) {
+      setError(`${ticker} 승인 실패: ${e instanceof Error ? e.message : String(e)}`);
+    } finally {
+      setApproving(null);
+    }
+  }
+
+  if (loading && !status) {
+    return (
+      <div className="mb-6 bg-bg-surface border border-border-default rounded-lg px-5 py-4">
+        <p className="text-xs text-text-muted">발행 준비 상태 로딩 중...</p>
+      </div>
+    );
+  }
+
+  if (!status || !status.staging_dir_exists || status.draft_count === 0) {
+    return (
+      <div className="mb-6 bg-bg-surface border border-border-default rounded-lg px-5 py-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-sm font-semibold text-text-secondary">발행 준비 (Staging)</h2>
+            <p className="text-xs text-text-muted mt-1">
+              draft 없음 — <code className="font-mono text-text-secondary text-[10px]">screen</code> 실행 후 확인하세요
+            </p>
+          </div>
+          <button
+            onClick={() => loadStatus(adminKey)}
+            disabled={loading}
+            className="text-[10px] text-text-muted border border-border-default rounded px-2 py-1 hover:border-zinc-600 hover:text-text-secondary transition-colors disabled:opacity-40"
+          >
+            새로고침
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const allReady     = status.ready_count === status.draft_count;
+  const readyColor   = allReady
+    ? "text-accent-green border-green-900"
+    : status.ready_count > 0
+    ? "text-accent-gold border-yellow-900"
+    : "text-text-muted border-border-default";
+
+  return (
+    <div className="mb-6 bg-bg-surface border border-border-default rounded-lg overflow-hidden">
+      {/* 헤더 */}
+      <div className="px-5 py-3 border-b border-border-default bg-bg-overlay flex items-center justify-between">
+        <div>
+          <h2 className="text-sm font-semibold text-text-secondary">발행 준비 (Staging)</h2>
+          <p className="text-[10px] text-text-muted mt-0.5">
+            발행 가능 기준: 4개 narrative 블록 모두 APPROVED
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className={`text-xs font-mono font-bold border rounded px-2 py-0.5 ${readyColor}`}>
+            {status.ready_count}/{status.draft_count} 준비됨
+          </span>
+          <button
+            onClick={() => loadStatus(adminKey)}
+            disabled={loading}
+            className="text-[10px] text-text-muted border border-border-default rounded px-2 py-1 hover:border-zinc-600 hover:text-text-secondary transition-colors disabled:opacity-40"
+          >
+            새로고침
+          </button>
+        </div>
+      </div>
+
+      {/* 에러 */}
+      {error && (
+        <div className="mx-5 mt-3 px-3 py-2 bg-red-950/40 border border-red-900 rounded text-xs text-accent-red">
+          {error}
+        </div>
+      )}
+
+      {/* 종목별 카드 */}
+      <div className="px-5 py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          {status.tickers.map((t) => (
+            <StagingTickerCard
+              key={t.ticker}
+              ticker={t}
+              adminKey={adminKey}
+              onApprove={handleApprove}
+              approving={approving === t.ticker}
+              onRefresh={() => loadStatus(adminKey)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* 하단 상태 */}
+      <div className={`px-5 py-3 border-t border-border-default ${allReady ? "bg-green-950/20" : "bg-bg-overlay"}`}>
+        {allReady ? (
+          <p className="text-xs text-accent-green">
+            모든 종목 narrative 검토 완료 — preflight 후 prepare 실행 가능
+          </p>
+        ) : (
+          <p className="text-xs text-text-muted">
+            {status.draft_count - status.ready_count}개 종목 검토 미완.
+            {" "}각 종목 카드의 승인 버튼 또는 CLI:{" "}
+            <code className="font-mono text-text-secondary text-[10px]">
+              review --approve-all
+            </code>
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── StagingTickerCard ─────────────────────────────────────────
+
+function StagingTickerCard({
+  ticker: t,
+  adminKey,
+  onApprove,
+  approving,
+  onRefresh,
+}: {
+  ticker:    StagingTicker;
+  adminKey:  string;
+  onApprove: (ticker: string) => void;
+  approving: boolean;
+  onRefresh: () => void;
+}) {
+  const BLOCKS = [
+    "why_discounted", "why_worth_revisiting",
+    "key_risks_narrative", "investment_context",
+  ] as const;
+
+  const [expanded,        setExpanded]        = useState(false);
+  const [narrative,       setNarrative]       = useState<NarrativeData | null>(null);
+  const [localEdits,      setLocalEdits]      = useState<Record<string, string>>({});
+  const [loadingNarrative,setLoadingNarrative]= useState(false);
+  const [savingBlock,     setSavingBlock]     = useState<string | null>(null);
+  const [saveError,       setSaveError]       = useState<string | null>(null);
+
+  async function loadNarrative() {
+    setLoadingNarrative(true);
+    setSaveError(null);
+    try {
+      const data = await adminFetch<NarrativeData>(
+        `/admin/staging/${t.ticker}/narrative`, adminKey,
+      );
+      setNarrative(data);
+      const edits: Record<string, string> = {};
+      BLOCKS.forEach((blk) => { edits[blk] = data.blocks[blk]?.content ?? ""; });
+      setLocalEdits(edits);
+    } catch (e) {
+      setSaveError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoadingNarrative(false);
+    }
+  }
+
+  function handleToggleExpand() {
+    if (!expanded && !narrative) loadNarrative();
+    setExpanded((prev) => !prev);
+  }
+
+  async function handleSave(blockKey: string, approve: boolean) {
+    const saveKey = blockKey + (approve ? "_approve" : "");
+    setSavingBlock(saveKey);
+    setSaveError(null);
+    try {
+      await adminFetch(
+        `/admin/staging/${t.ticker}/narrative`,
+        adminKey,
+        { method: "PATCH", body: JSON.stringify({ block: blockKey, content: localEdits[blockKey] ?? "", approve }) },
+      );
+      await loadNarrative();
+      onRefresh();
+    } catch (e) {
+      setSaveError(`저장 실패: ${e instanceof Error ? e.message : String(e)}`);
+    } finally {
+      setSavingBlock(null);
+    }
+  }
+
+  return (
+    <div className={`bg-bg-overlay border rounded-lg overflow-hidden ${t.all_approved ? "border-green-900" : "border-border-default"}`}>
+      {/* 종목 헤더 — 클릭으로 편집 패널 토글 */}
+      <div
+        className="flex items-center justify-between p-3 cursor-pointer hover:bg-bg-surface transition-colors"
+        onClick={handleToggleExpand}
+      >
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-sm font-bold text-text-primary">{t.ticker}</span>
+          <span className={`text-[10px] border rounded px-1.5 py-0.5 font-medium ${
+            t.all_approved
+              ? "text-accent-green border-green-900 bg-green-950"
+              : "text-yellow-500 border-yellow-900 bg-yellow-950/60"
+          }`}>
+            {t.all_approved ? "검토완료" : "검토중"}
+          </span>
+        </div>
+        <span className="text-[10px] text-text-muted select-none">{expanded ? "▲" : "▼ 편집"}</span>
+      </div>
+
+      {/* narrative 블록 상태 요약 */}
+      <div className="px-3 pb-2 space-y-1">
+        {BLOCKS.map((blk) => {
+          const s = (t.narrative_blocks[blk] || "MISSING") as NarrativeStatus;
+          return (
+            <div key={blk} className="flex items-center justify-between gap-2">
+              <span className="text-[10px] text-text-muted truncate">{BLOCK_LABELS[blk]}</span>
+              <span className={`text-[9px] border rounded px-1 py-0.5 shrink-0 ${NARRATIVE_STATUS_STYLE[s] ?? NARRATIVE_STATUS_STYLE.MISSING}`}>
+                {s}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 검토자 정보 */}
+      <div className="px-3 pb-2 text-[10px] text-text-muted">
+        {t.reviewed_by
+          ? <span className="text-text-secondary">검토: {t.reviewed_by}</span>
+          : <span>검토자 미지정</span>
+        }
+        {t.model_id === "rule-based-v1" && (
+          <span className="ml-2 opacity-60">[rule-based]</span>
+        )}
+      </div>
+
+      {/* 인라인 편집 패널 */}
+      {expanded && (
+        <div className="border-t border-border-default px-3 py-3 space-y-4">
+          {loadingNarrative && (
+            <p className="text-xs text-text-muted">로딩 중...</p>
+          )}
+          {saveError && (
+            <div className="px-3 py-2 bg-red-950/40 border border-red-900 rounded text-xs text-accent-red">
+              {saveError}
+            </div>
+          )}
+          {narrative && BLOCKS.map((blk) => {
+            const blockStatus = narrative.blocks[blk]?.status ?? "MISSING";
+            const isSavingThis    = savingBlock === blk;
+            const isApprovingThis = savingBlock === blk + "_approve";
+            return (
+              <div key={blk} className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] text-text-secondary font-medium">{BLOCK_LABELS[blk]}</span>
+                  <span className={`text-[9px] border rounded px-1 py-0.5 ${NARRATIVE_STATUS_STYLE[blockStatus] ?? NARRATIVE_STATUS_STYLE.MISSING}`}>
+                    {blockStatus}
+                  </span>
+                </div>
+                <textarea
+                  value={localEdits[blk] ?? ""}
+                  onChange={(e) => setLocalEdits((prev) => ({ ...prev, [blk]: e.target.value }))}
+                  rows={4}
+                  className="w-full bg-bg-surface border border-border-default rounded px-2 py-1.5 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-zinc-500 resize-y font-mono leading-relaxed"
+                />
+                <div className="flex gap-1.5 justify-end">
+                  <button
+                    disabled={!!savingBlock}
+                    onClick={() => handleSave(blk, false)}
+                    className="text-[10px] px-2.5 py-1 rounded border border-border-default text-text-muted hover:border-zinc-600 hover:text-text-secondary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {isSavingThis ? "저장 중..." : "저장"}
+                  </button>
+                  <button
+                    disabled={!!savingBlock}
+                    onClick={() => handleSave(blk, true)}
+                    className="text-[10px] px-2.5 py-1 rounded border border-green-900 text-accent-green hover:bg-green-950 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {isApprovingThis ? "처리 중..." : "저장 + 승인"}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* 전체 승인 버튼 */}
+      {!t.all_approved && (
+        <div className="px-3 pb-3">
+          <button
+            onClick={() => onApprove(t.ticker)}
+            disabled={approving}
+            className="w-full text-[10px] py-1 rounded border border-green-900 text-accent-green hover:bg-green-950 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {approving ? "처리 중..." : "narrative 전체 승인"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── PreflightPanel ────────────────────────────────────────────
+
+const CHECK_STATUS_STYLE: Record<CheckStatus, string> = {
+  OK:    "text-accent-green border-green-900 bg-green-950",
+  WARN:  "text-accent-gold border-yellow-900 bg-yellow-950/60",
+  ERROR: "text-accent-red border-red-900 bg-red-950",
+};
+
+const CHECK_STATUS_DOT: Record<CheckStatus, string> = {
+  OK:    "bg-accent-green",
+  WARN:  "bg-accent-gold",
+  ERROR: "bg-accent-red",
+};
+
+function PreflightPanel({ adminKey }: { adminKey: string }) {
+  const [result,  setResult]  = useState<PreflightResult | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error,   setError]   = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  async function runPreflight() {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await adminFetch<PreflightResult>("/admin/staging/preflight", adminKey);
+      setResult(data);
+      setExpanded({});
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function toggleTicker(ticker: string) {
+    setExpanded((prev) => ({ ...prev, [ticker]: !prev[ticker] }));
+  }
+
+  return (
+    <div className="mb-6 bg-bg-surface border border-border-default rounded-lg overflow-hidden">
+      {/* 헤더 */}
+      <div className="px-5 py-3 border-b border-border-default bg-bg-overlay flex items-center justify-between">
+        <div>
+          <h2 className="text-sm font-semibold text-text-secondary">Preflight 점검</h2>
+          <p className="text-[10px] text-text-muted mt-0.5">
+            차트 파일 · Narrative · 선정 유형 · 미완성 마커 검사
+          </p>
+        </div>
+        <button
+          onClick={runPreflight}
+          disabled={loading}
+          className="text-[10px] px-3 py-1.5 rounded border border-accent-gold/50 text-accent-gold hover:bg-yellow-950/30 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {loading ? "점검 중..." : "점검 실행"}
+        </button>
+      </div>
+
+      {/* 에러 */}
+      {error && (
+        <div className="mx-5 mt-3 px-3 py-2 bg-red-950/40 border border-red-900 rounded text-xs text-accent-red">
+          {error}
+        </div>
+      )}
+
+      {/* 미실행 상태 */}
+      {!result && !loading && !error && (
+        <div className="px-5 py-6 text-center">
+          <p className="text-xs text-text-muted">
+            "점검 실행" 버튼을 눌러 발행 전 상태를 확인하세요.
+          </p>
+        </div>
+      )}
+
+      {/* 로딩 */}
+      {loading && (
+        <div className="px-5 py-6 text-center">
+          <p className="text-xs text-text-muted">staging 파일 점검 중...</p>
+        </div>
+      )}
+
+      {/* 결과 */}
+      {result && !loading && (
+        <>
+          {/* staging 없음 */}
+          {!result.staging_dir_exists || result.tickers.length === 0 ? (
+            <div className="px-5 py-4 text-xs text-text-muted">
+              staging 파일 없음 — <code className="font-mono text-[10px] text-text-secondary">screen</code> 실행 후 재점검하세요.
+            </div>
+          ) : (
+            <>
+              {/* 요약 바 */}
+              <div className={`px-5 py-3 border-b border-border-default flex items-center justify-between gap-4 ${
+                result.summary.publishable ? "bg-green-950/20" : "bg-red-950/10"
+              }`}>
+                <div className="flex items-center gap-2">
+                  <span className={`text-xs font-semibold ${
+                    result.summary.publishable ? "text-accent-green" : "text-accent-red"
+                  }`}>
+                    {result.summary.publishable ? "발행 가능" : "발행 불가"}
+                  </span>
+                  <span className="text-[10px] text-text-muted">
+                    {result.tickers.length}개 종목
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 text-[10px]">
+                  <span className="text-accent-green">OK {result.summary.ok_count}</span>
+                  <span className="text-accent-gold">WARN {result.summary.warn_count}</span>
+                  <span className="text-accent-red">ERROR {result.summary.error_count}</span>
+                  <span className="text-text-muted border-l border-border-default pl-3">
+                    {result.checked_at.replace("T", " ").replace("Z", " UTC")}
+                  </span>
+                </div>
+              </div>
+
+              {/* 종목별 결과 */}
+              <div className="px-5 py-4 space-y-2">
+                {result.tickers.map((t) => (
+                  <div key={t.ticker} className={`border rounded-lg overflow-hidden ${
+                    t.overall === "ERROR"
+                      ? "border-red-900"
+                      : t.overall === "WARN"
+                      ? "border-yellow-900"
+                      : "border-green-900"
+                  }`}>
+                    {/* 종목 행 — 클릭으로 체크 상세 토글 */}
+                    <div
+                      className="flex items-center justify-between px-3 py-2.5 cursor-pointer hover:bg-bg-overlay transition-colors"
+                      onClick={() => toggleTicker(t.ticker)}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="font-mono text-sm font-bold text-text-primary">{t.ticker}</span>
+                        <span className={`text-[9px] border rounded px-1.5 py-0.5 font-medium ${CHECK_STATUS_STYLE[t.overall]}`}>
+                          {t.overall}
+                        </span>
+                        {/* 체크 요약 점 */}
+                        <div className="flex items-center gap-1">
+                          {t.checks.map((c) => (
+                            <span
+                              key={c.id}
+                              title={`${c.label}: ${c.detail}`}
+                              className={`w-1.5 h-1.5 rounded-full ${CHECK_STATUS_DOT[c.status]}`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <span className="text-[10px] text-text-muted select-none">
+                        {expanded[t.ticker] ? "▲" : "▼"}
+                      </span>
+                    </div>
+
+                    {/* 체크 상세 */}
+                    {expanded[t.ticker] && (
+                      <div className="border-t border-border-default bg-bg-overlay divide-y divide-border-default/50">
+                        {t.checks.map((c) => (
+                          <div key={c.id} className="flex items-start gap-3 px-3 py-2">
+                            <span className={`text-[9px] border rounded px-1.5 py-0.5 font-medium shrink-0 mt-0.5 ${CHECK_STATUS_STYLE[c.status]}`}>
+                              {c.status}
+                            </span>
+                            <div className="min-w-0">
+                              <div className="text-[10px] text-text-secondary font-medium">{c.label}</div>
+                              <div className="text-[10px] text-text-muted font-mono mt-0.5 break-all">{c.detail}</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
