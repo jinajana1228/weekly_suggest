@@ -50,15 +50,19 @@ def _transform_chart(raw: dict, period_days: int) -> dict:
         })
 
     # 4) interest range band
+    # 키 형식 호환: VOL.2는 lower_bound/upper_bound, VOL.3 초기 파일은 low/high
     irb_raw = raw.get("interest_range_band")
     irb = None
     if irb_raw:
-        irb = {
-            "lower_bound": irb_raw["lower_bound"],
-            "upper_bound": irb_raw["upper_bound"],
-            "label": irb_raw.get("label", "관심 가격 구간"),
-            "conditional_note": irb_raw.get("label", ""),
-        }
+        lower = irb_raw.get("lower_bound", irb_raw.get("low"))
+        upper = irb_raw.get("upper_bound", irb_raw.get("high"))
+        if lower is not None and upper is not None:
+            irb = {
+                "lower_bound": lower,
+                "upper_bound": upper,
+                "label": irb_raw.get("label", "관심 가격 구간"),
+                "conditional_note": irb_raw.get("label", ""),
+            }
 
     chart_as_of = series[-1]["date"] if series else raw.get("data_to", "")
 

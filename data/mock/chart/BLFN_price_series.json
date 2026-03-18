@@ -464,8 +464,9 @@
     }
   ],
   "interest_range_band": {
-    "low": 50.5,
-    "high": 58.0,
-    "color": "rgba(59,130,246,0.12)"
+    "lower_bound": 50.5,
+    "upper_bound": 58.0,
+    "label": "관심 가격 구간",
+    "color_hint": "blue"
   }
 }
