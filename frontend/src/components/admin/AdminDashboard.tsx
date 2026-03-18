@@ -340,19 +340,102 @@ export function AdminDashboard() {
       {/* Preflight 점검 패널 */}
       <PreflightPanel adminKey={adminKey} />
 
-      {/* 태스크 목록 */}
-      {tasks.length === 0 ? (
-        <div className="text-center py-16 bg-bg-surface border border-border-default rounded-lg">
-          <p className="text-text-muted text-sm">검토 대기 중인 작업 없음</p>
-        </div>
-      ) : (
+      {/* 태스크 목록 — 현재 검토 / 검토 이력 분리 */}
+      {(() => {
+        const ACTIVE_STATUSES   = ["OPEN", "IN_PROGRESS"];
+        const activeTasks    = tasks.filter((t) => ACTIVE_STATUSES.includes(t.status));
+        const historicalTasks = tasks.filter((t) => !ACTIVE_STATUSES.includes(t.status));
+
+        return (
+          <>
+            {/* 현재 검토 작업 */}
+            <div className="mb-2 flex items-center gap-2">
+              <span className="text-xs font-semibold text-text-secondary uppercase tracking-wider">검토 작업</span>
+              {activeTasks.length > 0 && (
+                <span className="text-[10px] border border-yellow-900 text-yellow-500 bg-yellow-950/40 rounded px-1.5 py-0.5">
+                  {activeTasks.length}건 진행 중
+                </span>
+              )}
+            </div>
+
+            {activeTasks.length === 0 ? (
+              <div className="mb-6 text-center py-10 bg-bg-surface border border-border-default rounded-lg">
+                <p className="text-text-muted text-sm">현재 검토 대기 중인 작업 없음</p>
+                <p className="text-text-muted text-xs mt-1">
+                  <code className="font-mono text-[10px] text-text-secondary">screen</code> 실행 후 스크리닝 결과가 이곳에 표시됩니다.
+                </p>
+              </div>
+            ) : (
+              <div className="mb-6 space-y-6">
+                {activeTasks.map((task) => (
+                  <TaskCard
+                    key={task.review_task_id}
+                    task={task}
+                    onItemStatus={handleItemStatus}
+                    onDecision={handleDecision}
+                    isPending={isPending}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* 검토 이력 */}
+            {historicalTasks.length > 0 && (
+              <HistoricalTaskSection
+                tasks={historicalTasks}
+                onItemStatus={handleItemStatus}
+                onDecision={handleDecision}
+                isPending={isPending}
+              />
+            )}
+          </>
+        );
+      })()}
+    </div>
+  );
+}
+
+// ── HistoricalTaskSection ─────────────────────────────────────
+
+function HistoricalTaskSection({
+  tasks,
+  onItemStatus,
+  onDecision,
+  isPending,
+}: {
+  tasks: ReviewTask[];
+  onItemStatus: (taskId: string, itemId: string, status: string) => void;
+  onDecision: (taskId: string, decision: "APPROVE" | "REJECT" | "HOLD") => void;
+  isPending: boolean;
+}) {
+  const [expanded, setExpanded] = useState(false);
+
+  // 최신 task(= 현재 발행본과 매칭)를 상단에 표시
+  const sorted = [...tasks].sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+  );
+
+  return (
+    <div>
+      <button
+        onClick={() => setExpanded((p) => !p)}
+        className="mb-3 flex items-center gap-2 text-xs text-text-muted hover:text-text-secondary transition-colors"
+      >
+        <span className="font-semibold uppercase tracking-wider">검토 이력</span>
+        <span className="border border-border-default rounded px-1.5 py-0.5 text-[10px]">
+          {tasks.length}건
+        </span>
+        <span className="text-[10px] select-none">{expanded ? "▲ 접기" : "▼ 펼치기"}</span>
+      </button>
+
+      {expanded && (
         <div className="space-y-6">
-          {tasks.map((task) => (
+          {sorted.map((task) => (
             <TaskCard
               key={task.review_task_id}
               task={task}
-              onItemStatus={handleItemStatus}
-              onDecision={handleDecision}
+              onItemStatus={onItemStatus}
+              onDecision={onDecision}
               isPending={isPending}
             />
           ))}
@@ -361,6 +444,7 @@ export function AdminDashboard() {
     </div>
   );
 }
+
 
 // ── TaskCard ──────────────────────────────────────────────────
 

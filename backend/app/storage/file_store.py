@@ -94,8 +94,43 @@ class FileStore:
         return self._read_json(f"chart/{ticker.upper()}_price_series.json")
 
     def get_review_tasks(self) -> list[dict]:
-        """Mock 검토 태스크 반환"""
+        """Mock 검토 태스크 반환 — 최신순 정렬.
+
+        신규 에디션 발행 시 이 목록에 새 task를 prepend한다.
+        Railway state.db는 Docker 재배포마다 초기화되므로
+        이 목록이 검토 이력의 실질적 영구 기록이다.
+        """
         return [
+            # ── VOL.3 (re_20260317_003) — 최신 발행본 ─────────────
+            {
+                "review_task_id": "task_20260315_003",
+                "report_id": "re_20260317_003",
+                "status": "COMPLETED",
+                "assigned_to": "editor_01",
+                "created_at": "2026-03-15T08:00:00Z",
+                "completed_at": "2026-03-17T09:00:00Z",
+                "screening_summary": {
+                    "total_candidates": 12,
+                    "selected_count": 5,
+                    "excluded_count": 7,
+                    "run_at": "2026-03-15T07:30:00Z",
+                    "filters_applied": ["market_cap_2b_plus", "avg_volume_10m_plus", "operating_income_positive", "no_adr", "no_bankruptcy"]
+                },
+                "review_items": [
+                    {"report_item_id": "ri_20260317_003_NXPW", "ticker": "NXPW", "review_status": "APPROVED", "reviewer_notes": "재생에너지 전력계약 매출 안정성 확인. GROWTH_TRAJECTORY 선정.", "data_quality_flag_count": 0, "llm_narrative_approved": True},
+                    {"report_item_id": "ri_20260317_003_BLFN", "ticker": "BLFN", "review_status": "APPROVED", "reviewer_notes": "금융 섹터 성장 추세 확인. GROWTH_TRAJECTORY 선정.", "data_quality_flag_count": 0, "llm_narrative_approved": True},
+                    {"report_item_id": "ri_20260317_003_STRL", "ticker": "STRL", "review_status": "APPROVED", "reviewer_notes": "할인율 기준 충족. UNDERVALUED 선정.", "data_quality_flag_count": 0, "llm_narrative_approved": True},
+                    {"report_item_id": "ri_20260317_003_VCNX", "ticker": "VCNX", "review_status": "APPROVED", "reviewer_notes": "헬스케어 성장 추세 및 촉매 확인. GROWTH_TRAJECTORY 선정.", "data_quality_flag_count": 0, "llm_narrative_approved": True},
+                    {"report_item_id": "ri_20260317_003_DFTL", "ticker": "DFTL", "review_status": "APPROVED", "reviewer_notes": "섹터 할인 및 촉매 조건 충족. UNDERVALUED 선정.", "data_quality_flag_count": 0, "llm_narrative_approved": True},
+                ],
+                "publish_decision": {
+                    "decision": "APPROVE",
+                    "decided_by": "editor_01",
+                    "decided_at": "2026-03-17T09:00:00Z",
+                    "reason": None
+                }
+            },
+            # ── VOL.2 (re_20250317_002) — 이전 발행본 ─────────────
             {
                 "review_task_id": "task_20250315_001",
                 "report_id": "re_20250317_002",
