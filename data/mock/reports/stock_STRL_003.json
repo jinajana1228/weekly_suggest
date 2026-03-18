@@ -10,25 +10,56 @@
     "short_description": "북미 중형 전문 소매업체. 가전·생활용품·스포츠 3개 카테고리에서 오프라인 450개 매장과 온라인을 통합 운영하며, 자체 브랜드(PB) 비중이 매출의 38%를 차지한다.",
     "headquarters": "Atlanta, GA, USA",
     "market_cap_usd_b": 3.9,
-    "employee_count": { "value": 22000, "status": "CONFIRMED" },
+    "employee_count": {
+      "value": 22000,
+      "status": "CONFIRMED"
+    },
     "fiscal_year_end": "01-31"
   },
-  "current_price": { "value": 28.45, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+  "current_price": {
+    "value": 28.45,
+    "currency": "USD",
+    "as_of": "2026-03-14T21:00:00Z"
+  },
   "price_context": {
-    "week_52_high": { "value": 41.20, "status": "CONFIRMED" },
-    "week_52_low": { "value": 25.80, "status": "CONFIRMED" },
-    "week_52_position_pct": { "value": 17.0, "status": "CONFIRMED" },
-    "drawdown_from_52w_high_pct": { "value": -30.9, "status": "CONFIRMED" },
-    "price_1m_change_pct": { "value": -11.2, "status": "CONFIRMED" },
-    "price_3m_change_pct": { "value": -24.6, "status": "CONFIRMED" },
-    "price_6m_change_pct": { "value": -27.3, "status": "CONFIRMED" },
-    "price_ytd_change_pct": { "value": -18.9, "status": "CONFIRMED" },
+    "week_52_high": {
+      "value": 41.2,
+      "status": "CONFIRMED"
+    },
+    "week_52_low": {
+      "value": 25.8,
+      "status": "CONFIRMED"
+    },
+    "week_52_position_pct": {
+      "value": 17.0,
+      "status": "CONFIRMED"
+    },
+    "drawdown_from_52w_high_pct": {
+      "value": -30.9,
+      "status": "CONFIRMED"
+    },
+    "price_1m_change_pct": {
+      "value": -11.2,
+      "status": "CONFIRMED"
+    },
+    "price_3m_change_pct": {
+      "value": -24.6,
+      "status": "CONFIRMED"
+    },
+    "price_6m_change_pct": {
+      "value": -27.3,
+      "status": "CONFIRMED"
+    },
+    "price_ytd_change_pct": {
+      "value": -18.9,
+      "status": "CONFIRMED"
+    },
     "as_of": "2026-03-14"
   },
   "interest_price_range": {
     "status": "CONFIRMED",
-    "lower_bound": 27.00,
-    "upper_bound": 31.50,
+    "lower_bound": 27.0,
+    "upper_bound": 31.5,
     "basis_metric": "EV/EBITDA",
     "basis_sector_median_value": 8.2,
     "conditional_statement": "현재 EV/EBITDA는 약 5.9배로 전문 소매 섹터 중앙값(8.2배) 대비 약 28% 할인 상태다. 섹터 중앙값 수렴 시 이론적 가격 범위는 $27.00~$31.50 수준으로 추산된다.",
@@ -37,12 +68,30 @@
   "valuation": {
     "primary_metric": "EV/EBITDA",
     "metrics": {
-      "fwd_per": { "value": 10.8, "status": "CONFIRMED" },
-      "trailing_per": { "value": 12.1, "status": "CONFIRMED" },
-      "ev_ebitda": { "value": 5.9, "status": "CONFIRMED" },
-      "pb": { "value": 1.6, "status": "CONFIRMED" },
-      "ps": { "value": 0.4, "status": "CONFIRMED" },
-      "p_fcf": { "value": 9.8, "status": "CONFIRMED" }
+      "fwd_per": {
+        "value": 10.8,
+        "status": "CONFIRMED"
+      },
+      "trailing_per": {
+        "value": 12.1,
+        "status": "CONFIRMED"
+      },
+      "ev_ebitda": {
+        "value": 5.9,
+        "status": "CONFIRMED"
+      },
+      "pb": {
+        "value": 1.6,
+        "status": "CONFIRMED"
+      },
+      "ps": {
+        "value": 0.4,
+        "status": "CONFIRMED"
+      },
+      "p_fcf": {
+        "value": 9.8,
+        "status": "CONFIRMED"
+      }
     },
     "valuation_discount_vs_sector": {
       "status": "CONFIRMED",
@@ -66,29 +115,72 @@
   "financials": {
     "status": "CONFIRMED",
     "fiscal_year": "FY2025 (Jan 2025 - Jan 2026)",
-    "revenue_ttm_b": { "value": 9.8, "status": "CONFIRMED" },
-    "revenue_growth_yoy_pct": { "value": 3.2, "status": "CONFIRMED" },
-    "operating_income_ttm_b": { "value": 0.58, "status": "CONFIRMED" },
-    "operating_margin_pct": { "value": 5.9, "status": "CONFIRMED" },
-    "net_income_ttm_b": { "value": 0.36, "status": "CONFIRMED" },
-    "eps_ttm": { "value": 2.63, "status": "CONFIRMED" },
-    "eps_fwd_consensus": { "value": 2.98, "status": "CONFIRMED" },
+    "revenue_ttm_b": {
+      "value": 9.8,
+      "status": "CONFIRMED"
+    },
+    "revenue_growth_yoy_pct": {
+      "value": 3.2,
+      "status": "CONFIRMED"
+    },
+    "operating_income_ttm_b": {
+      "value": 0.58,
+      "status": "CONFIRMED"
+    },
+    "operating_margin_pct": {
+      "value": 5.9,
+      "status": "CONFIRMED"
+    },
+    "net_income_ttm_b": {
+      "value": 0.36,
+      "status": "CONFIRMED"
+    },
+    "eps_ttm": {
+      "value": 2.63,
+      "status": "CONFIRMED"
+    },
+    "eps_fwd_consensus": {
+      "value": 2.98,
+      "status": "CONFIRMED"
+    },
     "eps_revision_trend": "STABLE",
-    "fcf_ttm_b": { "value": 0.42, "status": "CONFIRMED" },
-    "net_debt_b": { "value": 0.9, "status": "CONFIRMED" },
-    "net_debt_to_ebitda": { "value": 1.2, "status": "CONFIRMED" },
-    "interest_coverage_ratio": { "value": 7.1, "status": "CONFIRMED" },
-    "roe_pct": { "value": 16.8, "status": "CONFIRMED" }
+    "fcf_ttm_b": {
+      "value": 0.42,
+      "status": "CONFIRMED"
+    },
+    "net_debt_b": {
+      "value": 0.9,
+      "status": "CONFIRMED"
+    },
+    "net_debt_to_ebitda": {
+      "value": 1.2,
+      "status": "CONFIRMED"
+    },
+    "interest_coverage_ratio": {
+      "value": 7.1,
+      "status": "CONFIRMED"
+    },
+    "roe_pct": {
+      "value": 16.8,
+      "status": "CONFIRMED"
+    }
   },
   "undervaluation_judgment": {
     "is_discounted_vs_sector": true,
     "is_discounted_vs_history": true,
     "combined_signal": "MODERATE_SIGNAL",
-    "primary_discount_drivers": ["소비심리_위축_관세_불안", "온라인_전환_비용_일시_증가", "재고_정상화_마진_압박"],
+    "primary_discount_drivers": [
+      "소비심리_위축_관세_불안",
+      "온라인_전환_비용_일시_증가",
+      "재고_정상화_마진_압박"
+    ],
     "discount_narrative": {
       "content": "STRL의 할인은 관세 불확실성에 따른 소비심리 위축, 온오프라인 통합 플랫폼 구축 과정의 일시적 비용 증가가 동시에 작용한 결과다. PB 브랜드 38% 비중은 원가 구조의 유연성을 높이며, 통합 플랫폼 효과가 가시화될수록 마진 개선 여지가 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "financials.operating_margin_pct"]
+      "data_fields_referenced": [
+        "valuation.valuation_discount_vs_sector",
+        "financials.operating_margin_pct"
+      ]
     }
   },
   "catalyst_assessment": {
@@ -165,22 +257,34 @@
     "why_discounted": {
       "content": "STRL은 소비심리 민감 섹터에서 온오프라인 통합 비용이 동시에 반영되는 시점에 있다. 시장은 통합 전략의 성과를 아직 확인하지 못한 상태에서 할인을 부여하고 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "financials.operating_margin_pct"]
+      "data_fields_referenced": [
+        "valuation.valuation_discount_vs_sector",
+        "financials.operating_margin_pct"
+      ]
     },
     "why_worth_revisiting": {
       "content": "PB 비중 38%라는 가격 전가 구조와 온라인 침투율 상승이 2026년 마진 회복의 근거다. 5월 실적에서 1분기 동일점포 성장률(SSS)과 온라인 매출 비중 추이가 핵심 확인 지표다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["catalyst_assessment", "financials.revenue_growth_yoy_pct"]
+      "data_fields_referenced": [
+        "catalyst_assessment",
+        "financials.revenue_growth_yoy_pct"
+      ]
     },
     "key_risks_narrative": {
       "content": "소비심리 위축이 장기화될 경우 통합 비용 피크아웃 효과가 마진 회복으로 연결되지 않을 수 있다. 관세 영향의 재고 비용 전가 속도가 2분기 결과를 결정하는 핵심 변수다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["short_term_risks", "structural_risks"]
+      "data_fields_referenced": [
+        "short_term_risks",
+        "structural_risks"
+      ]
     },
     "investment_context": {
       "content": "STRL은 통합 전략이 결과를 내기 시작하는 전환점에 있다. 현재 EV/EBITDA 5.9배는 통합 전략 실패를 가정한 비관적 가격이다. 5월 SSS와 온라인 비중이 개선 추세를 확인시켜 줄 경우 배수 재평가가 빠르게 진행될 수 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.historical_valuation_position", "catalyst_assessment"]
+      "data_fields_referenced": [
+        "valuation.historical_valuation_position",
+        "catalyst_assessment"
+      ]
     },
     "generated_at": "2026-03-15T10:45:00Z",
     "model_id": "claude-sonnet-4-6",
@@ -196,8 +300,18 @@
     }
   ],
   "data_sources": [
-    { "source_id": "ds_mock_001", "provider_name": "Mock Data", "data_category": "fundamentals", "as_of": "2026-03-14T20:00:00Z" },
-    { "source_id": "ds_mock_002", "provider_name": "Mock Data", "data_category": "price", "as_of": "2026-03-14T21:00:00Z" }
+    {
+      "source_id": "ds_mock_001",
+      "provider_name": "Mock Data",
+      "data_category": "fundamentals",
+      "as_of": "2026-03-14T20:00:00Z"
+    },
+    {
+      "source_id": "ds_mock_002",
+      "provider_name": "Mock Data",
+      "data_category": "price",
+      "as_of": "2026-03-14T21:00:00Z"
+    }
   ],
   "disclaimer_blocks": [
     {
@@ -214,5 +328,6 @@
     "reviewed_at": "2026-03-15T13:00:00Z",
     "published_at": "2026-03-17T09:00:00Z",
     "last_updated_at": "2026-03-17T09:00:00Z"
-  }
+  },
+  "selection_type": "UNDERVALUED"
 }

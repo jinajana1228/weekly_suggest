@@ -10,25 +10,56 @@
     "short_description": "북미·유럽 간 국제 화물 운송 및 공급망 관리 서비스를 제공하는 중형 물류기업. 항공 화물 비중이 58%이며, 전자상거래 풀필먼트 서비스가 빠르게 성장하고 있다.",
     "headquarters": "Memphis, TN, USA",
     "market_cap_usd_b": 6.1,
-    "employee_count": { "value": 18500, "status": "CONFIRMED" },
+    "employee_count": {
+      "value": 18500,
+      "status": "CONFIRMED"
+    },
     "fiscal_year_end": "12-31"
   },
-  "current_price": { "value": 43.10, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+  "current_price": {
+    "value": 43.1,
+    "currency": "USD",
+    "as_of": "2026-03-14T21:00:00Z"
+  },
   "price_context": {
-    "week_52_high": { "value": 58.40, "status": "CONFIRMED" },
-    "week_52_low": { "value": 39.20, "status": "CONFIRMED" },
-    "week_52_position_pct": { "value": 20.3, "status": "CONFIRMED" },
-    "drawdown_from_52w_high_pct": { "value": -26.2, "status": "CONFIRMED" },
-    "price_1m_change_pct": { "value": -7.8, "status": "CONFIRMED" },
-    "price_3m_change_pct": { "value": -21.4, "status": "CONFIRMED" },
-    "price_6m_change_pct": { "value": -24.8, "status": "CONFIRMED" },
-    "price_ytd_change_pct": { "value": -16.3, "status": "CONFIRMED" },
+    "week_52_high": {
+      "value": 58.4,
+      "status": "CONFIRMED"
+    },
+    "week_52_low": {
+      "value": 39.2,
+      "status": "CONFIRMED"
+    },
+    "week_52_position_pct": {
+      "value": 20.3,
+      "status": "CONFIRMED"
+    },
+    "drawdown_from_52w_high_pct": {
+      "value": -26.2,
+      "status": "CONFIRMED"
+    },
+    "price_1m_change_pct": {
+      "value": -7.8,
+      "status": "CONFIRMED"
+    },
+    "price_3m_change_pct": {
+      "value": -21.4,
+      "status": "CONFIRMED"
+    },
+    "price_6m_change_pct": {
+      "value": -24.8,
+      "status": "CONFIRMED"
+    },
+    "price_ytd_change_pct": {
+      "value": -16.3,
+      "status": "CONFIRMED"
+    },
     "as_of": "2026-03-14"
   },
   "interest_price_range": {
     "status": "CONFIRMED",
-    "lower_bound": 41.50,
-    "upper_bound": 47.00,
+    "lower_bound": 41.5,
+    "upper_bound": 47.0,
     "basis_metric": "EV/EBITDA",
     "basis_sector_median_value": 9.4,
     "conditional_statement": "현재 EV/EBITDA는 약 7.4배로 물류 섹터 중앙값(9.4배) 대비 약 22% 할인 상태다. 섹터 중앙값 수렴 시 이론적 가격 범위는 $41.50~$47.00 수준으로 추산된다.",
@@ -37,12 +68,30 @@
   "valuation": {
     "primary_metric": "EV/EBITDA",
     "metrics": {
-      "fwd_per": { "value": 13.6, "status": "CONFIRMED" },
-      "trailing_per": { "value": 14.9, "status": "CONFIRMED" },
-      "ev_ebitda": { "value": 7.4, "status": "CONFIRMED" },
-      "pb": { "value": 1.9, "status": "CONFIRMED" },
-      "ps": { "value": 0.7, "status": "CONFIRMED" },
-      "p_fcf": { "value": 12.4, "status": "CONFIRMED" }
+      "fwd_per": {
+        "value": 13.6,
+        "status": "CONFIRMED"
+      },
+      "trailing_per": {
+        "value": 14.9,
+        "status": "CONFIRMED"
+      },
+      "ev_ebitda": {
+        "value": 7.4,
+        "status": "CONFIRMED"
+      },
+      "pb": {
+        "value": 1.9,
+        "status": "CONFIRMED"
+      },
+      "ps": {
+        "value": 0.7,
+        "status": "CONFIRMED"
+      },
+      "p_fcf": {
+        "value": 12.4,
+        "status": "CONFIRMED"
+      }
     },
     "valuation_discount_vs_sector": {
       "status": "CONFIRMED",
@@ -66,29 +115,72 @@
   "financials": {
     "status": "CONFIRMED",
     "fiscal_year": "FY2025",
-    "revenue_ttm_b": { "value": 8.7, "status": "CONFIRMED" },
-    "revenue_growth_yoy_pct": { "value": 5.8, "status": "CONFIRMED" },
-    "operating_income_ttm_b": { "value": 0.74, "status": "CONFIRMED" },
-    "operating_margin_pct": { "value": 8.5, "status": "CONFIRMED" },
-    "net_income_ttm_b": { "value": 0.48, "status": "CONFIRMED" },
-    "eps_ttm": { "value": 3.17, "status": "CONFIRMED" },
-    "eps_fwd_consensus": { "value": 3.60, "status": "CONFIRMED" },
+    "revenue_ttm_b": {
+      "value": 8.7,
+      "status": "CONFIRMED"
+    },
+    "revenue_growth_yoy_pct": {
+      "value": 5.8,
+      "status": "CONFIRMED"
+    },
+    "operating_income_ttm_b": {
+      "value": 0.74,
+      "status": "CONFIRMED"
+    },
+    "operating_margin_pct": {
+      "value": 8.5,
+      "status": "CONFIRMED"
+    },
+    "net_income_ttm_b": {
+      "value": 0.48,
+      "status": "CONFIRMED"
+    },
+    "eps_ttm": {
+      "value": 3.17,
+      "status": "CONFIRMED"
+    },
+    "eps_fwd_consensus": {
+      "value": 3.6,
+      "status": "CONFIRMED"
+    },
     "eps_revision_trend": "STABLE",
-    "fcf_ttm_b": { "value": 0.52, "status": "CONFIRMED" },
-    "net_debt_b": { "value": 1.4, "status": "CONFIRMED" },
-    "net_debt_to_ebitda": { "value": 1.5, "status": "CONFIRMED" },
-    "interest_coverage_ratio": { "value": 6.8, "status": "CONFIRMED" },
-    "roe_pct": { "value": 17.2, "status": "CONFIRMED" }
+    "fcf_ttm_b": {
+      "value": 0.52,
+      "status": "CONFIRMED"
+    },
+    "net_debt_b": {
+      "value": 1.4,
+      "status": "CONFIRMED"
+    },
+    "net_debt_to_ebitda": {
+      "value": 1.5,
+      "status": "CONFIRMED"
+    },
+    "interest_coverage_ratio": {
+      "value": 6.8,
+      "status": "CONFIRMED"
+    },
+    "roe_pct": {
+      "value": 17.2,
+      "status": "CONFIRMED"
+    }
   },
   "undervaluation_judgment": {
     "is_discounted_vs_sector": true,
     "is_discounted_vs_history": true,
     "combined_signal": "MODERATE_SIGNAL",
-    "primary_discount_drivers": ["관세_무역량_감소_우려", "항공화물_단가_정상화_후_마진_압박", "전자상거래_성장_둔화"],
+    "primary_discount_drivers": [
+      "관세_무역량_감소_우려",
+      "항공화물_단가_정상화_후_마진_압박",
+      "전자상거래_성장_둔화"
+    ],
     "discount_narrative": {
       "content": "DFTL의 할인은 관세 확대에 따른 글로벌 무역량 감소 우려와 팬데믹 이후 항공 화물 단가 정상화 과정의 마진 압박이 중첩된 결과다. 그러나 전자상거래 풀필먼트 서비스의 빠른 성장이 화물 단가 하락을 부분 상쇄하고 있으며, 물류 단가 정상화가 완료 단계에 접어들고 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "financials.operating_margin_pct"]
+      "data_fields_referenced": [
+        "valuation.valuation_discount_vs_sector",
+        "financials.operating_margin_pct"
+      ]
     }
   },
   "catalyst_assessment": {
@@ -165,22 +257,34 @@
     "why_discounted": {
       "content": "DFTL의 할인은 화물 단가 정상화의 마지막 구간에서 발생한 마진 압박과 관세 무역량 감소 우려가 복합 작용한 결과다. 두 압박 모두 일시적 성격이 강하나, 시장은 구조적 훼손 가능성에 프리미엄을 부여하지 않고 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "financials.operating_margin_pct"]
+      "data_fields_referenced": [
+        "valuation.valuation_discount_vs_sector",
+        "financials.operating_margin_pct"
+      ]
     },
     "why_worth_revisiting": {
       "content": "단가 정상화 완료 이후 영업 레버리지 효과와 전자상거래 풀필먼트 성장(+34%)이 동시에 가시화될 시점이 가까워지고 있다. 4월 실적에서 1분기 화물 단가 바닥 확인과 풀필먼트 비중 증가 추세가 핵심 체크 포인트다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["catalyst_assessment", "bull_case_points"]
+      "data_fields_referenced": [
+        "catalyst_assessment",
+        "bull_case_points"
+      ]
     },
     "key_risks_narrative": {
       "content": "관세 무역량 감소가 구조적으로 고착화될 경우 현재 할인이 적정 수준이 된다. 이 리스크는 외생 변수(무역 정책)에 달려 있어 예측이 어렵다. 관세 정책 방향성이 확인되기 전까지는 불확실성 프리미엄을 유지해야 한다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["structural_risks", "short_term_risks"]
+      "data_fields_referenced": [
+        "structural_risks",
+        "short_term_risks"
+      ]
     },
     "investment_context": {
       "content": "DFTL은 단가 정상화 완료와 전자상거래 성장이 만나는 전환점에 있다. EV/EBITDA 7.4배는 무역량 감소의 구조적 리스크를 일정 부분 가정한 가격이다. 4월 실적에서 화물 단가 바닥 징후와 풀필먼트 성장 지속이 확인된다면 현재 구간이 재진입 기회로 해석될 수 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.historical_valuation_position", "catalyst_assessment"]
+      "data_fields_referenced": [
+        "valuation.historical_valuation_position",
+        "catalyst_assessment"
+      ]
     },
     "generated_at": "2026-03-15T12:00:00Z",
     "model_id": "claude-sonnet-4-6",
@@ -188,8 +292,18 @@
   },
   "data_quality_flags": [],
   "data_sources": [
-    { "source_id": "ds_mock_001", "provider_name": "Mock Data", "data_category": "fundamentals", "as_of": "2026-03-14T20:00:00Z" },
-    { "source_id": "ds_mock_002", "provider_name": "Mock Data", "data_category": "price", "as_of": "2026-03-14T21:00:00Z" }
+    {
+      "source_id": "ds_mock_001",
+      "provider_name": "Mock Data",
+      "data_category": "fundamentals",
+      "as_of": "2026-03-14T20:00:00Z"
+    },
+    {
+      "source_id": "ds_mock_002",
+      "provider_name": "Mock Data",
+      "data_category": "price",
+      "as_of": "2026-03-14T21:00:00Z"
+    }
   ],
   "disclaimer_blocks": [
     {
@@ -206,5 +320,6 @@
     "reviewed_at": "2026-03-15T14:30:00Z",
     "published_at": "2026-03-17T09:00:00Z",
     "last_updated_at": "2026-03-17T09:00:00Z"
-  }
+  },
+  "selection_type": "UNDERVALUED"
 }

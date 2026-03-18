@@ -220,6 +220,7 @@ export interface StockCard {
   catalyst_badges: CatalystBadge[];
   risk_level_overall: RiskLevel;
   data_quality_summary: DataQualitySummary;
+  selection_type?: import("./enums").SelectionType;
 }
 
 // ─── Report Edition ──────────────────────────────────────

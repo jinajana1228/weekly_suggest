@@ -10,25 +10,56 @@
     "short_description": "대체투자(사모펀드·인프라·크레딧) 중심의 자산운용사. 총 AUM $62B로 3년 연속 두 자릿수 성장을 기록하고 있으며, 성과 보수(carried interest) 비중이 수익의 약 40%를 차지한다.",
     "headquarters": "New York, NY, USA",
     "market_cap_usd_b": 7.2,
-    "employee_count": { "value": 1850, "status": "CONFIRMED" },
+    "employee_count": {
+      "value": 1850,
+      "status": "CONFIRMED"
+    },
     "fiscal_year_end": "12-31"
   },
-  "current_price": { "value": 52.80, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+  "current_price": {
+    "value": 52.8,
+    "currency": "USD",
+    "as_of": "2026-03-14T21:00:00Z"
+  },
   "price_context": {
-    "week_52_high": { "value": 71.40, "status": "CONFIRMED" },
-    "week_52_low": { "value": 48.20, "status": "CONFIRMED" },
-    "week_52_position_pct": { "value": 19.7, "status": "CONFIRMED" },
-    "drawdown_from_52w_high_pct": { "value": -26.0, "status": "CONFIRMED" },
-    "price_1m_change_pct": { "value": -6.3, "status": "CONFIRMED" },
-    "price_3m_change_pct": { "value": -19.4, "status": "CONFIRMED" },
-    "price_6m_change_pct": { "value": -22.8, "status": "CONFIRMED" },
-    "price_ytd_change_pct": { "value": -14.1, "status": "CONFIRMED" },
+    "week_52_high": {
+      "value": 71.4,
+      "status": "CONFIRMED"
+    },
+    "week_52_low": {
+      "value": 48.2,
+      "status": "CONFIRMED"
+    },
+    "week_52_position_pct": {
+      "value": 19.7,
+      "status": "CONFIRMED"
+    },
+    "drawdown_from_52w_high_pct": {
+      "value": -26.0,
+      "status": "CONFIRMED"
+    },
+    "price_1m_change_pct": {
+      "value": -6.3,
+      "status": "CONFIRMED"
+    },
+    "price_3m_change_pct": {
+      "value": -19.4,
+      "status": "CONFIRMED"
+    },
+    "price_6m_change_pct": {
+      "value": -22.8,
+      "status": "CONFIRMED"
+    },
+    "price_ytd_change_pct": {
+      "value": -14.1,
+      "status": "CONFIRMED"
+    },
     "as_of": "2026-03-14"
   },
   "interest_price_range": {
     "status": "CONFIRMED",
-    "lower_bound": 50.50,
-    "upper_bound": 58.00,
+    "lower_bound": 50.5,
+    "upper_bound": 58.0,
     "basis_metric": "Fwd P/E",
     "basis_sector_median_value": 18.4,
     "conditional_statement": "현재 Fwd P/E는 약 14.0배로 금융 자산운용 섹터 중앙값(18.4배) 대비 약 24% 할인 상태다. 섹터 중앙값 수렴 시 이론적 가격 범위는 $50.50~$58.00 수준으로 추산된다.",
@@ -37,12 +68,30 @@
   "valuation": {
     "primary_metric": "Fwd P/E",
     "metrics": {
-      "fwd_per": { "value": 14.0, "status": "CONFIRMED" },
-      "trailing_per": { "value": 15.3, "status": "CONFIRMED" },
-      "ev_ebitda": { "value": 9.2, "status": "CONFIRMED" },
-      "pb": { "value": 2.1, "status": "CONFIRMED" },
-      "ps": { "value": 3.4, "status": "CONFIRMED" },
-      "p_fcf": { "value": 16.2, "status": "CONFIRMED" }
+      "fwd_per": {
+        "value": 14.0,
+        "status": "CONFIRMED"
+      },
+      "trailing_per": {
+        "value": 15.3,
+        "status": "CONFIRMED"
+      },
+      "ev_ebitda": {
+        "value": 9.2,
+        "status": "CONFIRMED"
+      },
+      "pb": {
+        "value": 2.1,
+        "status": "CONFIRMED"
+      },
+      "ps": {
+        "value": 3.4,
+        "status": "CONFIRMED"
+      },
+      "p_fcf": {
+        "value": 16.2,
+        "status": "CONFIRMED"
+      }
     },
     "valuation_discount_vs_sector": {
       "status": "CONFIRMED",
@@ -66,29 +115,72 @@
   "financials": {
     "status": "CONFIRMED",
     "fiscal_year": "FY2025",
-    "revenue_ttm_b": { "value": 2.1, "status": "CONFIRMED" },
-    "revenue_growth_yoy_pct": { "value": 14.2, "status": "CONFIRMED" },
-    "operating_income_ttm_b": { "value": 0.68, "status": "CONFIRMED" },
-    "operating_margin_pct": { "value": 32.4, "status": "CONFIRMED" },
-    "net_income_ttm_b": { "value": 0.51, "status": "CONFIRMED" },
-    "eps_ttm": { "value": 3.77, "status": "CONFIRMED" },
-    "eps_fwd_consensus": { "value": 4.20, "status": "CONFIRMED" },
+    "revenue_ttm_b": {
+      "value": 2.1,
+      "status": "CONFIRMED"
+    },
+    "revenue_growth_yoy_pct": {
+      "value": 14.2,
+      "status": "CONFIRMED"
+    },
+    "operating_income_ttm_b": {
+      "value": 0.68,
+      "status": "CONFIRMED"
+    },
+    "operating_margin_pct": {
+      "value": 32.4,
+      "status": "CONFIRMED"
+    },
+    "net_income_ttm_b": {
+      "value": 0.51,
+      "status": "CONFIRMED"
+    },
+    "eps_ttm": {
+      "value": 3.77,
+      "status": "CONFIRMED"
+    },
+    "eps_fwd_consensus": {
+      "value": 4.2,
+      "status": "CONFIRMED"
+    },
     "eps_revision_trend": "UP",
-    "fcf_ttm_b": { "value": 0.44, "status": "CONFIRMED" },
-    "net_debt_b": { "value": 0.3, "status": "CONFIRMED" },
-    "net_debt_to_ebitda": { "value": 0.4, "status": "CONFIRMED" },
-    "interest_coverage_ratio": { "value": 18.2, "status": "CONFIRMED" },
-    "roe_pct": { "value": 22.4, "status": "CONFIRMED" }
+    "fcf_ttm_b": {
+      "value": 0.44,
+      "status": "CONFIRMED"
+    },
+    "net_debt_b": {
+      "value": 0.3,
+      "status": "CONFIRMED"
+    },
+    "net_debt_to_ebitda": {
+      "value": 0.4,
+      "status": "CONFIRMED"
+    },
+    "interest_coverage_ratio": {
+      "value": 18.2,
+      "status": "CONFIRMED"
+    },
+    "roe_pct": {
+      "value": 22.4,
+      "status": "CONFIRMED"
+    }
   },
   "undervaluation_judgment": {
     "is_discounted_vs_sector": true,
     "is_discounted_vs_history": true,
     "combined_signal": "MODERATE_SIGNAL",
-    "primary_discount_drivers": ["대체투자_환경_불확실성", "IPO_시장_침체_성과보수_감소", "금리_고원_PE펀드_회수_지연"],
+    "primary_discount_drivers": [
+      "대체투자_환경_불확실성",
+      "IPO_시장_침체_성과보수_감소",
+      "금리_고원_PE펀드_회수_지연"
+    ],
     "discount_narrative": {
       "content": "BLFN의 할인은 IPO 시장 침체에 따른 성과 보수(carried interest) 인식 지연과 PE 펀드 회수 환경 악화에서 비롯된다. 그러나 AUM 성장(3년 연속 두 자릿수)과 관리 수수료 기반 수익은 훼손되지 않았으며, 시장 회복 시 성과 보수 인식이 집중될 가능성이 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "financials.revenue_growth_yoy_pct"]
+      "data_fields_referenced": [
+        "valuation.valuation_discount_vs_sector",
+        "financials.revenue_growth_yoy_pct"
+      ]
     }
   },
   "catalyst_assessment": {
@@ -165,22 +257,34 @@
     "why_discounted": {
       "content": "BLFN의 할인 핵심은 성과 보수 인식 시점 불확실성이다. AUM 성장과 관리 수수료 기반 수익은 견조하나, 시장이 성과 보수 '가시성'에 낮은 프리미엄을 부여하면서 배수가 압축됐다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "financials.eps_revision_trend"]
+      "data_fields_referenced": [
+        "valuation.valuation_discount_vs_sector",
+        "financials.eps_revision_trend"
+      ]
     },
     "why_worth_revisiting": {
       "content": "EPS 컨센서스가 상향 추세에 있고, 커버리지 11개사의 평균 목표가 괴리가 28%에 달한다. AUM 성장 지속 여부를 4월 실적에서 확인할 수 있으며, 드라이 파우더 성과 보수의 일부라도 인식된다면 배수 재평가 트리거가 될 수 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["catalyst_assessment", "financials.eps_revision_trend"]
+      "data_fields_referenced": [
+        "catalyst_assessment",
+        "financials.eps_revision_trend"
+      ]
     },
     "key_risks_narrative": {
       "content": "성과 보수 인식 타이밍이 전적으로 외부 시장 환경에 달려 있다는 점이 핵심 리스크다. 금리 고원과 IPO 시장 침체가 동시에 지속될 경우 현재 할인이 장기화될 수 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["short_term_risks", "structural_risks"]
+      "data_fields_referenced": [
+        "short_term_risks",
+        "structural_risks"
+      ]
     },
     "investment_context": {
       "content": "BLFN은 AUM 성장 궤도가 훼손되지 않은 상태에서 시장이 성과 보수 불확실성에 과도하게 반응한 케이스로 판단된다. 4월 실적에서 AUM 순유입 지속과 1분기 성과 보수 인식 현황이 확인 포인트다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["catalyst_assessment", "valuation.historical_valuation_position"]
+      "data_fields_referenced": [
+        "catalyst_assessment",
+        "valuation.historical_valuation_position"
+      ]
     },
     "generated_at": "2026-03-15T10:10:00Z",
     "model_id": "claude-sonnet-4-6",
@@ -196,8 +300,18 @@
     }
   ],
   "data_sources": [
-    { "source_id": "ds_mock_001", "provider_name": "Mock Data", "data_category": "fundamentals", "as_of": "2026-03-14T20:00:00Z" },
-    { "source_id": "ds_mock_002", "provider_name": "Mock Data", "data_category": "price", "as_of": "2026-03-14T21:00:00Z" }
+    {
+      "source_id": "ds_mock_001",
+      "provider_name": "Mock Data",
+      "data_category": "fundamentals",
+      "as_of": "2026-03-14T20:00:00Z"
+    },
+    {
+      "source_id": "ds_mock_002",
+      "provider_name": "Mock Data",
+      "data_category": "price",
+      "as_of": "2026-03-14T21:00:00Z"
+    }
   ],
   "disclaimer_blocks": [
     {
@@ -214,5 +328,6 @@
     "reviewed_at": "2026-03-15T12:00:00Z",
     "published_at": "2026-03-17T09:00:00Z",
     "last_updated_at": "2026-03-17T09:00:00Z"
-  }
+  },
+  "selection_type": "GROWTH_BENEFICIARY"
 }

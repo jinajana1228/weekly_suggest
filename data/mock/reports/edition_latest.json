@@ -15,17 +15,37 @@
       "exchange": "NYSE",
       "sector": "Energy",
       "industry": "Independent Power Producers",
-      "current_price": { "value": 34.20, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+      "current_price": {
+        "value": 34.2,
+        "currency": "USD",
+        "as_of": "2026-03-14T21:00:00Z"
+      },
       "market_cap_usd_b": 5.6,
       "one_line_thesis": "재생에너지 계약 매출 75% 고정, 에너지 섹터 EV/EBITDA 대비 36% 할인 구간",
-      "valuation_signal": { "sector_discount_pct": 36.2, "signal_label": "STRONG_SIGNAL" },
+      "valuation_signal": {
+        "sector_discount_pct": 36.2,
+        "signal_label": "STRONG_SIGNAL"
+      },
       "catalyst_badges": [
-        { "catalyst_id": "A", "status": "MET" },
-        { "catalyst_id": "B", "status": "MET" },
-        { "catalyst_id": "C", "status": "MET" }
+        {
+          "catalyst_id": "A",
+          "status": "MET"
+        },
+        {
+          "catalyst_id": "B",
+          "status": "MET"
+        },
+        {
+          "catalyst_id": "C",
+          "status": "MET"
+        }
       ],
       "risk_level_overall": "MEDIUM",
-      "data_quality_summary": { "flag_count": 0, "highest_severity": "NONE" }
+      "data_quality_summary": {
+        "flag_count": 0,
+        "highest_severity": "NONE"
+      },
+      "selection_type": "GROWTH_BENEFICIARY"
     },
     {
       "report_item_id": "ri_20260317_003_BLFN",
@@ -34,17 +54,37 @@
       "exchange": "NASDAQ",
       "sector": "Financials",
       "industry": "Asset Management",
-      "current_price": { "value": 52.80, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+      "current_price": {
+        "value": 52.8,
+        "currency": "USD",
+        "as_of": "2026-03-14T21:00:00Z"
+      },
       "market_cap_usd_b": 7.2,
       "one_line_thesis": "대체투자 AUM 3년 연속 성장, 금융 섹터 P/E 중앙값 대비 24% 할인 지속",
-      "valuation_signal": { "sector_discount_pct": 24.3, "signal_label": "MODERATE_SIGNAL" },
+      "valuation_signal": {
+        "sector_discount_pct": 24.3,
+        "signal_label": "MODERATE_SIGNAL"
+      },
       "catalyst_badges": [
-        { "catalyst_id": "A", "status": "MET" },
-        { "catalyst_id": "B", "status": "MET" },
-        { "catalyst_id": "C", "status": "NOT_MET" }
+        {
+          "catalyst_id": "A",
+          "status": "MET"
+        },
+        {
+          "catalyst_id": "B",
+          "status": "MET"
+        },
+        {
+          "catalyst_id": "C",
+          "status": "NOT_MET"
+        }
       ],
       "risk_level_overall": "LOW",
-      "data_quality_summary": { "flag_count": 1, "highest_severity": "INFO" }
+      "data_quality_summary": {
+        "flag_count": 1,
+        "highest_severity": "INFO"
+      },
+      "selection_type": "GROWTH_BENEFICIARY"
     },
     {
       "report_item_id": "ri_20260317_003_STRL",
@@ -53,17 +93,37 @@
       "exchange": "NYSE",
       "sector": "Consumer Discretionary",
       "industry": "Specialty Retail",
-      "current_price": { "value": 28.45, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+      "current_price": {
+        "value": 28.45,
+        "currency": "USD",
+        "as_of": "2026-03-14T21:00:00Z"
+      },
       "market_cap_usd_b": 3.9,
       "one_line_thesis": "오프라인·온라인 통합 전략 효과 가시화, 52주 고점 대비 -31% 과매도 판단",
-      "valuation_signal": { "sector_discount_pct": 27.8, "signal_label": "MODERATE_SIGNAL" },
+      "valuation_signal": {
+        "sector_discount_pct": 27.8,
+        "signal_label": "MODERATE_SIGNAL"
+      },
       "catalyst_badges": [
-        { "catalyst_id": "A", "status": "MET" },
-        { "catalyst_id": "B", "status": "UNVERIFIABLE" },
-        { "catalyst_id": "C", "status": "MET" }
+        {
+          "catalyst_id": "A",
+          "status": "MET"
+        },
+        {
+          "catalyst_id": "B",
+          "status": "UNVERIFIABLE"
+        },
+        {
+          "catalyst_id": "C",
+          "status": "MET"
+        }
       ],
       "risk_level_overall": "MEDIUM",
-      "data_quality_summary": { "flag_count": 1, "highest_severity": "WARNING" }
+      "data_quality_summary": {
+        "flag_count": 1,
+        "highest_severity": "WARNING"
+      },
+      "selection_type": "UNDERVALUED"
     },
     {
       "report_item_id": "ri_20260317_003_VCNX",
@@ -72,17 +132,37 @@
       "exchange": "NASDAQ",
       "sector": "Information Technology",
       "industry": "Semiconductors",
-      "current_price": { "value": 76.30, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+      "current_price": {
+        "value": 76.3,
+        "currency": "USD",
+        "as_of": "2026-03-14T21:00:00Z"
+      },
       "market_cap_usd_b": 11.4,
       "one_line_thesis": "엣지 AI 칩 설계 경쟁력 보유, AI 조정 국면에서 섹터 P/E 대비 29% 할인 발생",
-      "valuation_signal": { "sector_discount_pct": 29.1, "signal_label": "STRONG_SIGNAL" },
+      "valuation_signal": {
+        "sector_discount_pct": 29.1,
+        "signal_label": "STRONG_SIGNAL"
+      },
       "catalyst_badges": [
-        { "catalyst_id": "A", "status": "MET" },
-        { "catalyst_id": "B", "status": "MET" },
-        { "catalyst_id": "C", "status": "MET" }
+        {
+          "catalyst_id": "A",
+          "status": "MET"
+        },
+        {
+          "catalyst_id": "B",
+          "status": "MET"
+        },
+        {
+          "catalyst_id": "C",
+          "status": "MET"
+        }
       ],
       "risk_level_overall": "HIGH",
-      "data_quality_summary": { "flag_count": 0, "highest_severity": "NONE" }
+      "data_quality_summary": {
+        "flag_count": 0,
+        "highest_severity": "NONE"
+      },
+      "selection_type": "GROWTH_BENEFICIARY"
     },
     {
       "report_item_id": "ri_20260317_003_DFTL",
@@ -91,17 +171,37 @@
       "exchange": "NYSE",
       "sector": "Industrials",
       "industry": "Air Freight & Logistics",
-      "current_price": { "value": 43.10, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+      "current_price": {
+        "value": 43.1,
+        "currency": "USD",
+        "as_of": "2026-03-14T21:00:00Z"
+      },
       "market_cap_usd_b": 6.1,
       "one_line_thesis": "물류 단가 정상화 이후 마진 회복 가속, 산업재 EV/EBITDA 대비 22% 할인",
-      "valuation_signal": { "sector_discount_pct": 22.1, "signal_label": "MODERATE_SIGNAL" },
+      "valuation_signal": {
+        "sector_discount_pct": 22.1,
+        "signal_label": "MODERATE_SIGNAL"
+      },
       "catalyst_badges": [
-        { "catalyst_id": "A", "status": "MET" },
-        { "catalyst_id": "B", "status": "NOT_MET" },
-        { "catalyst_id": "C", "status": "MET" }
+        {
+          "catalyst_id": "A",
+          "status": "MET"
+        },
+        {
+          "catalyst_id": "B",
+          "status": "NOT_MET"
+        },
+        {
+          "catalyst_id": "C",
+          "status": "MET"
+        }
       ],
       "risk_level_overall": "LOW",
-      "data_quality_summary": { "flag_count": 0, "highest_severity": "NONE" }
+      "data_quality_summary": {
+        "flag_count": 0,
+        "highest_severity": "NONE"
+      },
+      "selection_type": "UNDERVALUED"
     }
   ],
   "disclaimer_blocks": [

@@ -2,54 +2,104 @@
 from typing import Any
 
 # ────────────────────────────────────────────────────────────────
-# Mock 유니버스 (12개 후보)
+# Mock 유니버스 (VOL.3 기준 12개 후보)
+#
+# 추가 필드 (버킷 A/B 스코어링 전용):
+#   revenue_growth_yoy_pct  : 전년대비 매출 성장률 (%)
+#   eps_revision_trend      : EPS 개정 방향 (UP / STABLE / DOWN)
+#   operating_margin_pct    : 영업이익률 (%)
+#   roe_pct                 : 자기자본이익률 (%)
+#   price_1m_change_pct     : 1개월 주가 변화율 (%)
+#   price_3m_change_pct     : 3개월 주가 변화율 (%)
+#   drawdown_from_52w_high_pct : 52주 고점 대비 낙폭 (%)
+#   sector_tailwind_hint    : 섹터/업종 수혜 강도 (0.0–1.0)
+#                             AI/반도체=0.9, 전력인프라=0.7, 금융성장=0.6,
+#                             물류=0.4, 소비재=0.3
+#   historical_pct_rank     : 3년 밸류에이션 백분위 (낮을수록 역사적으로 저렴)
 # ────────────────────────────────────────────────────────────────
 MOCK_UNIVERSE: list[dict[str, Any]] = [
-    # ── 필터 통과 + 최종 선정 (5) ──────────────────────────────
+    # ── 필터 통과 + 버킷 A 선발 (3) ─────────────────────────────
     {
-        "ticker": "MFGI", "company_name": "Meridian Fastening Group Inc.",
-        "sector": "Industrials", "industry": "Industrial Machinery",
-        "market_cap_usd_b": 4.8, "avg_daily_volume_m": 1.8,
+        # VCNX: IT/반도체 — AI 수요 직접 수혜, 최고 성장률, EPS 상향
+        "ticker": "VCNX", "company_name": "VectoNex Semiconductors Inc.",
+        "sector": "Information Technology", "industry": "Semiconductors",
+        "market_cap_usd_b": 11.4, "avg_daily_volume_m": 2.3,
         "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
-        "current_price": 41.25, "week_52_high": 67.80, "week_52_low": 38.10,
-        "week_52_position_pct": 10.9,
-        "sector_discount_pct": 33.3, "catalyst_met_count": 3, "risk_level_max": "LOW",
+        "current_price": 76.3, "week_52_high": 88.0, "week_52_low": 58.0,
+        "week_52_position_pct": 15.7,
+        # 스코어링 확장 필드
+        "revenue_growth_yoy_pct": 22.4, "eps_revision_trend": "UP",
+        "operating_margin_pct": 22.1, "roe_pct": 28.6,
+        "price_1m_change_pct": -14.2, "price_3m_change_pct": -31.8,
+        "drawdown_from_52w_high_pct": -35.6,
+        "sector_tailwind_hint": 0.9,   # AI 반도체 수요 급증 — 최고 업종 tailwind
+        "historical_pct_rank": 9,      # 3년 밸류에이션 역대 9분위 → 역사적 저점
+        "sector_discount_pct": 29.1, "catalyst_met_count": 3, "risk_level_max": "HIGH",
     },
     {
-        "ticker": "RVNC", "company_name": "Ravencroft Bancorp Inc.",
-        "sector": "Financials", "industry": "Regional Banks",
-        "market_cap_usd_b": 4.2, "avg_daily_volume_m": 0.9,
+        # BLFN: 금융/자산운용 — AUM 급증, EPS 상향, 저리스크 성장
+        "ticker": "BLFN", "company_name": "Bluefin Capital Holdings",
+        "sector": "Financials", "industry": "Asset Management",
+        "market_cap_usd_b": 7.2, "avg_daily_volume_m": 1.4,
         "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
-        "current_price": 28.75, "week_52_high": 41.20, "week_52_low": 25.30,
-        "week_52_position_pct": 21.9,
+        "current_price": 52.8, "week_52_high": 71.4, "week_52_low": 46.0,
+        "week_52_position_pct": 19.7,
+        "revenue_growth_yoy_pct": 14.2, "eps_revision_trend": "UP",
+        "operating_margin_pct": 32.4, "roe_pct": 22.4,
+        "price_1m_change_pct": -6.3, "price_3m_change_pct": -19.4,
+        "drawdown_from_52w_high_pct": -26.0,
+        "sector_tailwind_hint": 0.6,   # 금리 사이클 전환 수혜, AUM 성장
+        "historical_pct_rank": 16,
+        "sector_discount_pct": 24.3, "catalyst_met_count": 2, "risk_level_max": "LOW",
+    },
+    {
+        # NXPW: 에너지/독립발전 — 전력인프라 정책 수혜, 촉매 3/3 충족
+        "ticker": "NXPW", "company_name": "NexaPower Energy Corp.",
+        "sector": "Energy", "industry": "Independent Power Producers",
+        "market_cap_usd_b": 5.6, "avg_daily_volume_m": 1.2,
+        "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
+        "current_price": 34.2, "week_52_high": 54.6, "week_52_low": 31.0,
+        "week_52_position_pct": 12.2,
+        "revenue_growth_yoy_pct": 8.4, "eps_revision_trend": "STABLE",
+        "operating_margin_pct": 18.5, "roe_pct": 11.3,
+        "price_1m_change_pct": -9.1, "price_3m_change_pct": -28.3,
+        "drawdown_from_52w_high_pct": -37.4,
+        "sector_tailwind_hint": 0.7,   # 에너지 전환·전력 인프라 투자 확대 수혜
+        "historical_pct_rank": 11,
+        "sector_discount_pct": 36.2, "catalyst_met_count": 3, "risk_level_max": "MEDIUM",
+    },
+    # ── 필터 통과 + 버킷 B 선발 (2) ─────────────────────────────
+    {
+        # STRL: 소비재/전문소매 — 낙폭 과대, 밸류에이션 회복 기대
+        "ticker": "STRL", "company_name": "Streamline Retail Group Inc.",
+        "sector": "Consumer Discretionary", "industry": "Specialty Retail",
+        "market_cap_usd_b": 3.9, "avg_daily_volume_m": 0.8,
+        "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
+        "current_price": 28.45, "week_52_high": 41.2, "week_52_low": 25.0,
+        "week_52_position_pct": 17.0,
+        "revenue_growth_yoy_pct": 3.2, "eps_revision_trend": "STABLE",
+        "operating_margin_pct": 5.9, "roe_pct": 16.8,
+        "price_1m_change_pct": -11.2, "price_3m_change_pct": -24.6,
+        "drawdown_from_52w_high_pct": -30.9,
+        "sector_tailwind_hint": 0.3,
+        "historical_pct_rank": 19,
         "sector_discount_pct": 27.8, "catalyst_met_count": 2, "risk_level_max": "MEDIUM",
     },
     {
-        "ticker": "HLTH", "company_name": "HealthCore Systems Corp.",
-        "sector": "Health Care", "industry": "Health Care Services",
-        "market_cap_usd_b": 6.8, "avg_daily_volume_m": 1.1,
+        # DFTL: 산업재/항공화물물류 — 공급망 정상화 기대, 안정 펀더멘털
+        "ticker": "DFTL", "company_name": "Deltaflow Logistics Corp.",
+        "sector": "Industrials", "industry": "Air Freight & Logistics",
+        "market_cap_usd_b": 6.1, "avg_daily_volume_m": 1.1,
         "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
-        "current_price": 54.20, "week_52_high": 82.30, "week_52_low": 49.10,
-        "week_52_position_pct": 15.4,
-        "sector_discount_pct": 22.8, "catalyst_met_count": 2, "risk_level_max": "MEDIUM",
-    },
-    {
-        "ticker": "CSTM", "company_name": "Creston Consumer Brands Ltd.",
-        "sector": "Consumer Staples", "industry": "Packaged Foods & Meats",
-        "market_cap_usd_b": 5.1, "avg_daily_volume_m": 0.7,
-        "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
-        "current_price": 33.60, "week_52_high": 50.20, "week_52_low": 30.40,
-        "week_52_position_pct": 16.5,
-        "sector_discount_pct": 18.5, "catalyst_met_count": 2, "risk_level_max": "LOW",
-    },
-    {
-        "ticker": "ENXT", "company_name": "EnerNext Resources Corp.",
-        "sector": "Energy", "industry": "Oil & Gas E&P",
-        "market_cap_usd_b": 3.8, "avg_daily_volume_m": 1.5,
-        "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
-        "current_price": 19.85, "week_52_high": 34.60, "week_52_low": 17.20,
-        "week_52_position_pct": 15.1,
-        "sector_discount_pct": 41.4, "catalyst_met_count": 3, "risk_level_max": "HIGH",
+        "current_price": 43.1, "week_52_high": 58.5, "week_52_low": 38.0,
+        "week_52_position_pct": 20.3,
+        "revenue_growth_yoy_pct": 5.8, "eps_revision_trend": "STABLE",
+        "operating_margin_pct": 8.5, "roe_pct": 17.2,
+        "price_1m_change_pct": -7.8, "price_3m_change_pct": -21.4,
+        "drawdown_from_52w_high_pct": -26.2,
+        "sector_tailwind_hint": 0.4,
+        "historical_pct_rank": 14,
+        "sector_discount_pct": 22.1, "catalyst_met_count": 2, "risk_level_max": "MEDIUM",
     },
     # ── 필터 통과 + 점수 미달 (2) ───────────────────────────────
     {
@@ -59,6 +109,12 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
         "current_price": 148.40, "week_52_high": 180.00, "week_52_low": 130.20,
         "week_52_position_pct": 40.1,
+        "revenue_growth_yoy_pct": 1.8, "eps_revision_trend": "STABLE",
+        "operating_margin_pct": 14.2, "roe_pct": 9.4,
+        "price_1m_change_pct": -2.1, "price_3m_change_pct": -8.4,
+        "drawdown_from_52w_high_pct": -17.6,
+        "sector_tailwind_hint": 0.2,
+        "historical_pct_rank": 42,
         "sector_discount_pct": 11.2, "catalyst_met_count": 1, "risk_level_max": "MEDIUM",
     },
     {
@@ -68,6 +124,12 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
         "current_price": 22.10, "week_52_high": 34.80, "week_52_low": 20.50,
         "week_52_position_pct": 38.5,
+        "revenue_growth_yoy_pct": 4.1, "eps_revision_trend": "STABLE",
+        "operating_margin_pct": 9.8, "roe_pct": 12.3,
+        "price_1m_change_pct": -3.4, "price_3m_change_pct": -9.2,
+        "drawdown_from_52w_high_pct": -36.5,
+        "sector_tailwind_hint": 0.35,
+        "historical_pct_rank": 38,
         "sector_discount_pct": 14.6, "catalyst_met_count": 1, "risk_level_max": "MEDIUM",
     },
     # ── 필터 제외 (5) ───────────────────────────────────────────
@@ -78,6 +140,12 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
         "current_price": 18.50, "week_52_high": 28.00, "week_52_low": 15.20,
         "week_52_position_pct": 31.6,
+        "revenue_growth_yoy_pct": 6.2, "eps_revision_trend": "STABLE",
+        "operating_margin_pct": 11.4, "roe_pct": 14.1,
+        "price_1m_change_pct": -4.8, "price_3m_change_pct": -12.3,
+        "drawdown_from_52w_high_pct": -33.9,
+        "sector_tailwind_hint": 0.4,
+        "historical_pct_rank": 28,
         "sector_discount_pct": 22.0, "catalyst_met_count": 2, "risk_level_max": "LOW",
     },
     {
@@ -87,6 +155,12 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "has_operating_income": True, "is_adr": False, "in_bankruptcy": False,
         "current_price": 11.20, "week_52_high": 19.50, "week_52_low": 9.80,
         "week_52_position_pct": 20.3,
+        "revenue_growth_yoy_pct": 2.1, "eps_revision_trend": "DOWN",
+        "operating_margin_pct": 7.2, "roe_pct": 6.8,
+        "price_1m_change_pct": -8.4, "price_3m_change_pct": -22.1,
+        "drawdown_from_52w_high_pct": -42.6,
+        "sector_tailwind_hint": 0.35,
+        "historical_pct_rank": 22,
         "sector_discount_pct": 30.1, "catalyst_met_count": 2, "risk_level_max": "HIGH",
     },
     {
@@ -96,6 +170,12 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "has_operating_income": False, "is_adr": False, "in_bankruptcy": False,  # ← 적자
         "current_price": 9.40, "week_52_high": 18.20, "week_52_low": 7.60,
         "week_52_position_pct": 22.0,
+        "revenue_growth_yoy_pct": -5.2, "eps_revision_trend": "DOWN",
+        "operating_margin_pct": -8.4, "roe_pct": -12.1,
+        "price_1m_change_pct": -18.3, "price_3m_change_pct": -41.2,
+        "drawdown_from_52w_high_pct": -48.4,
+        "sector_tailwind_hint": 0.25,
+        "historical_pct_rank": 35,
         "sector_discount_pct": 35.0, "catalyst_met_count": 1, "risk_level_max": "HIGH",
     },
     {
@@ -105,6 +185,12 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "has_operating_income": True, "is_adr": True, "in_bankruptcy": False,  # ← ADR
         "current_price": 132.80, "week_52_high": 165.00, "week_52_low": 110.50,
         "week_52_position_pct": 41.6,
+        "revenue_growth_yoy_pct": 3.8, "eps_revision_trend": "STABLE",
+        "operating_margin_pct": 21.3, "roe_pct": 18.6,
+        "price_1m_change_pct": -1.2, "price_3m_change_pct": -6.8,
+        "drawdown_from_52w_high_pct": -19.5,
+        "sector_tailwind_hint": 0.3,
+        "historical_pct_rank": 45,
         "sector_discount_pct": 15.2, "catalyst_met_count": 1, "risk_level_max": "LOW",
     },
     {
@@ -114,6 +200,12 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "has_operating_income": False, "is_adr": False, "in_bankruptcy": True,  # ← 부도 위험
         "current_price": 3.10, "week_52_high": 7.80, "week_52_low": 2.40,
         "week_52_position_pct": 10.0,
+        "revenue_growth_yoy_pct": -18.4, "eps_revision_trend": "DOWN",
+        "operating_margin_pct": -22.1, "roe_pct": -38.4,
+        "price_1m_change_pct": -22.4, "price_3m_change_pct": -54.8,
+        "drawdown_from_52w_high_pct": -60.3,
+        "sector_tailwind_hint": 0.2,
+        "historical_pct_rank": 60,
         "sector_discount_pct": 55.0, "catalyst_met_count": 0, "risk_level_max": "HIGH",
     },
 ]

@@ -10,25 +10,56 @@
     "short_description": "엣지 AI 추론 및 IoT용 저전력 반도체 설계 전문 팹리스 기업. 자동차·산업용 AI 칩 시장에서 점유율을 확대하고 있으며, 매출의 65%가 장기 공급 계약 기반이다.",
     "headquarters": "San Jose, CA, USA",
     "market_cap_usd_b": 11.4,
-    "employee_count": { "value": 4200, "status": "CONFIRMED" },
+    "employee_count": {
+      "value": 4200,
+      "status": "CONFIRMED"
+    },
     "fiscal_year_end": "12-31"
   },
-  "current_price": { "value": 76.30, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+  "current_price": {
+    "value": 76.3,
+    "currency": "USD",
+    "as_of": "2026-03-14T21:00:00Z"
+  },
   "price_context": {
-    "week_52_high": { "value": 118.40, "status": "CONFIRMED" },
-    "week_52_low": { "value": 68.50, "status": "CONFIRMED" },
-    "week_52_position_pct": { "value": 15.7, "status": "CONFIRMED" },
-    "drawdown_from_52w_high_pct": { "value": -35.6, "status": "CONFIRMED" },
-    "price_1m_change_pct": { "value": -14.2, "status": "CONFIRMED" },
-    "price_3m_change_pct": { "value": -31.8, "status": "CONFIRMED" },
-    "price_6m_change_pct": { "value": -36.4, "status": "CONFIRMED" },
-    "price_ytd_change_pct": { "value": -24.1, "status": "CONFIRMED" },
+    "week_52_high": {
+      "value": 118.4,
+      "status": "CONFIRMED"
+    },
+    "week_52_low": {
+      "value": 68.5,
+      "status": "CONFIRMED"
+    },
+    "week_52_position_pct": {
+      "value": 15.7,
+      "status": "CONFIRMED"
+    },
+    "drawdown_from_52w_high_pct": {
+      "value": -35.6,
+      "status": "CONFIRMED"
+    },
+    "price_1m_change_pct": {
+      "value": -14.2,
+      "status": "CONFIRMED"
+    },
+    "price_3m_change_pct": {
+      "value": -31.8,
+      "status": "CONFIRMED"
+    },
+    "price_6m_change_pct": {
+      "value": -36.4,
+      "status": "CONFIRMED"
+    },
+    "price_ytd_change_pct": {
+      "value": -24.1,
+      "status": "CONFIRMED"
+    },
     "as_of": "2026-03-14"
   },
   "interest_price_range": {
     "status": "CONFIRMED",
-    "lower_bound": 73.00,
-    "upper_bound": 84.00,
+    "lower_bound": 73.0,
+    "upper_bound": 84.0,
     "basis_metric": "Fwd P/E",
     "basis_sector_median_value": 24.8,
     "conditional_statement": "현재 Fwd P/E는 약 17.6배로 반도체 섹터 중앙값(24.8배) 대비 약 29% 할인 상태다. 섹터 중앙값 수렴 시 이론적 가격 범위는 $73.00~$84.00 수준으로 추산된다.",
@@ -37,12 +68,30 @@
   "valuation": {
     "primary_metric": "Fwd P/E",
     "metrics": {
-      "fwd_per": { "value": 17.6, "status": "CONFIRMED" },
-      "trailing_per": { "value": 20.4, "status": "CONFIRMED" },
-      "ev_ebitda": { "value": 12.8, "status": "CONFIRMED" },
-      "pb": { "value": 3.4, "status": "CONFIRMED" },
-      "ps": { "value": 4.1, "status": "CONFIRMED" },
-      "p_fcf": { "value": 22.1, "status": "CONFIRMED" }
+      "fwd_per": {
+        "value": 17.6,
+        "status": "CONFIRMED"
+      },
+      "trailing_per": {
+        "value": 20.4,
+        "status": "CONFIRMED"
+      },
+      "ev_ebitda": {
+        "value": 12.8,
+        "status": "CONFIRMED"
+      },
+      "pb": {
+        "value": 3.4,
+        "status": "CONFIRMED"
+      },
+      "ps": {
+        "value": 4.1,
+        "status": "CONFIRMED"
+      },
+      "p_fcf": {
+        "value": 22.1,
+        "status": "CONFIRMED"
+      }
     },
     "valuation_discount_vs_sector": {
       "status": "CONFIRMED",
@@ -66,29 +115,73 @@
   "financials": {
     "status": "CONFIRMED",
     "fiscal_year": "FY2025",
-    "revenue_ttm_b": { "value": 2.8, "status": "CONFIRMED" },
-    "revenue_growth_yoy_pct": { "value": 22.4, "status": "CONFIRMED" },
-    "operating_income_ttm_b": { "value": 0.62, "status": "CONFIRMED" },
-    "operating_margin_pct": { "value": 22.1, "status": "CONFIRMED" },
-    "net_income_ttm_b": { "value": 0.52, "status": "CONFIRMED" },
-    "eps_ttm": { "value": 4.33, "status": "CONFIRMED" },
-    "eps_fwd_consensus": { "value": 5.18, "status": "CONFIRMED" },
+    "revenue_ttm_b": {
+      "value": 2.8,
+      "status": "CONFIRMED"
+    },
+    "revenue_growth_yoy_pct": {
+      "value": 22.4,
+      "status": "CONFIRMED"
+    },
+    "operating_income_ttm_b": {
+      "value": 0.62,
+      "status": "CONFIRMED"
+    },
+    "operating_margin_pct": {
+      "value": 22.1,
+      "status": "CONFIRMED"
+    },
+    "net_income_ttm_b": {
+      "value": 0.52,
+      "status": "CONFIRMED"
+    },
+    "eps_ttm": {
+      "value": 4.33,
+      "status": "CONFIRMED"
+    },
+    "eps_fwd_consensus": {
+      "value": 5.18,
+      "status": "CONFIRMED"
+    },
     "eps_revision_trend": "UP",
-    "fcf_ttm_b": { "value": 0.38, "status": "CONFIRMED" },
-    "net_debt_b": { "value": -0.6, "status": "CONFIRMED" },
-    "net_debt_to_ebitda": { "value": -0.8, "status": "CONFIRMED" },
-    "interest_coverage_ratio": { "value": 42.0, "status": "CONFIRMED" },
-    "roe_pct": { "value": 28.6, "status": "CONFIRMED" }
+    "fcf_ttm_b": {
+      "value": 0.38,
+      "status": "CONFIRMED"
+    },
+    "net_debt_b": {
+      "value": -0.6,
+      "status": "CONFIRMED"
+    },
+    "net_debt_to_ebitda": {
+      "value": -0.8,
+      "status": "CONFIRMED"
+    },
+    "interest_coverage_ratio": {
+      "value": 42.0,
+      "status": "CONFIRMED"
+    },
+    "roe_pct": {
+      "value": 28.6,
+      "status": "CONFIRMED"
+    }
   },
   "undervaluation_judgment": {
     "is_discounted_vs_sector": true,
     "is_discounted_vs_history": true,
     "combined_signal": "STRONG_SIGNAL",
-    "primary_discount_drivers": ["AI_인프라_투자_조정_우려", "반도체_사이클_피크아웃_공포", "관세_공급망_재편_비용", "고배수_섹터_전반_리레이팅"],
+    "primary_discount_drivers": [
+      "AI_인프라_투자_조정_우려",
+      "반도체_사이클_피크아웃_공포",
+      "관세_공급망_재편_비용",
+      "고배수_섹터_전반_리레이팅"
+    ],
     "discount_narrative": {
       "content": "VCNX의 할인은 AI 인프라 투자 조정 우려가 반도체 섹터 전반을 압박하는 국면에서 발생했다. 그러나 VCNX의 엣지 AI 칩은 데이터센터 GPU와 달리 자동차·산업 자동화 수요에 기반하며, 이 수요는 AI 인프라 투자 사이클과 독립적이다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "valuation.historical_valuation_position.percentile_rank"]
+      "data_fields_referenced": [
+        "valuation.valuation_discount_vs_sector",
+        "valuation.historical_valuation_position.percentile_rank"
+      ]
     }
   },
   "catalyst_assessment": {
@@ -179,22 +272,34 @@
     "why_discounted": {
       "content": "VCNX는 AI 섹터 전반의 밸류에이션 리셋 과정에서 본질과 무관하게 할인이 부여됐다. 엣지 AI 칩의 수요 기반(자동차·산업)이 데이터센터와 다름에도 시장이 '반도체=AI 인프라 노출'로 일괄 처리한 결과다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.historical_valuation_position.percentile_rank", "financials.eps_revision_trend"]
+      "data_fields_referenced": [
+        "valuation.historical_valuation_position.percentile_rank",
+        "financials.eps_revision_trend"
+      ]
     },
     "why_worth_revisiting": {
       "content": "세 가지 촉매를 모두 충족하는 드문 상황이다. EPS 컨센서스가 상향되는 동안 주가가 36% 하락했다 — 이 역방향은 시장 오류 가능성을 시사한다. 4월 실적에서 자동차 고객 주문 유지 여부와 신규 설계수주(design win) 발표가 핵심이다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["catalyst_assessment", "financials.eps_revision_trend"]
+      "data_fields_referenced": [
+        "catalyst_assessment",
+        "financials.eps_revision_trend"
+      ]
     },
     "key_risks_narrative": {
       "content": "대형 반도체사의 엣지 AI 시장 진입과 자동차 생산 감소가 동시에 현실화될 경우, 성장 궤도 자체가 훼손될 수 있다. EPS 컨센서스 상향이 유지되는지 여부가 투자 판단의 핵심 선행 지표다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["structural_risks", "short_term_risks"]
+      "data_fields_referenced": [
+        "structural_risks",
+        "short_term_risks"
+      ]
     },
     "investment_context": {
       "content": "VCNX는 펀더멘털(EPS 상향, 순현금, 22% 성장)과 주가(36% 하락) 사이의 괴리가 섹터 내 가장 극단적인 케이스다. 4월 실적에서 자동차 칩 수주가 유지되고 가이던스가 컨센서스를 충족한다면, 현재 Fwd P/E 17.6배는 중기 리레이팅의 출발점으로 해석될 수 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["catalyst_assessment", "valuation.valuation_discount_vs_sector"]
+      "data_fields_referenced": [
+        "catalyst_assessment",
+        "valuation.valuation_discount_vs_sector"
+      ]
     },
     "generated_at": "2026-03-15T11:20:00Z",
     "model_id": "claude-sonnet-4-6",
@@ -202,8 +307,18 @@
   },
   "data_quality_flags": [],
   "data_sources": [
-    { "source_id": "ds_mock_001", "provider_name": "Mock Data", "data_category": "fundamentals", "as_of": "2026-03-14T20:00:00Z" },
-    { "source_id": "ds_mock_002", "provider_name": "Mock Data", "data_category": "price", "as_of": "2026-03-14T21:00:00Z" }
+    {
+      "source_id": "ds_mock_001",
+      "provider_name": "Mock Data",
+      "data_category": "fundamentals",
+      "as_of": "2026-03-14T20:00:00Z"
+    },
+    {
+      "source_id": "ds_mock_002",
+      "provider_name": "Mock Data",
+      "data_category": "price",
+      "as_of": "2026-03-14T21:00:00Z"
+    }
   ],
   "disclaimer_blocks": [
     {
@@ -220,5 +335,6 @@
     "reviewed_at": "2026-03-15T14:00:00Z",
     "published_at": "2026-03-17T09:00:00Z",
     "last_updated_at": "2026-03-17T09:00:00Z"
-  }
+  },
+  "selection_type": "GROWTH_BENEFICIARY"
 }

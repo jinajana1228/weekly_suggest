@@ -10,25 +10,56 @@
     "short_description": "북미 중서부 및 남부 지역을 기반으로 한 독립 발전사. 재생에너지(태양광·풍력) 비중이 전체 발전 용량의 62%에 달하며, 전력판매계약(PPA) 기반 고정 수익이 매출의 75%를 구성한다.",
     "headquarters": "Houston, TX, USA",
     "market_cap_usd_b": 5.6,
-    "employee_count": { "value": 3800, "status": "CONFIRMED" },
+    "employee_count": {
+      "value": 3800,
+      "status": "CONFIRMED"
+    },
     "fiscal_year_end": "12-31"
   },
-  "current_price": { "value": 34.20, "currency": "USD", "as_of": "2026-03-14T21:00:00Z" },
+  "current_price": {
+    "value": 34.2,
+    "currency": "USD",
+    "as_of": "2026-03-14T21:00:00Z"
+  },
   "price_context": {
-    "week_52_high": { "value": 54.60, "status": "CONFIRMED" },
-    "week_52_low": { "value": 31.40, "status": "CONFIRMED" },
-    "week_52_position_pct": { "value": 12.2, "status": "CONFIRMED" },
-    "drawdown_from_52w_high_pct": { "value": -37.4, "status": "CONFIRMED" },
-    "price_1m_change_pct": { "value": -9.1, "status": "CONFIRMED" },
-    "price_3m_change_pct": { "value": -28.3, "status": "CONFIRMED" },
-    "price_6m_change_pct": { "value": -33.1, "status": "CONFIRMED" },
-    "price_ytd_change_pct": { "value": -21.4, "status": "CONFIRMED" },
+    "week_52_high": {
+      "value": 54.6,
+      "status": "CONFIRMED"
+    },
+    "week_52_low": {
+      "value": 31.4,
+      "status": "CONFIRMED"
+    },
+    "week_52_position_pct": {
+      "value": 12.2,
+      "status": "CONFIRMED"
+    },
+    "drawdown_from_52w_high_pct": {
+      "value": -37.4,
+      "status": "CONFIRMED"
+    },
+    "price_1m_change_pct": {
+      "value": -9.1,
+      "status": "CONFIRMED"
+    },
+    "price_3m_change_pct": {
+      "value": -28.3,
+      "status": "CONFIRMED"
+    },
+    "price_6m_change_pct": {
+      "value": -33.1,
+      "status": "CONFIRMED"
+    },
+    "price_ytd_change_pct": {
+      "value": -21.4,
+      "status": "CONFIRMED"
+    },
     "as_of": "2026-03-14"
   },
   "interest_price_range": {
     "status": "CONFIRMED",
-    "lower_bound": 33.00,
-    "upper_bound": 37.50,
+    "lower_bound": 33.0,
+    "upper_bound": 37.5,
     "basis_metric": "EV/EBITDA",
     "basis_sector_median_value": 9.8,
     "conditional_statement": "현재 EV/EBITDA는 약 6.3배로 에너지 섹터 독립발전사 중앙값(9.8배) 대비 약 36% 할인 상태다. 섹터 중앙값 수렴 시 이론적 가격 범위는 $33.00~$37.50 수준으로 추산된다. 이는 매수 추천 가격이 아니며 밸류에이션 맥락 이해를 위한 조건부 참고치다.",
@@ -37,12 +68,30 @@
   "valuation": {
     "primary_metric": "EV/EBITDA",
     "metrics": {
-      "fwd_per": { "value": 14.3, "status": "CONFIRMED" },
-      "trailing_per": { "value": 15.8, "status": "CONFIRMED" },
-      "ev_ebitda": { "value": 6.3, "status": "CONFIRMED" },
-      "pb": { "value": 1.2, "status": "CONFIRMED" },
-      "ps": { "value": 1.4, "status": "CONFIRMED" },
-      "p_fcf": { "value": 11.8, "status": "CONFIRMED" }
+      "fwd_per": {
+        "value": 14.3,
+        "status": "CONFIRMED"
+      },
+      "trailing_per": {
+        "value": 15.8,
+        "status": "CONFIRMED"
+      },
+      "ev_ebitda": {
+        "value": 6.3,
+        "status": "CONFIRMED"
+      },
+      "pb": {
+        "value": 1.2,
+        "status": "CONFIRMED"
+      },
+      "ps": {
+        "value": 1.4,
+        "status": "CONFIRMED"
+      },
+      "p_fcf": {
+        "value": 11.8,
+        "status": "CONFIRMED"
+      }
     },
     "valuation_discount_vs_sector": {
       "status": "CONFIRMED",
@@ -66,29 +115,73 @@
   "financials": {
     "status": "CONFIRMED",
     "fiscal_year": "FY2025",
-    "revenue_ttm_b": { "value": 3.9, "status": "CONFIRMED" },
-    "revenue_growth_yoy_pct": { "value": 8.4, "status": "CONFIRMED" },
-    "operating_income_ttm_b": { "value": 0.72, "status": "CONFIRMED" },
-    "operating_margin_pct": { "value": 18.5, "status": "CONFIRMED" },
-    "net_income_ttm_b": { "value": 0.44, "status": "CONFIRMED" },
-    "eps_ttm": { "value": 2.39, "status": "CONFIRMED" },
-    "eps_fwd_consensus": { "value": 2.68, "status": "CONFIRMED" },
+    "revenue_ttm_b": {
+      "value": 3.9,
+      "status": "CONFIRMED"
+    },
+    "revenue_growth_yoy_pct": {
+      "value": 8.4,
+      "status": "CONFIRMED"
+    },
+    "operating_income_ttm_b": {
+      "value": 0.72,
+      "status": "CONFIRMED"
+    },
+    "operating_margin_pct": {
+      "value": 18.5,
+      "status": "CONFIRMED"
+    },
+    "net_income_ttm_b": {
+      "value": 0.44,
+      "status": "CONFIRMED"
+    },
+    "eps_ttm": {
+      "value": 2.39,
+      "status": "CONFIRMED"
+    },
+    "eps_fwd_consensus": {
+      "value": 2.68,
+      "status": "CONFIRMED"
+    },
     "eps_revision_trend": "STABLE",
-    "fcf_ttm_b": { "value": 0.51, "status": "CONFIRMED" },
-    "net_debt_b": { "value": 1.8, "status": "CONFIRMED" },
-    "net_debt_to_ebitda": { "value": 2.1, "status": "CONFIRMED" },
-    "interest_coverage_ratio": { "value": 4.8, "status": "CONFIRMED" },
-    "roe_pct": { "value": 11.3, "status": "CONFIRMED" }
+    "fcf_ttm_b": {
+      "value": 0.51,
+      "status": "CONFIRMED"
+    },
+    "net_debt_b": {
+      "value": 1.8,
+      "status": "CONFIRMED"
+    },
+    "net_debt_to_ebitda": {
+      "value": 2.1,
+      "status": "CONFIRMED"
+    },
+    "interest_coverage_ratio": {
+      "value": 4.8,
+      "status": "CONFIRMED"
+    },
+    "roe_pct": {
+      "value": 11.3,
+      "status": "CONFIRMED"
+    }
   },
   "undervaluation_judgment": {
     "is_discounted_vs_sector": true,
     "is_discounted_vs_history": true,
     "combined_signal": "STRONG_SIGNAL",
-    "primary_discount_drivers": ["금리_고원_장기화", "에너지_전환_속도_불확실성", "관세_인상_자재비_압박", "2025Q4_어닝_미스"],
+    "primary_discount_drivers": [
+      "금리_고원_장기화",
+      "에너지_전환_속도_불확실성",
+      "관세_인상_자재비_압박",
+      "2025Q4_어닝_미스"
+    ],
     "discount_narrative": {
       "content": "NXPW의 현재 할인은 금리 고원 장기화에 따른 자본비용 부담, 재생에너지 인프라 자재비 상승, 그리고 2025년 4분기의 일시적 어닝 미스가 중첩된 결과다. 그러나 PPA 기반 75% 고정 매출은 현금흐름의 구조적 안정성을 보장하며, 신규 태양광 용량 추가에 따른 EBITDA 성장 궤도는 훼손되지 않았다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "valuation.historical_valuation_position.percentile_rank"]
+      "data_fields_referenced": [
+        "valuation.valuation_discount_vs_sector",
+        "valuation.historical_valuation_position.percentile_rank"
+      ]
     }
   },
   "catalyst_assessment": {
@@ -187,22 +280,34 @@
     "why_discounted": {
       "content": "NXPW의 현재 할인은 금리 고원 장기화, 자재비 인플레이션, 그리고 2025년 4분기 어닝 미스의 3중 복합 압박에서 비롯됐다. 그러나 PPA 기반 고정 매출(75%)은 사업 구조의 근본적 훼손과 거리가 멀다. 시장은 레버리지 부담과 정책 리스크를 과도하게 반영하고 있는 것으로 판단된다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["valuation.valuation_discount_vs_sector", "valuation.historical_valuation_position.percentile_rank"]
+      "data_fields_referenced": [
+        "valuation.valuation_discount_vs_sector",
+        "valuation.historical_valuation_position.percentile_rank"
+      ]
     },
     "why_worth_revisiting": {
       "content": "세 가지 촉매 조건을 모두 충족한다. 5월 실적 발표는 신규 태양광 용량의 상업 운전 일정과 PPA 단가 재협상 현황을 확인할 첫 공식 데이터 포인트다. 애널리스트 7개사 평균 목표가 대비 41% 괴리는 기관 투자자의 리레이팅 기대를 반영한다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["catalyst_assessment", "financials.eps_fwd_consensus"]
+      "data_fields_referenced": [
+        "catalyst_assessment",
+        "financials.eps_fwd_consensus"
+      ]
     },
     "key_risks_narrative": {
       "content": "핵심 리스크는 레버리지와 정책 두 축이다. 2.1배 순부채/EBITDA는 금리 환경이 정상화되지 않는 한 FCF 성장의 상당 부분을 이자 비용으로 흡수한다. 재생에너지 보조금 정책의 불확실성은 신규 프로젝트 파이프라인의 수익성 가정 전체를 흔들 수 있다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["structural_risks", "financials.net_debt_to_ebitda"]
+      "data_fields_referenced": [
+        "structural_risks",
+        "financials.net_debt_to_ebitda"
+      ]
     },
     "investment_context": {
       "content": "NXPW는 구조적으로 안정적인 현금흐름 기반(PPA 75%)을 갖추고 있으나, 성장 투자의 레버리지 비용이 단기 수익성을 제약하고 있다. 5월 실적에서 신규 용량 일정 이상 무 및 이자보상배율 유지가 확인된다면, 현재 EV/EBITDA 6.3배는 중기 재진입 기회로 해석될 수 있다. 단, 금리 방향성과 정책 환경이 가장 중요한 외생 변수임을 전제로 판단해야 한다.",
       "status": "APPROVED",
-      "data_fields_referenced": ["catalyst_assessment", "valuation.valuation_discount_vs_sector"]
+      "data_fields_referenced": [
+        "catalyst_assessment",
+        "valuation.valuation_discount_vs_sector"
+      ]
     },
     "generated_at": "2026-03-15T09:30:00Z",
     "model_id": "claude-sonnet-4-6",
@@ -210,8 +315,18 @@
   },
   "data_quality_flags": [],
   "data_sources": [
-    { "source_id": "ds_mock_001", "provider_name": "Mock Data", "data_category": "fundamentals", "as_of": "2026-03-14T20:00:00Z" },
-    { "source_id": "ds_mock_002", "provider_name": "Mock Data", "data_category": "price", "as_of": "2026-03-14T21:00:00Z" }
+    {
+      "source_id": "ds_mock_001",
+      "provider_name": "Mock Data",
+      "data_category": "fundamentals",
+      "as_of": "2026-03-14T20:00:00Z"
+    },
+    {
+      "source_id": "ds_mock_002",
+      "provider_name": "Mock Data",
+      "data_category": "price",
+      "as_of": "2026-03-14T21:00:00Z"
+    }
   ],
   "disclaimer_blocks": [
     {
@@ -234,5 +349,6 @@
     "reviewed_at": "2026-03-15T11:30:00Z",
     "published_at": "2026-03-17T09:00:00Z",
     "last_updated_at": "2026-03-17T09:00:00Z"
-  }
+  },
+  "selection_type": "GROWTH_BENEFICIARY"
 }

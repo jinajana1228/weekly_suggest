@@ -11,9 +11,21 @@ interface StockCardProps {
   dataAsOf?: string;
 }
 
+const SELECTION_TYPE_CONFIG = {
+  GROWTH_BENEFICIARY: {
+    label: "성장·수혜",
+    className: "text-sky-400 border-sky-800 bg-sky-950/40",
+  },
+  UNDERVALUED: {
+    label: "저평가",
+    className: "text-accent-gold border-yellow-800 bg-yellow-950/40",
+  },
+} as const;
+
 export function StockCard({ stock, reportId }: StockCardProps) {
   const hasDataWarning = stock.data_quality_summary.highest_severity === "WARNING";
   const discountPct = stock.valuation_signal.sector_discount_pct;
+  const selConfig = stock.selection_type ? SELECTION_TYPE_CONFIG[stock.selection_type] : null;
 
   return (
     <Link
@@ -32,6 +44,11 @@ export function StockCard({ stock, reportId }: StockCardProps) {
                 <span className="text-[10px] text-text-muted border border-border-default rounded px-1.5 py-0.5 leading-none">
                   {stock.exchange}
                 </span>
+                {selConfig && (
+                  <span className={`text-[10px] border rounded px-1.5 py-0.5 leading-none ${selConfig.className}`}>
+                    {selConfig.label}
+                  </span>
+                )}
                 {hasDataWarning && (
                   <span className="text-[10px] text-yellow-600 border border-yellow-900 rounded px-1.5 py-0.5 leading-none bg-yellow-950/40">
                     데이터 주의
