@@ -1,380 +1,419 @@
-# Weekly Suggest — 운영 런북 (Operations Runbook)
+# Weekly Suggest — 운영 SOP (Standard Operating Procedure)
 
-## 외부 사용자가 보는 URL
-
-| URL | 내용 |
-|-----|------|
-| `https://weekly-suggest.vercel.app/` | 최신 발행 에디션 (latest) |
-| `https://weekly-suggest.vercel.app/archive` | 발행 이력 전체 |
-| `https://weekly-suggest.vercel.app/archive/N` | VOL.N 에디션 상세 |
-| `https://weekly-suggest.vercel.app/report/[id]` | 종목 상세 리포트 |
-| `https://weekly-suggest.vercel.app/disclaimer` | 면책 고지 |
-
-> Admin(`/admin`)은 외부에 공유하지 않는다. API 키 없으면 데이터 변경 불가.
+> **문서 기준**: VOL.3 발행 완료 / 2026-03-17
+> **운영 구조**: JSON-only 발행 + Git push → Railway 자동 재배포
+> **발행 자동화**: `scripts/publish_release.py` (screen / narrate / review / preflight / prepare / commit / verify)
+> **격주 자동화**: `.github/workflows/biweekly_prepare.yml` + `scripts/biweekly_prep.py`
+> **자동화 상세**: `docs/deployment/AUTOMATION.md` 참조
+> **이 문서는 반복 운영에 직접 사용하는 절차서다.**
 
 ---
 
-## 배포 환경 기준 격주 발행 절차 (빠른 참조)
+## 1. 운영 목적
 
-```bash
-# 1. 로컬에서 스크리닝 실행
-cd weekly_suggest
-python scripts/create_edition.py
-# → report_id, task_id 출력값 기록
+Weekly Suggest는 격주로 발행되는 **정적 리포트 서비스**다.
 
-# 2. (선택) Narrative 생성
-python scripts/generate_narratives.py --report-id <report_id>
-
-# 3. Admin 검토 — 로컬 admin UI 또는 직접 API 호출
-#    모든 종목 APPROVED 확인
-
-# 4. 발행 실행
-python scripts/publish_edition.py --report-id <report_id> --task-id <task_id>
-# → edition_latest.json 갱신 + state.db latest_pointer 설정
-
-# 5. Git 커밋 + Push
-git add data/mock/reports/
-git commit -m "publish: VOL.N $(date +%Y-%m-%d) 정기 발행"
-git push origin main
-# → Railway 자동 재배포 → 외부 사용자에게 새 에디션 표시
-
-# 6. 확인
-curl -s https://weekly-suggest-api.railway.app/api/v1/reports/latest | head -c 200
-```
+- 사용자 접속 시 실시간 계산하지 않는다
+- 사전에 준비된 JSON 발행본만 제공한다
+- `latest`는 항상 최신 발행본 1개만 대표한다
+- `archive`는 이전 발행본을 누적·영구 보관한다
 
 ---
 
-## 기본 운영 정책
+## 2. 현재 운영 상태
 
 | 항목 | 내용 |
 |------|------|
-| 정기 발행 주기 | 격주 월요일 오전 8시 |
-| 추가 발행 조건 | 주요 어닝 시즌 / 시장 이벤트 발생 |
-| 최신 리포트 | 항상 latest published edition 표시 |
-| 이전 리포트 | archive에 누적, 영구 보관 |
-| 발행 게이트 | 스크리닝 → 검토 → Publish Guard 통과 필수 |
-| 접속 시 재계산 | 없음 — 발행 완료된 결과만 제공 |
+| 최신 에디션 | VOL.3 (`re_20260317_003`) |
+| 발행일 | 2026-03-17 |
+| 종목 | NXPW, BLFN, STRL, VCNX, DFTL |
+| 아카이브 | VOL.1, VOL.2 보관 중 |
+| 백엔드 | Railway (Docker) |
+| 프론트엔드 | Vercel |
+| 데이터 소스 | `data/mock/reports/` JSON 파일 |
 
----
-
-## 발행 흐름 전체 다이어그램
-
-```
-[격주 월요일 D-1 ~ D-0]
-
-  ① 스크리닝 실행
-     python scripts/create_edition.py
-     → 후보 종목 필터링 + 점수 계산
-     → review_task 생성 → SQLite 저장
-     → data/mock/reports/ 에 JSON 파일 생성
-
-  ② (선택) Narrative 자동 생성
-     python scripts/generate_narratives.py --report-id <id>
-     → Claude API 호출 → 4개 NarrativeBlock 생성
-     → JSON 파일에 반영
-
-  ③ Admin 검토
-     http://localhost:PORT/admin (또는 배포 URL, 내부 접근)
-     → 종목별 PENDING → APPROVED / FLAGGED / REJECTED
-     → 5개 전원 APPROVED 확인
-
-  ④ 발행 실행
-     python scripts/publish_edition.py \
-       --report-id <id> --task-id <task_id>
-     → Publish Guard 5개 조건 검사
-     → state.db: edition status → PUBLISHED
-     → state.db: latest_pointer → 새 edition
-
-  ⑤ 외부 사용자 접근
-     https://weekly-suggest.vercel.app/
-     → GET /api/v1/reports/latest
-     → latest_pointer → JSON 파일 → 화면 표시
-
-  ⑥ 이전 에디션 아카이브
-     자동: latest_pointer 갱신 시 이전 edition → ARCHIVED
-     아카이브 확인: https://weekly-suggest.vercel.app/archive
-```
-
----
-
-## 시나리오 1 — 격주 정기 발행
-
-**타이밍**: 격주 일요일 오후 작업 → 월요일 오전 8시 발행
-
-### Step 1: 스크리닝 실행 (일요일 오후)
-
-```bash
-cd weekly_suggest
-
-# 기본 실행 (격주 정기)
-python scripts/create_edition.py
-
-# 확인 후 이상 없으면 진행 (dry-run 으로 먼저 확인)
-python scripts/create_edition.py --dry-run
-python scripts/create_edition.py --issue-type REGULAR_BIWEEKLY
-```
-
-출력 예:
-```
-[1/4] 스크리닝 실행 중...
-      후보 14개 -> 선정 5개
-        MFGI   score=94.1  discount=28.4%  risk=LOW
-        ...
-[4/4] Edition VOL.3 생성 완료
-      report_id : re_20260317_003
-      task_id   : task_20260315_002
-다음 단계: python scripts/publish_edition.py --report-id re_20260317_003 --task-id task_20260315_002
-```
-
-### Step 2: Narrative 생성 (선택, 일요일 오후)
-
-```bash
-python scripts/generate_narratives.py --report-id re_20260317_003
-
-# 이미 생성된 항목 재생성 시
-python scripts/generate_narratives.py --report-id re_20260317_003 --overwrite
-```
-
-### Step 3: Admin 검토 (일요일 저녁)
-
-1. `/admin` 접속 (또는 curl로 API 직접 호출)
-2. 종목별 수치/서술 확인
-3. 각 종목 → APPROVED (또는 FLAGGED)
-4. 전원 APPROVED 확인
-
-### Step 4: 발행 (월요일 오전 8시 직전)
-
-```bash
-python scripts/publish_edition.py \
-  --report-id re_20260317_003 \
-  --task-id task_20260315_002
-
-# dry-run 으로 게이트 조건 먼저 확인
-python scripts/publish_edition.py \
-  --report-id re_20260317_003 \
-  --task-id task_20260315_002 \
-  --dry-run
-```
-
-Publish Guard 통과 조건:
-- 종목 수 >= 5
-- 모든 종목 APPROVED
-- 종목당 data_quality_flag_count <= 3
-- 해당 에디션 미발행 상태
-- (선택) narrative 생성 완료
-
-### Step 5: 발행 확인
-
-```bash
-# API 응답 확인
-curl https://weekly-suggest-api.railway.app/api/v1/reports/latest | head -c 200
-
-# 또는 브라우저에서 메인 페이지 접속
-# https://weekly-suggest.vercel.app/
-```
-
----
-
-## 시나리오 2 — 어닝/이벤트 임시 발행
-
-어닝 서프라이즈, 급락, 섹터 이벤트 발생 시 정기 발행 외 임시 발행.
-
-### Step 1: 임시 에디션 생성
-
-```bash
-python scripts/create_edition.py \
-  --issue-type EARNINGS_TRIGGERED \
-  --top-n 3      # 임시 발행은 3개 종목도 가능
-```
-
-`--top-n 3`이면 Publish Guard의 `MIN_PUBLISH_STOCKS` 조건을 조정해야 한다:
-
-```bash
-python scripts/publish_edition.py \
-  --report-id <id> \
-  --task-id <task_id> \
-  --min-stocks 3
-```
-
-또는 `.env`에서 `MIN_PUBLISH_STOCKS=3`으로 일시 변경 후 복구.
-
-### Step 2-4
-
-정기 발행과 동일 (검토 → 발행 → 확인).
-
-**발행 후 admin에서 이전 에디션이 자동 ARCHIVED됨** — archive 페이지에서 확인.
-
----
-
-## latest 교체 메커니즘
+### 현재 파일 구조
 
 ```
-발행 전:
-  latest_pointer → re_20250317_002 (VOL.2)
-  edition: re_20250317_002 → PUBLISHED
-  edition: re_20250303_001 → ARCHIVED
-
-publish_edition.py 실행 후:
-  latest_pointer → re_20260317_003 (VOL.3)  ← 교체
-  edition: re_20260317_003 → PUBLISHED       ← 신규
-  edition: re_20250317_002 → ARCHIVED        ← 자동 아카이브
-  edition: re_20250303_001 → ARCHIVED        ← 유지
-
-사용자 접속:
-  GET /api/v1/reports/latest
-  → state_store.get_latest_pointer() → re_20260317_003
-  → file_store.get_edition_by_id(re_20260317_003)
-  → data/mock/reports/edition_latest.json (또는 re003.json)
-  → 화면 표시
+data/mock/reports/
+  edition_latest.json          ← 현재 latest (VOL.3)
+  edition_002_archive.json     ← VOL.2 아카이브
+  edition_001_archive.json     ← VOL.1 아카이브
+  stock_NXPW_003.json          ← VOL.3 종목 상세
+  stock_BLFN_003.json
+  stock_STRL_003.json
+  stock_VCNX_003.json
+  stock_DFTL_003.json
+  stock_MFGI_re002.json        ← VOL.2 종목 상세
+  stock_RVNC_re002.json
+  stock_HLTH_re002.json
+  stock_CSTM_re002.json
+  stock_ENXT_re002.json
 ```
 
----
-
-## 배포 환경에서 발행 실행
-
-배포된 Railway 서버에서 스크립트 실행:
-
-```bash
-# Railway CLI로 원격 쉘 접속
-railway run bash
-
-# 또는 로컬에서 Railway 환경변수 로드 후 실행
-railway run python scripts/create_edition.py
-railway run python scripts/publish_edition.py --report-id <id> --task-id <task_id>
-```
-
-또는 Railway의 Cron Job 기능 활용:
-```yaml
-# railway.toml
-[[cron]]
-command = "python scripts/create_edition.py --dry-run"
-schedule = "0 6 * * 1"   # 격주 월요일 오전 6시 (스크리닝 준비)
-```
-
----
-
-## 공개 URL 구조
-
-| URL | 설명 | 접근 주체 |
-|-----|------|---------|
-| `/` | 최신 발행 에디션 (latest published) | 외부 공개 |
-| `/archive` | 발행 이력 전체 목록 | 외부 공개 |
-| `/archive/[n]` | 특정 에디션 상세 (VOL.n) | 외부 공개 |
-| `/report/[id]` | 종목 상세 리포트 | 외부 공개 |
-| `/disclaimer` | 면책 고지 | 외부 공개 |
-| `/admin` | 검토 관리 UI | **내부 접근 전용** |
-| `/api/v1/admin/*` | Admin API | **X-Admin-Key 필요** |
-| `/api/v1/reports/*` | 리포트 API | 외부 공개 (읽기 전용) |
-
-### Admin 내부 접근 방법
-
-배포 후 Admin 페이지는 URL 자체는 공개되지만 API 키 없이는 데이터 변경 불가.
-추가 보호가 필요하면:
-1. Vercel에서 Admin 경로에 Password Protection 설정 (Vercel Pro)
-2. 또는 Admin을 별도 내부 URL로 운영 (추후 구현)
-
----
-
-## 모니터링
-
-| 체크 항목 | URL / 명령 | 주기 |
-|---------|-----------|------|
-| 백엔드 헬스 | `GET /health` | 격주 발행일 |
-| 최신 리포트 응답 | `GET /api/v1/reports/latest` | 발행 직후 |
-| 아카이브 목록 | `GET /api/v1/archive` | 발행 직후 |
-| 5개 종목 차트 | `GET /api/v1/chart/{ticker}` | 격주 발행일 |
-
----
-
-## 이전 에디션 수동 아카이브
-
-특정 에디션을 수동으로 ARCHIVED 처리하려면:
-
-```python
-from backend.app.storage.state_store import state_store
-state_store.update_edition_status("re_20250317_002", "ARCHIVED")
-```
-
-또는 다음 에디션 발행 시 자동 처리됨.
-
----
-
-## 현재 실제 동작 구조 (JSON-only 발행)
-
-> **중요**: `data/state.db`는 gitignored + Docker 재배포 시마다 초기화된다.
-> `latest_pointer`는 항상 None → **`edition_latest.json` fallback이 실제 서비스 기반**.
-> scripts/ 디렉토리 없음 — 현재는 JSON 파일 직접 편집으로 발행.
-
-### 실제 latest 반영 경로
+### latest 반영 경로 (실제 동작)
 
 ```
-/reports/latest 요청
-  1. state_store.get_latest_pointer() → None (DB 초기화됨)
+GET /api/v1/reports/latest
+  1. state_store.get_latest_pointer() → None  (state.db는 Docker 재배포마다 초기화)
   2. fallback: file_store.get_latest_edition()
   3. → edition_latest.json 반환
 ```
 
-따라서 `edition_latest.json`을 새 에디션으로 교체 + git push 만으로 발행 완료.
+**결론**: `edition_latest.json` 교체 + git push = 발행 완료.
 
-### 현재 환경 기준 VOL.N 발행 절차
+---
 
-```bash
-cd ~/Desktop/Vibe\ Coding/weekly_suggest
+## 3. 격주 발행 정책
 
-# Step 1: 현재 latest → archive 보존 (status=ARCHIVED로 수정)
-cp data/mock/reports/edition_latest.json \
-   data/mock/reports/edition_0NNminus1_archive.json
-# 편집기에서 edition_0NNminus1_archive.json 의 "status": "PUBLISHED" → "ARCHIVED"
+| 항목 | 기준 |
+|------|------|
+| 정기 발행 주기 | 격주 월요일 오전 |
+| 발행 준비 시점 | D-1 (일요일 자정, GitHub Actions 자동 실행) |
+| 에디션 번호 | 직전 VOL.N → VOL.N+1 순번 |
+| 종목 수 | 5개 (정기 발행 기준) |
+| 파일 네이밍 | 아래 규칙 참조 |
 
-# Step 2: edition_latest.json 을 새 에디션으로 교체
-# (report_id, edition_number, stocks 등 모두 VOL.N 내용으로)
+### D-1 자동 준비 흐름
 
-# Step 3: edition_0NN_archive.json 동일 내용으로 생성 (API 일관성)
-cp data/mock/reports/edition_latest.json \
-   data/mock/reports/edition_0NN_archive.json
-
-# Step 4: 종목 상세 파일 생성
-# 파일명: stock_{TICKER}_{NNN}.json
-# NNN = report_id.split("_")[-1]  예: re_20260317_003 → 003
-
-# Step 5: JSON 문법 검증
-python3 -c "
-import json, pathlib
-for f in pathlib.Path('data/mock/reports').glob('*.json'):
-    try: json.load(open(f)); print(f'OK  {f.name}')
-    except Exception as e: print(f'ERR {f.name}: {e}')
-"
-
-# Step 6: 커밋 + 배포
-git add data/mock/reports/
-git commit -m "publish: VOL.N re_YYYYMMDD_NNN 정기 발행"
-git push
-# → Railway 자동 Docker 재빌드 → 배포 완료 (~3분)
 ```
+[D-1 일요일 00:00 KST]  GitHub Actions 자동 트리거
+  screen → narrate → preflight (기본)
+  → staging 파일 → prep/biweekly-YYYYMMDD 브랜치 push
+  → Actions summary 에 운영자 체크리스트 표시
+
+[D-0 월요일]  운영자 수동 실행
+  review --approve-all → preflight --strict → prepare → commit → verify
+```
+
+> 자동화 상세 설계: `docs/deployment/AUTOMATION.md`
+> D-1 준비 스크립트: `scripts/biweekly_prep.py`
+> GitHub Actions workflow: `.github/workflows/biweekly_prepare.yml`
 
 ### 파일 네이밍 규칙
 
-| 파일 | 패턴 | 예시 |
-|------|------|------|
-| 최신 에디션 | `edition_latest.json` | — |
-| 아카이브 에디션 | `edition_{NNN}_archive.json` | `edition_002_archive.json` |
-| 종목 상세 | `stock_{TICKER}_{NNN}.json` | `stock_NXPW_003.json` |
+| 파일 종류 | 패턴 | 예시 |
+|-----------|------|------|
+| 최신 에디션 | `edition_latest.json` | (고정명) |
+| 아카이브 에디션 | `edition_{NNN}_archive.json` | `edition_003_archive.json` |
+| 종목 상세 | `stock_{TICKER}_{NNN}.json` | `stock_NXPW_004.json` |
 
-### 배포 후 검증 (smoke test)
+- `NNN` = 에디션 번호 3자리 zero-padding (예: 003, 004)
+- `{NNN}`은 `report_id`의 마지막 세그먼트와 동일 (예: `re_20260331_004` → `004`)
 
-```bash
-API=https://weeklysuggest-production.up.railway.app
+---
 
-# latest 확인
-curl -s "$API/api/v1/reports/latest" | python3 -c "
-import sys, json; d = json.load(sys.stdin)['data']
-print('edition:', d['edition_number'], '|', d['report_id'])
-print('tickers:', [s['ticker'] for s in d['stocks']])
-"
+## 4. VOL.N 발행 SOP
 
-# archive 에디션 수 확인
-curl -s "$API/api/v1/archive" | python3 -c "
-import sys, json; arr = json.load(sys.stdin)['data']
-for e in arr: print(f'VOL.{e[\"edition_number\"]}  {e[\"status\"]}  {e[\"report_id\"]}')
-"
+> **자동화 스크립트**: `scripts/publish_release.py`
+> 전체 파이프라인: `screen → narrate → review → preflight → prepare → commit → verify`
+
+### 발행 가능 상태 기준
+
+| 상태 | 의미 | preflight 결과 |
+|------|------|----------------|
+| `analyst_style_summary.*.status = APPROVED` | 운영자 검토 완료 | `--strict` 통과 |
+| `analyst_style_summary.*.status = DRAFT` | 자동 생성, 미검토 | 기본 모드 WARN / `--strict` 모드 ERROR |
+| `analyst_style_summary.*.status = PLACEHOLDER` | 내용 없음 | 항상 ERROR (prepare 차단) |
+| `reviewer_approved = true` | 모든 블록 APPROVED 상태 | Admin UI에 "검토완료" 표시 |
+| `publication_meta.reviewed_by` 설정됨 | 검토자 기록 | Admin UI에 검토자 표시 |
+
+**권장 발행 기준**: `review --approve-all` 완료 + `preflight --strict` 통과
+
+---
+
+### 운영자 역할 (수동 준비)
+
 ```
+[ ] 신규 5개 종목 선정
+    └─ GROWTH_BENEFICIARY 3개 + UNDERVALUED 2개 구성 확인
+[ ] 각 종목 상세 JSON 작성 → data/staging/ 에 저장
+    (파일명 자유, 예: TICK1.json / stock_TICK1_draft.json)
+    └─ 각 JSON에 selection_type 필드 포함 필수
+[ ] 차트 JSON 5개 작성 → data/mock/chart/{TICKER}_price_series.json
+    └─ interest_range_band 키: lower_bound / upper_bound 사용 (low/high 사용 금지)
+    └─ git add 후 커밋 필수 (untracked 상태로 push 시 Railway에 파일 없음)
+[ ] market_context_note 문구 준비 (이번 에디션 시황 요약)
+```
+
+---
+
+### Step 0 — 드라이런 검증 (선택)
+
+```cmd
+cd C:\Users\MUSINSA\Desktop\Vibe Coding\weekly_suggest
+
+python scripts\publish_release.py prepare ^
+  --stocks-dir data\staging ^
+  --dry-run
+```
+
+파일을 생성하지 않고 검증·체크리스트만 출력한다.
+
+---
+
+### Step 1-b — narrative 자동 초안 생성 (narrate)
+
+스크리닝으로 생성된 `data/staging/` draft 파일에 `analyst_style_summary` 4개 블록을 자동 생성한다.
+유료 LLM 없이 rule-based 템플릿으로 동작한다.
+
+```cmd
+python scripts\publish_release.py narrate
+```
+
+옵션:
+
+| 옵션 | 설명 |
+|------|------|
+| `--stocks-dir PATH` | 대상 디렉토리 (기본: data/staging) |
+| `--overwrite` | 기존 narrative 덮어쓰기 (기본: 기존 있으면 스킵) |
+| `--dry-run` | 파일 변경 없이 출력만 |
+
+생성 후 각 종목 파일의 `analyst_style_summary` 내용을 검토하고:
+- 내용 수정이 필요하면 직접 편집
+- 검토 완료된 블록은 `"status": "DRAFT"` → `"APPROVED"` 로 변경
+
+**`--overwrite` 사용 기준:**
+| 상황 | 권장 |
+|------|------|
+| 신규 draft 파일 (첫 narrate) | `--overwrite` 불필요 |
+| screen 재실행 후 기존 draft 갱신 | `--overwrite` 사용 |
+| 운영자 수정 후 재생성 불필요 | `--overwrite` 사용 안 함 (수정 보존) |
+| VOL.N 발행 실패 후 재시도 | `--overwrite` 후 다시 review |
+
+---
+
+### Step 1-c — narrative 검토 (review)
+
+`narrate`로 생성된 초안을 검토하고 승인한다.
+
+```cmd
+REM 현재 검토 상태 확인
+python scripts\publish_release.py review --show
+
+REM 전체 일괄 승인 (내용 확인 후)
+python scripts\publish_release.py review --approve-all --reviewer "편집자명"
+
+REM 특정 종목만 승인
+python scripts\publish_release.py review --ticker MFGI,RVNC --reviewer "편집자명"
+```
+
+승인 시 자동으로:
+- 각 블록 `status: "DRAFT"` → `"APPROVED"`
+- `reviewer_approved: true`
+- `publication_meta.reviewed_by` / `reviewed_at` 기록
+
+> **Admin UI 대안**: `/admin` 페이지 접속 → 상단 "발행 준비 (Staging)" 패널 → 종목별 "narrative 승인" 버튼
+
+---
+
+### Step 1-d — 발행 전 사전 점검 (preflight)
+
+prepare 실행 전에 누락·미완성 항목을 사전에 점검한다.
+
+```cmd
+REM 기본 모드 (DRAFT 블록은 경고, prepare 실행 가능)
+python scripts\publish_release.py preflight ^
+  --context-note "이번 에디션 시황 요약 문구"
+
+REM strict 모드 (DRAFT 블록도 오류 — review --approve-all 완료 후 사용)
+python scripts\publish_release.py preflight --strict ^
+  --context-note "이번 에디션 시황 요약 문구"
+```
+
+4가지 항목을 검사한다:
+
+| 점검 항목 | 기본 모드 | `--strict` 모드 |
+|-----------|-----------|-----------------|
+| market_context_note 미입력 | ERROR | ERROR |
+| 필수 필드 누락 | ERROR | ERROR |
+| narrative PLACEHOLDER/빈 값 | ERROR | ERROR |
+| narrative DRAFT 상태 | WARN | ERROR |
+| placeholder 마커 잔존 | WARN | WARN |
+
+- **ERROR** (exit 1): prepare 실행 차단
+- **WARN**: prepare 실행 허용, 검토 권장
+
+---
+
+### Step 2 — 발행 준비 (prepare)
+
+스크립트가 아래 작업을 자동 수행한다:
+- 현재 latest `edition_number` 읽기 → `next_num = N+1` 계산
+- 직전 `edition_latest.json` → `edition_{N:03d}_archive.json` 복사 + status ARCHIVED
+- staging 파일 → `stock_{TICKER}_{NNN}.json` 이름 변환 후 reports/ 에 저장
+- `edition_latest.json` 신규 생성 (종목 요약 자동 추출)
+- JSON 문법 검증 + 구조 일관성 검증
+
+```cmd
+python scripts\publish_release.py prepare ^
+  --stocks-dir data\staging ^
+  --context-note "이번 에디션 시황 요약 문구"
+```
+
+추가 옵션:
+
+| 옵션 | 설명 | 기본값 |
+|------|------|--------|
+| `--pub-date YYYYMMDD` | 발행일 지정 | 오늘 |
+| `--data-as-of YYYY-MM-DD` | 데이터 기준일 | pub-date |
+| `--issue-type` | REGULAR_BIWEEKLY / EARNINGS_TRIGGERED / SPECIAL_EVENT | REGULAR_BIWEEKLY |
+| `--min-stocks N` | 최소 종목 수 | 5 |
+
+prepare 완료 후 생성된 `edition_latest.json` 과 종목 파일 내용을 편집기에서 최종 확인한다.
+
+---
+
+### Step 3 — git commit + push (commit)
+
+```cmd
+python scripts\publish_release.py commit
+```
+
+- 변경 파일 목록 자동 계산 후 확인 프롬프트 출력
+- `y` 입력 시 git add → commit → push 순서로 자동 실행
+- 커밋 메시지 기본값: `publish: VOL.N re_YYYYMMDD_NNN 정기 발행`
+
+커밋 메시지 직접 지정:
+```cmd
+python scripts\publish_release.py commit --message "publish: VOL.4 re_20260331_004 정기 발행"
+```
+
+push 없이 commit만:
+```cmd
+python scripts\publish_release.py commit --no-push
+```
+
+> push 후 Railway가 자동으로 Docker 이미지를 재빌드한다 (약 3~5분).
+
+---
+
+### Step 4 — 배포 후 검증 (verify)
+
+Railway 재배포 완료 후 실행한다.
+
+```cmd
+python scripts\publish_release.py verify
+```
+
+6가지 항목을 자동 확인하고 통과/실패를 출력한다:
+
+| 체크 | 기대 결과 |
+|------|-----------|
+| `/health` | 정상 응답, admin_key_set |
+| `/reports/latest` | 신규 VOL.N, 5종목 일치 |
+| `/archive` | 각 VOL 1건씩, 중복 없음 |
+| `/archive/N-1` | ARCHIVED 상태 |
+| `/stocks/{TICKER}` | 종목 상세 응답 |
+| `/admin/review-tasks` | HTTP 403 |
+
+> **추가 수동 검증 항목 (스크립트 미포함, 직접 curl 확인)**
+>
+> | 체크 | 기대 결과 |
+> |------|-----------|
+> | `/chart/{TICKER}?period_days=365` (5개 각각) | HTTP 200, `price_series.length > 0` |
+> | `/reports/latest` → stocks[*].selection_type | `GROWTH_BENEFICIARY` 3개, `UNDERVALUED` 2개 |
+> | Vercel 종목 상세 5페이지 | HTTP 200 (404 아닌지) |
+
+API URL 직접 지정 (기본값과 다를 경우):
+```cmd
+python scripts\publish_release.py verify --api https://weeklysuggest-production.up.railway.app
+```
+
+---
+
+### 수동 발행 (스크립트 없이)
+
+스크립트 사용이 불가한 경우를 위한 fallback 절차:
+
+```cmd
+REM 1. 직전 latest → archive 복사
+copy data\mock\reports\edition_latest.json data\mock\reports\edition_NNN_archive.json
+REM → edition_NNN_archive.json 편집: "PUBLISHED" → "ARCHIVED"
+
+REM 2. edition_latest.json → 신규 에디션 내용으로 교체
+
+REM 3. stock_{TICKER}_{NNN}.json 5개 생성
+
+REM 4. JSON 검증
+python -c "import json,pathlib; [print('OK' if not print(f.name) else '', end='') for f in pathlib.Path('data/mock/reports').glob('*.json') if json.load(open(f,encoding='utf-8')) or True]"
+
+REM 5. git commit + push
+git add data\mock\reports\edition_latest.json
+git add data\mock\reports\edition_NNN_archive.json
+git add data\mock\reports\stock_TICK1_NNN.json ... (5개)
+git commit -m "publish: VOL.N re_YYYYMMDD_NNN 정기 발행"
+git push
+```
+
+---
+
+## 5. 문제 발생 시 우선 확인 항목
+
+### latest가 이전 에디션을 반환하는 경우
+
+1. `edition_latest.json`의 `edition_number`, `report_id` 확인
+2. git push가 정상적으로 완료됐는지 확인 (`git log --oneline -3`)
+3. Railway 재배포가 완료됐는지 확인 (Railway 대시보드 → Deployments)
+4. `/health` 응답의 `build` 필드로 최신 코드가 배포됐는지 확인
+
+### archive에 같은 에디션이 2번 나오는 경우
+
+`edition_latest.json`과 동일한 내용의 `edition_{NNN}_archive.json`이 동시에 존재하는 경우다.
+
+```cmd
+REM 해당 archive 파일 삭제
+del data\mock\reports\edition_NNN_archive.json
+
+git add data\mock\reports\edition_NNN_archive.json
+git commit -m "fix: edition_NNN_archive.json 중복 제거"
+git push
+```
+
+### /archive/N 이 잘못된 에디션을 반환하는 경우
+
+`file_store.get_edition_by_number()` 로직 확인:
+- `edition_{NNN}_archive.json` 파일명과 내부 `edition_number` 필드가 일치하는지 확인
+- `edition_latest.json`의 `edition_number` 필드가 올바른지 확인
+
+### 종목 상세(`/reports/{report_id}/stocks/{ticker}`)가 404인 경우
+
+파일명 규칙 확인:
+- `stock_{TICKER}_{NNN}.json` — `NNN`은 `report_id.split("_")[-1]` 결과와 동일해야 함
+- 예: `re_20260331_004` → `stock_TICK1_004.json`
+- 파일명 대소문자 확인 (TICKER는 대문자)
+
+### admin 403이 아닌 200을 반환하는 경우
+
+Railway Variables에서 `ADMIN_API_KEY` 설정 여부 확인:
+```cmd
+curl -s %API%/health
+REM "diag_admin_key_set": true 여부 확인
+```
+`false`이면 Railway 대시보드 → Variables → `ADMIN_API_KEY` 값 확인·재설정.
+
+---
+
+## 6. 공개 URL 구조
+
+| URL | 내용 | 접근 |
+|-----|------|------|
+| `https://weekly-suggest.vercel.app/` | 최신 발행 에디션 | 외부 공개 |
+| `https://weekly-suggest.vercel.app/archive` | 발행 이력 전체 | 외부 공개 |
+| `https://weekly-suggest.vercel.app/archive/N` | VOL.N 에디션 상세 | 외부 공개 |
+| `https://weekly-suggest.vercel.app/report/[id]` | 종목 상세 리포트 | 외부 공개 |
+| `https://weekly-suggest.vercel.app/disclaimer` | 면책 고지 | 외부 공개 |
+| `/admin` | 검토 관리 UI | 내부 접근 전용 |
+| `/api/v1/admin/*` | Admin API | X-Admin-Key 필요 |
+
+---
+
+## 7. 발행 이력
+
+| VOL | report_id | 발행일 | 종목 | 상태 |
+|-----|-----------|--------|------|------|
+| 3 | re_20260317_003 | 2026-03-17 | NXPW, BLFN, STRL, VCNX, DFTL | PUBLISHED |
+| 2 | re_20250317_002 | 2025-03-17 | MFGI, RVNC, HLTH, CSTM, ENXT | ARCHIVED |
+| 1 | re_20250303_001 | 2025-03-03 | (VOL.1 종목) | ARCHIVED |
+
+> 신규 발행 시 위 표에 행을 추가한다.
