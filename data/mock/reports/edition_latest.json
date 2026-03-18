@@ -21,7 +21,7 @@
         "as_of": "2026-03-14T21:00:00Z"
       },
       "market_cap_usd_b": 5.6,
-      "one_line_thesis": "재생에너지 계약 매출 75% 고정, 에너지 섹터 EV/EBITDA 대비 36% 할인 구간",
+      "one_line_thesis": "재생에너지 전력계약 매출 안정 성장, 에너지 전환 정책 수혜로 추가 성장 여지 확인",
       "valuation_signal": {
         "sector_discount_pct": 36.2,
         "signal_label": "STRONG_SIGNAL"
@@ -45,7 +45,7 @@
         "flag_count": 0,
         "highest_severity": "NONE"
       },
-      "selection_type": "GROWTH_BENEFICIARY"
+      "selection_type": "GROWTH_TRAJECTORY"
     },
     {
       "report_item_id": "ri_20260317_003_BLFN",
@@ -60,7 +60,7 @@
         "as_of": "2026-03-14T21:00:00Z"
       },
       "market_cap_usd_b": 7.2,
-      "one_line_thesis": "대체투자 AUM 3년 연속 성장, 금융 섹터 P/E 중앙값 대비 24% 할인 지속",
+      "one_line_thesis": "대체투자 AUM 3년 연속 성장세 유지, 금리 사이클 전환 수혜로 성장 모멘텀 지속",
       "valuation_signal": {
         "sector_discount_pct": 24.3,
         "signal_label": "MODERATE_SIGNAL"
@@ -84,7 +84,7 @@
         "flag_count": 1,
         "highest_severity": "INFO"
       },
-      "selection_type": "GROWTH_BENEFICIARY"
+      "selection_type": "GROWTH_TRAJECTORY"
     },
     {
       "report_item_id": "ri_20260317_003_STRL",
@@ -138,7 +138,7 @@
         "as_of": "2026-03-14T21:00:00Z"
       },
       "market_cap_usd_b": 11.4,
-      "one_line_thesis": "엣지 AI 칩 설계 경쟁력 보유, AI 조정 국면에서 섹터 P/E 대비 29% 할인 발생",
+      "one_line_thesis": "엣지 AI 칩 설계 경쟁력 보유, AI 반도체 구조적 성장 사이클 진입 초기 구간",
       "valuation_signal": {
         "sector_discount_pct": 29.1,
         "signal_label": "STRONG_SIGNAL"
@@ -162,7 +162,7 @@
         "flag_count": 0,
         "highest_severity": "NONE"
       },
-      "selection_type": "GROWTH_BENEFICIARY"
+      "selection_type": "GROWTH_TRAJECTORY"
     },
     {
       "report_item_id": "ri_20260317_003_DFTL",

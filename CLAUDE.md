@@ -106,14 +106,17 @@ screen → narrate → review → preflight → prepare → commit → verify
 
 | 버킷 | selection_type | 선정 기준 | 핵심 스코어 구성 |
 |------|---------------|-----------|-----------------|
-| A | `GROWTH_BENEFICIARY` | 상위 3개 (점수순) | 성장점수 30% + 모멘텀 25% + EPS리비전 20% + 촉매 15% + 섹터테일윈드 10% − 리스크패널티 |
+| A | `GROWTH_TRAJECTORY` | 섹터 분산 고려 상위 3개 | 성장추세 35% + 시장확장성 20% + 정책우호도 15% + 상승여지 15% + 촉매 10% − 리스크패널티 |
 | B | `UNDERVALUED` | 할인율≥10% & 촉매≥1 충족 후 상위 2개 | 할인율 35% + 역사적저렴도 20% + 촉매 20% + 낙폭 15% + 재무품질 10% − 리스크패널티 |
 
 - 스코어링 함수: `backend/app/services/screening/scorer.py`
-  - `compute_growth_beneficiary_score(c)` → Bucket A 점수
+  - `compute_growth_trajectory_score(c)` → Bucket A 점수 (구 `compute_growth_beneficiary_score`는 래퍼로 유지)
   - `compute_undervalued_score(c)` → Bucket B 점수
   - `bucket_select_candidates(passed, bucket_a_count=3, bucket_b_count=2)`
-- `sector_tailwind_hint`: MOCK_UNIVERSE에 0.0~1.0 수동 설정 (AI반도체=0.9, 전력인프라=0.7 등)
+  - `_select_with_sector_diversity()` → Bucket A 섹터 분산 (동일 섹터 최대 1개)
+- `market_growth_hint`: MOCK_UNIVERSE에 0.0~1.0 수동 설정 (AI반도체=0.95, 에너지전환=0.80, 자산운용=0.65 등)
+- `policy_tailwind_hint`: MOCK_UNIVERSE에 0.0~1.0 수동 설정 (AI인프라=0.85, 청정에너지=0.75, 금융규제완화=0.55 등)
+- **`selection_type` 필드**: `GROWTH_TRAJECTORY` 3개, `UNDERVALUED` 2개 구조 유지 (`GROWTH_BENEFICIARY` 사용 금지)
 
 ---
 
@@ -184,5 +187,5 @@ npm install && npm run dev
 - `BACKEND_URL` 끝에 `/` 붙이면 Vercel rewrite 오작동
 - **차트 JSON `interest_range_band`**: 반드시 `lower_bound` / `upper_bound` 키 사용. `low` / `high` 사용하면 `_transform_chart()` KeyError → API 500 → 상세 페이지 404 발생 (2026-03-18 인시던트)
 - **새 에디션 차트 파일**: `git add` 후 커밋할 것. untracked 상태로 push하면 Railway Docker 빌드 시 파일이 없어 차트 API가 빈 배열 반환
-- **`selection_type` 필드**: `edition_latest.json`의 각 stocks 항목과 `stock_{TICKER}_{NNN}.json`에 반드시 포함. `GROWTH_BENEFICIARY` 3개, `UNDERVALUED` 2개 구조 유지
+- **`selection_type` 필드**: `edition_latest.json`의 각 stocks 항목과 `stock_{TICKER}_{NNN}.json`에 반드시 포함. `GROWTH_TRAJECTORY` 3개, `UNDERVALUED` 2개 구조 유지 (`GROWTH_BENEFICIARY` 사용 금지)
 - **발행 후 verify**: 차트 API 5개 HTTP 200 + price_series.length > 0 확인 필수

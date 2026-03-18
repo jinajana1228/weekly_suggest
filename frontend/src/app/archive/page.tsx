@@ -118,9 +118,9 @@ export default async function ArchivePage() {
                             <span className="font-mono text-xs font-bold text-text-primary">
                               {stock.ticker}
                             </span>
-                            {stock.selection_type === "GROWTH_BENEFICIARY" && (
+                            {stock.selection_type === "GROWTH_TRAJECTORY" && (
                               <span className="text-[9px] text-sky-400 border border-sky-800 bg-sky-950/40 rounded px-1 py-0.5 leading-none">
-                                성장·수혜
+                                성장 추세
                               </span>
                             )}
                             {stock.selection_type === "UNDERVALUED" && (

@@ -12,8 +12,8 @@ interface StockCardProps {
 }
 
 const SELECTION_TYPE_CONFIG = {
-  GROWTH_BENEFICIARY: {
-    label: "성장·수혜",
+  GROWTH_TRAJECTORY: {
+    label: "성장 추세",
     className: "text-sky-400 border-sky-800 bg-sky-950/40",
   },
   UNDERVALUED: {

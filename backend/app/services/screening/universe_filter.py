@@ -16,6 +16,10 @@ from typing import Any
 #                             AI/반도체=0.9, 전력인프라=0.7, 금융성장=0.6,
 #                             물류=0.4, 소비재=0.3
 #   historical_pct_rank     : 3년 밸류에이션 백분위 (낮을수록 역사적으로 저렴)
+#   market_growth_hint      : 시장·산업 구조 성장 여지 (0.0–1.0) [버킷 A 전용]
+#                             실데이터 전환 시 LLM 분류 또는 업종 성장률 지표로 대체
+#   policy_tailwind_hint    : 정책·규제 방향성 우호도 (0.0–1.0) [버킷 A 전용]
+#                             AI인프라·에너지전환=0.8+, 금융=0.5~0.6, 소비재=0.2~0.3
 # ────────────────────────────────────────────────────────────────
 MOCK_UNIVERSE: list[dict[str, Any]] = [
     # ── 필터 통과 + 버킷 A 선발 (3) ─────────────────────────────
@@ -33,6 +37,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -14.2, "price_3m_change_pct": -31.8,
         "drawdown_from_52w_high_pct": -35.6,
         "sector_tailwind_hint": 0.9,   # AI 반도체 수요 급증 — 최고 업종 tailwind
+        "market_growth_hint": 0.95,   # AI 반도체 시장 구조적 성장 — 최고 수준
+        "policy_tailwind_hint": 0.85, # AI 인프라 투자 정책 지원 강함
         "historical_pct_rank": 9,      # 3년 밸류에이션 역대 9분위 → 역사적 저점
         "sector_discount_pct": 29.1, "catalyst_met_count": 3, "risk_level_max": "HIGH",
     },
@@ -49,6 +55,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -6.3, "price_3m_change_pct": -19.4,
         "drawdown_from_52w_high_pct": -26.0,
         "sector_tailwind_hint": 0.6,   # 금리 사이클 전환 수혜, AUM 성장
+        "market_growth_hint": 0.65,   # 대체투자·자산운용 업종 구조적 성장
+        "policy_tailwind_hint": 0.55, # 금융 규제 완화 기조 — 중립~우호
         "historical_pct_rank": 16,
         "sector_discount_pct": 24.3, "catalyst_met_count": 2, "risk_level_max": "LOW",
     },
@@ -65,6 +73,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -9.1, "price_3m_change_pct": -28.3,
         "drawdown_from_52w_high_pct": -37.4,
         "sector_tailwind_hint": 0.7,   # 에너지 전환·전력 인프라 투자 확대 수혜
+        "market_growth_hint": 0.80,   # 재생에너지·독립발전 시장 구조적 확대
+        "policy_tailwind_hint": 0.75, # 청정에너지 정책·IRA 세제 혜택 강한 지원
         "historical_pct_rank": 11,
         "sector_discount_pct": 36.2, "catalyst_met_count": 3, "risk_level_max": "MEDIUM",
     },
@@ -82,6 +92,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -11.2, "price_3m_change_pct": -24.6,
         "drawdown_from_52w_high_pct": -30.9,
         "sector_tailwind_hint": 0.3,
+        "market_growth_hint": 0.30,   # 전문소매 성장 여지 제한적 — 전자상거래 경쟁 심화
+        "policy_tailwind_hint": 0.25, # 소비재 정책 지원 미미
         "historical_pct_rank": 19,
         "sector_discount_pct": 27.8, "catalyst_met_count": 2, "risk_level_max": "MEDIUM",
     },
@@ -98,6 +110,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -7.8, "price_3m_change_pct": -21.4,
         "drawdown_from_52w_high_pct": -26.2,
         "sector_tailwind_hint": 0.4,
+        "market_growth_hint": 0.45,   # 물류·공급망 회복 기대 — 구조적 성장 제한
+        "policy_tailwind_hint": 0.40, # 인프라 투자 정책 간접 수혜
         "historical_pct_rank": 14,
         "sector_discount_pct": 22.1, "catalyst_met_count": 2, "risk_level_max": "MEDIUM",
     },
@@ -114,6 +128,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -2.1, "price_3m_change_pct": -8.4,
         "drawdown_from_52w_high_pct": -17.6,
         "sector_tailwind_hint": 0.2,
+        "market_growth_hint": 0.20,   # 방송·미디어 구조 성장 부재 — 디지털 전환 역풍
+        "policy_tailwind_hint": 0.20, # 미디어 규제 불확실, 정책 지원 없음
         "historical_pct_rank": 42,
         "sector_discount_pct": 11.2, "catalyst_met_count": 1, "risk_level_max": "MEDIUM",
     },
@@ -129,6 +145,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -3.4, "price_3m_change_pct": -9.2,
         "drawdown_from_52w_high_pct": -36.5,
         "sector_tailwind_hint": 0.35,
+        "market_growth_hint": 0.45,   # IT컨설팅 AI 전환 수요 일부 수혜 — 제한적
+        "policy_tailwind_hint": 0.35, # 기업 디지털화 정책 간접 수혜
         "historical_pct_rank": 38,
         "sector_discount_pct": 14.6, "catalyst_met_count": 1, "risk_level_max": "MEDIUM",
     },
@@ -145,6 +163,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -4.8, "price_3m_change_pct": -12.3,
         "drawdown_from_52w_high_pct": -33.9,
         "sector_tailwind_hint": 0.4,
+        "market_growth_hint": 0.35,   # 전기기기 업종 안정적이나 구조 성장 제한
+        "policy_tailwind_hint": 0.30, # 인프라 정책 간접 수혜 — 미미
         "historical_pct_rank": 28,
         "sector_discount_pct": 22.0, "catalyst_met_count": 2, "risk_level_max": "LOW",
     },
@@ -160,6 +180,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -8.4, "price_3m_change_pct": -22.1,
         "drawdown_from_52w_high_pct": -42.6,
         "sector_tailwind_hint": 0.35,
+        "market_growth_hint": 0.25,   # 전통 석유가스 장비 — 에너지 전환으로 구조적 축소
+        "policy_tailwind_hint": 0.20, # 탄소중립 정책 역풍
         "historical_pct_rank": 22,
         "sector_discount_pct": 30.1, "catalyst_met_count": 2, "risk_level_max": "HIGH",
     },
@@ -175,6 +197,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -18.3, "price_3m_change_pct": -41.2,
         "drawdown_from_52w_high_pct": -48.4,
         "sector_tailwind_hint": 0.25,
+        "market_growth_hint": 0.40,   # 바이오테크 시장 성장 있으나 임상 불확실성 높음
+        "policy_tailwind_hint": 0.30, # FDA 규제 긍정·부정 혼재
         "historical_pct_rank": 35,
         "sector_discount_pct": 35.0, "catalyst_met_count": 1, "risk_level_max": "HIGH",
     },
@@ -190,6 +214,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -1.2, "price_3m_change_pct": -6.8,
         "drawdown_from_52w_high_pct": -19.5,
         "sector_tailwind_hint": 0.3,
+        "market_growth_hint": 0.30,   # 명품 소비재 성장 있으나 경기 민감 — 중국 둔화 역풍
+        "policy_tailwind_hint": 0.20, # ADR 정책 불리, 관세 리스크
         "historical_pct_rank": 45,
         "sector_discount_pct": 15.2, "catalyst_met_count": 1, "risk_level_max": "LOW",
     },
@@ -205,6 +231,8 @@ MOCK_UNIVERSE: list[dict[str, Any]] = [
         "price_1m_change_pct": -22.4, "price_3m_change_pct": -54.8,
         "drawdown_from_52w_high_pct": -60.3,
         "sector_tailwind_hint": 0.2,
+        "market_growth_hint": 0.30,   # 청정연료 시장 성장 있으나 부도 위험 — 실질 무의미
+        "policy_tailwind_hint": 0.35, # 청정에너지 정책 수혜 가능하나 재무 위기 우선
         "historical_pct_rank": 60,
         "sector_discount_pct": 55.0, "catalyst_met_count": 0, "risk_level_max": "HIGH",
     },

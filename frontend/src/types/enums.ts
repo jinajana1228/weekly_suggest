@@ -20,7 +20,7 @@ export type RiskCategory =
 
 export type IssueType = "REGULAR_BIWEEKLY" | "EARNINGS_TRIGGERED" | "SPECIAL_EVENT";
 
-export type SelectionType = "GROWTH_BENEFICIARY" | "UNDERVALUED";
+export type SelectionType = "GROWTH_TRAJECTORY" | "UNDERVALUED";
 
 export type EpsRevisionTrend = "UPWARD" | "STABLE" | "DOWNWARD" | "UNAVAILABLE";
 
