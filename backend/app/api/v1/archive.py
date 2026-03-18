@@ -29,6 +29,7 @@ async def get_archive():
                     "valuation_signal": s.get("valuation_signal"),
                     "catalyst_badges": s.get("catalyst_badges"),
                     "report_item_id": s.get("report_item_id"),
+                    "selection_type": s.get("selection_type"),
                 }
                 for s in e.get("stocks", [])
             ],

@@ -114,14 +114,24 @@ export default async function ArchivePage() {
                         className="flex items-center justify-between gap-2 bg-bg-overlay rounded px-2.5 py-2"
                       >
                         <div className="min-w-0">
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1.5 flex-wrap">
                             <span className="font-mono text-xs font-bold text-text-primary">
                               {stock.ticker}
                             </span>
-                            <span className="text-[10px] text-text-muted truncate">
-                              {stock.sector.split(" ")[0]}
-                            </span>
+                            {stock.selection_type === "GROWTH_BENEFICIARY" && (
+                              <span className="text-[9px] text-sky-400 border border-sky-800 bg-sky-950/40 rounded px-1 py-0.5 leading-none">
+                                성장·수혜
+                              </span>
+                            )}
+                            {stock.selection_type === "UNDERVALUED" && (
+                              <span className="text-[9px] text-accent-gold border border-yellow-800 bg-yellow-950/40 rounded px-1 py-0.5 leading-none">
+                                저평가
+                              </span>
+                            )}
                           </div>
+                          <span className="text-[10px] text-text-muted truncate">
+                            {stock.sector.split(" ")[0]}
+                          </span>
                         </div>
                         <div className="flex items-center gap-1 shrink-0">
                           <CatalystBadgeGroup badges={stock.catalyst_badges} />

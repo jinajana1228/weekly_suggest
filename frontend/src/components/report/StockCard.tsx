@@ -67,7 +67,9 @@ export function StockCard({ stock, reportId }: StockCardProps) {
               <div className="font-mono text-lg font-semibold text-text-primary tabular-nums">
                 {formatPrice(stock.current_price.value)}
               </div>
-              <div className="text-xs text-text-muted tabular-nums">{formatBillion(stock.market_cap_usd_b)}</div>
+              <div className="text-xs text-text-muted tabular-nums">
+                <span className="text-text-muted/60 mr-0.5">시총</span>{formatBillion(stock.market_cap_usd_b)}
+              </div>
               {discountPct != null && discountPct > 0 && (
                 <div className="text-[10px] text-accent-gold mt-0.5 tabular-nums">
                   -{discountPct.toFixed(0)}% vs 섹터

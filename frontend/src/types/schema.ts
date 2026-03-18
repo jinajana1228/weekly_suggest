@@ -294,6 +294,7 @@ export interface ArchiveStockSummary {
   valuation_signal: ValuationSignalSummary;
   catalyst_badges: CatalystBadge[];
   report_item_id: string;
+  selection_type?: import("./enums").SelectionType;
 }
 
 export interface ArchiveEntry {

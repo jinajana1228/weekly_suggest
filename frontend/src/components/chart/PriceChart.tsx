@@ -199,7 +199,12 @@ export function PriceChart({ chartData, height = 280 }: PriceChartProps) {
         {interest_range_band && (
           <div className="flex items-center gap-1.5">
             <div className="w-4 h-3 bg-accent-gold opacity-15 rounded-sm" />
-            <span className="text-[10px] text-text-muted">관심 구간</span>
+            <span className="text-[10px] text-text-muted">
+              관심 구간{" "}
+              <span className="font-mono text-accent-gold opacity-80">
+                ${interest_range_band.lower_bound} — ${interest_range_band.upper_bound}
+              </span>
+            </span>
           </div>
         )}
         {event_markers.some((m) => m.event_type === "EARNINGS_RELEASE") && (

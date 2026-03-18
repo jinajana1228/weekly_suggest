@@ -55,6 +55,7 @@ export default async function StockReportPage({ params, searchParams }: PageProp
   const footerDisclaimer = report.disclaimer_blocks.find((b) => b.position === "FOOTER");
 
   const SECTIONS = [
+    { id: "chart", label: "차트" },
     { id: "price", label: "가격" },
     { id: "valuation", label: "밸류에이션" },
     { id: "catalyst", label: "촉매" },
@@ -138,7 +139,7 @@ export default async function StockReportPage({ params, searchParams }: PageProp
       </div>
 
       {/* 차트 + 관심가격구간 */}
-      <div className="mb-6 bg-bg-surface border border-border-default rounded-lg p-4">
+      <div id="chart" className="mb-6 bg-bg-surface border border-border-default rounded-lg p-4">
         {chartData && chartData.price_series.length > 0 ? (
           <PriceChart chartData={chartData} height={280} />
         ) : (
