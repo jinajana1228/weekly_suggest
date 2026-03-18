@@ -5,6 +5,56 @@
 
 ---
 
+## 2026-03-18 — GROWTH_TRAJECTORY 버킷 A 로직 최종 확정 + 전체 반영
+
+### 변경 (추천 로직 재정의)
+
+- `backend/app/services/screening/scorer.py` — Bucket A 스코어 함수 전면 재설계
+  - 기존: `compute_growth_beneficiary_score()` — 성장·모멘텀·EPS리비전·촉매·섹터테일윈드
+  - **최종**: `compute_growth_trajectory_score()` — 5개 구성요소 재정의
+    - `growth_trend_score` (×0.35): 현재 성장 추세 (매출성장 40% + EPS리비전 30% + 영업마진 15% + ROE 15%)
+    - `market_expansion_score` (×0.20): 시장·산업 구조 성장 여지 (`market_growth_hint`)
+    - `policy_alignment_score` (×0.15): 정책·규제 방향성 우호도 (`policy_tailwind_hint`)
+    - `upside_remaining_score` (×0.15): 추가 상승 여지 — 52주 하단 기준, 과열 시 최대 50% 감점
+    - `catalyst_score` (×0.10): 리레이팅 촉매
+    - `risk_penalty` (×0.20 차감): 리스크 레벨 패널티
+  - `compute_growth_beneficiary_score()` → 하위 호환 래퍼로 유지 (위임)
+  - `_select_with_sector_diversity()` 신규 추가: Bucket A 동일 섹터 최대 1개 선발, 부족 시 점수순 보충
+
+- `backend/app/services/screening/universe_filter.py` — MOCK_UNIVERSE 12개 전체 필드 추가
+  - `market_growth_hint`: 시장·산업 구조 성장 여지 0.0–1.0 (AI반도체=0.95, 에너지전환=0.80, 자산운용=0.65 등)
+  - `policy_tailwind_hint`: 정책·규제 방향성 우호도 0.0–1.0 (AI인프라=0.85, 청정에너지=0.75, 금융=0.55 등)
+
+### 변경 (용어 통일)
+
+- `selection_type` enum: `GROWTH_BENEFICIARY` → **`GROWTH_TRAJECTORY`** (전면 교체)
+  - `frontend/src/types/enums.ts`
+  - `frontend/src/components/report/StockCard.tsx` — 배지 키 변경, 레이블 "성장·수혜" → "성장 추세"
+  - `frontend/src/app/archive/page.tsx` — 배지 조건·레이블 변경
+  - `data/mock/reports/edition_latest.json` — NXPW·BLFN·VCNX `selection_type` 변경
+  - `data/mock/reports/stock_NXPW_003.json`, `stock_BLFN_003.json`, `stock_VCNX_003.json` — `selection_type` 변경
+
+### 변경 (one_line_thesis 재작성 — 성장 관점)
+
+- `data/mock/reports/edition_latest.json` 내 3개 종목 `one_line_thesis` 수정
+  - NXPW: "재생에너지 계약 매출 75% 고정, 에너지 섹터 대비 36% 할인" → **"재생에너지 전력계약 매출 안정 성장, 에너지 전환 정책 수혜로 추가 성장 여지 확인"**
+  - BLFN: "대체투자 AUM 3년 연속 성장, 금융 섹터 대비 24% 할인" → **"대체투자 AUM 3년 연속 성장세 유지, 금리 사이클 전환 수혜로 성장 모멘텀 지속"**
+  - VCNX: "엣지 AI 칩 설계 경쟁력, 섹터 P/E 대비 29% 할인" → **"엣지 AI 칩 설계 경쟁력 보유, AI 반도체 구조적 성장 사이클 진입 초기 구간"**
+
+### 문서 업데이트
+
+- `CLAUDE.md` §6-a: 새 스코어 구성·`market_growth_hint`·`policy_tailwind_hint` 설명 반영
+- `docs/CHANGELOG.md`, `OPERATIONS.md`, `NOTION_WIKI.md`, `PROJECT_CONTEXT.md`: 최종 상태 반영
+
+### 커밋 이력
+
+| 커밋 | 내용 |
+|------|------|
+| `e0832db` | Stage 3 문서 업데이트 |
+| `cabcad5` | GROWTH_TRAJECTORY 버킷 A 로직 완성 + 전체 파일 반영 |
+
+---
+
 ## 2026-03-18 — 2버킷 추천 로직 + selection_type + UI 개선 4건
 
 ### 수정 (버그 픽스)

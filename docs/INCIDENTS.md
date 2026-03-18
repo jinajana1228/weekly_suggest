@@ -29,6 +29,44 @@
 
 ---
 
+## 2026-03-18 — selection_type 전환 후 Vercel 배지 일시 미표시
+
+**심각도**: 낮음
+**영향 범위**: 사용자 노출 (메인 페이지 배지 일시적 미표시)
+**상태**: 해결 완료 (자동 해소 — Vercel 재빌드 후)
+
+### 현상
+
+`GROWTH_BENEFICIARY` → `GROWTH_TRAJECTORY` 전환 커밋(`cabcad5`) 직후,
+Vercel 메인 페이지에서 NXPW·BLFN·VCNX 카드의 배지(파란색)가 표시되지 않았다.
+(HTML에 `"$undefined"` 렌더링)
+
+### 원인
+
+두 가지 타이밍 불일치 동시 발생:
+
+1. **Railway 배포 완료**: API가 즉시 `GROWTH_TRAJECTORY` 반환 시작
+2. **Vercel 빌드 진행 중**: 프론트엔드 코드는 아직 구 버전 (`GROWTH_BENEFICIARY` 키만 인식)
+   → `SELECTION_TYPE_CONFIG["GROWTH_TRAJECTORY"]` = undefined → 배지 미렌더링
+
+또한, Vercel SSR 5분 캐시로 인해 새 코드 빌드 완료 후에도 즉각 반영되지 않았다.
+
+### 해결
+
+Vercel 빌드 완료(약 2분) + SSR 캐시 만료(5분) 후 자동 해소.
+추가 조치 불필요.
+
+### 재발 방지
+
+- `selection_type` enum 값 변경 시 반드시 3곳 동시 변경:
+  1. `frontend/src/types/enums.ts`
+  2. `frontend/src/components/report/StockCard.tsx` (SELECTION_TYPE_CONFIG 키)
+  3. `frontend/src/app/archive/page.tsx` (조건 분기)
+- 변경 후 Vercel 빌드 완료(약 2분) + 캐시 만료(5분) 후 재확인 필요
+- `verify` 스크립트에 selection_type 카운트 체크 추가 고려
+
+---
+
 ## 2026-03-18 — VOL.3 종목 상세 페이지 전체 404
 
 **심각도**: 높음

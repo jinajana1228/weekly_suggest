@@ -1,6 +1,6 @@
 # Weekly Suggest — 운영 SOP (Standard Operating Procedure)
 
-> **문서 기준**: VOL.3 발행 완료 / 2026-03-17
+> **문서 기준**: VOL.3 발행 완료 / 2026-03-18 (추천 로직 최종 확정)
 > **운영 구조**: JSON-only 발행 + Git push → Railway 자동 재배포
 > **발행 자동화**: `scripts/publish_release.py` (screen / narrate / review / preflight / prepare / commit / verify)
 > **격주 자동화**: `.github/workflows/biweekly_prepare.yml` + `scripts/biweekly_prep.py`
@@ -126,10 +126,14 @@ GET /api/v1/reports/latest
 
 ```
 [ ] 신규 5개 종목 선정
-    └─ GROWTH_BENEFICIARY 3개 + UNDERVALUED 2개 구성 확인
+    └─ GROWTH_TRAJECTORY (성장 추세) 3개 + UNDERVALUED (저평가) 2개 구성 확인
+    └─ GROWTH_TRAJECTORY 3개는 섹터 분산 확인 (동일 섹터 최대 1개 원칙)
 [ ] 각 종목 상세 JSON 작성 → data/staging/ 에 저장
     (파일명 자유, 예: TICK1.json / stock_TICK1_draft.json)
-    └─ 각 JSON에 selection_type 필드 포함 필수
+    └─ 각 JSON에 selection_type 필드 포함 필수 (GROWTH_TRAJECTORY 또는 UNDERVALUED)
+    └─ GROWTH_BENEFICIARY 용어 사용 금지 (2026-03-18 이후 폐기)
+[ ] MOCK_UNIVERSE에 신규 종목 추가 시 market_growth_hint + policy_tailwind_hint 필드 설정
+    └─ 두 필드 모두 0.0–1.0 범위 직접 설정
 [ ] 차트 JSON 5개 작성 → data/mock/chart/{TICKER}_price_series.json
     └─ interest_range_band 키: lower_bound / upper_bound 사용 (low/high 사용 금지)
     └─ git add 후 커밋 필수 (untracked 상태로 push 시 Railway에 파일 없음)
@@ -312,7 +316,7 @@ python scripts\publish_release.py verify
 > | 체크 | 기대 결과 |
 > |------|-----------|
 > | `/chart/{TICKER}?period_days=365` (5개 각각) | HTTP 200, `price_series.length > 0` |
-> | `/reports/latest` → stocks[*].selection_type | `GROWTH_BENEFICIARY` 3개, `UNDERVALUED` 2개 |
+> | `/reports/latest` → stocks[*].selection_type | `GROWTH_TRAJECTORY` 3개, `UNDERVALUED` 2개 |
 > | Vercel 종목 상세 5페이지 | HTTP 200 (404 아닌지) |
 
 API URL 직접 지정 (기본값과 다를 경우):

@@ -137,7 +137,7 @@
 
 | 번호 | 발행일 | 종목 | 상태 |
 |------|--------|------|------|
-| **VOL.3** (최신) | 2026-03-17 | NXPW(성장), BLFN(성장), STRL(저평가), VCNX(성장), DFTL(저평가) | 🟢 PUBLISHED |
+| **VOL.3** (최신) | 2026-03-17 | NXPW(성장추세), BLFN(성장추세), STRL(저평가), VCNX(성장추세), DFTL(저평가) | 🟢 PUBLISHED |
 | VOL.2 | 2025-03-17 | MFGI, RVNC, HLTH, CSTM, ENXT | 🔵 ARCHIVED |
 | VOL.1 | 2025-03-03 | DXPC, LGSV, MRVX, WTRX, BXMT | 🔵 ARCHIVED |
 
@@ -149,16 +149,18 @@
 | 차트 데이터 | VOL.2 + VOL.3 전체 10개 파일 ✅ 정상 |
 | Narrative 생성 | rule-based 자동 초안 (Claude API 미연동) |
 | GitHub Actions | 활성화 (격주 일요일 자정 자동 실행) |
-| 추천 로직 | 2버킷 구조 (성장·수혜 3개 + 저평가 2개) |
+| 추천 로직 | **2버킷 구조 (성장 추세 3개 + 저평가 2개)** ← 2026-03-18 최종 확정 |
 
 ### 종목 선정 유형 안내
 
-| 유형 | 배지 색상 | 의미 |
-|------|-----------|------|
-| **성장·수혜** | 파란색 | 성장률·모멘텀·정책 수혜 기준 상위 3개 |
-| **저평가** | 황금색 | 섹터 대비 할인율 ≥ 10% + 촉매 ≥ 1개 충족 후 가치 기준 상위 2개 |
+| 유형 | `selection_type` 값 | 배지 색상 | 선정 기준 |
+|------|-------------------|---------|---------|
+| **성장 추세** | `GROWTH_TRAJECTORY` | 파란색 | 현재 성장성 + 시장 확장성 + 정책 우호도 + 상승 여지 + 촉매 − 리스크, 섹터 분산 고려, 상위 3개 |
+| **저평가** | `UNDERVALUED` | 황금색 | 섹터 대비 할인율 ≥10% + 촉매 ≥1개 충족 후 가치 점수 상위 2개 |
 
 두 유형 모두 목표주가 없음. 관심 구간은 섹터 중앙값 기반 조건부 참고치.
+
+> ⚠️ `GROWTH_BENEFICIARY` 용어는 2026-03-18부로 폐기됨. 코드·데이터·문서 모두 `GROWTH_TRAJECTORY` 사용.
 
 ### 진행 중인 개선 과제
 
@@ -391,15 +393,94 @@ python scripts\publish_release.py verify
 
 ---
 
+### 격주 운영 체크리스트 (매 발행 주기마다 실행)
+
+> 복사해서 Notion 체크박스로 사용하세요.
+
+#### 일요일 — 시스템 자동 실행 후 확인
+
+```
+[ ] GitHub Actions 실행 결과 확인
+    → github.com/jinajana1228/weekly_suggest → Actions 탭
+    → 'Biweekly Publish Preparation (D-1)' 최근 실행
+    → Summary 탭: ✅ 성공 / ❌ 실패 여부 확인
+[ ] 실패했다면 → 오류 로그 확인 후 수동 재실행 여부 결정
+    → Actions → "Run workflow" 버튼으로 수동 실행 가능
+```
+
+#### 월요일 오전 — 운영자 수동 작업 (순서 중요)
+
+```
+[ ] 1. 준비된 내용 가져오기
+    git pull
+    git checkout prep/biweekly-YYYYMMDD
+
+[ ] 2. 종목 내용 확인
+    python scripts\publish_release.py review --show
+    → 선정된 5개 종목 확인
+    → GROWTH_TRAJECTORY 3개 + UNDERVALUED 2개 구성 확인
+    → GROWTH_TRAJECTORY 3개가 서로 다른 섹터인지 확인
+    → 각 종목 narrative(분석 서술) 내용 읽어보기
+
+[ ] 3. 필요 시 내용 수정
+    → data/staging/stock_{TICKER}_draft.json 직접 편집
+    → 또는 Admin UI(/admin) Staging 패널에서 수정
+
+[ ] 4. 내용 승인
+    python scripts\publish_release.py review --approve-all --reviewer "이름"
+
+[ ] 5. 발행 전 최종 점검 (strict 모드)
+    python scripts\publish_release.py preflight --strict \
+      --context-note "이번 에디션 시황 요약 문구"
+    → ERROR 있으면 해결 후 재실행
+    → WARN만 있으면 진행 가능
+
+[ ] 6. 발행 파일 생성
+    python scripts\publish_release.py prepare \
+      --stocks-dir data\staging \
+      --context-note "이번 에디션 시황 요약 문구"
+    → 생성된 edition_latest.json 내용 최종 확인
+
+[ ] 7. 발행 확정 (되돌리기 어려움 — 신중하게)
+    python scripts\publish_release.py commit
+    → y 입력 → git push → Railway 재배포 시작
+    → 3~5분 대기
+
+[ ] 8. 배포 확인
+    python scripts\publish_release.py verify
+    → 모든 체크 통과 확인
+```
+
+#### 발행 후 수동 검증 (verify 스크립트 미포함 항목)
+
+```
+[ ] 차트 API 5개 개별 확인
+    → GET /api/v1/chart/{TICKER}?period_days=365
+    → HTTP 200 + price_series.length > 0
+[ ] selection_type 확인
+    → GET /api/v1/reports/latest
+    → stocks[*].selection_type = GROWTH_TRAJECTORY 3개 + UNDERVALUED 2개
+[ ] 종목 상세 페이지 5개 확인
+    → weekly-suggest.vercel.app/report/[id] 각각 접속
+    → HTTP 200 (404 아닌지 확인)
+[ ] 아카이브 페이지 확인
+    → /archive 에서 이전 에디션 정상 표시 여부
+[ ] 메인 배지 확인
+    → "성장 추세" 배지 3개 + "저평가" 배지 2개 표시 여부
+    → ⚠️ Vercel은 최대 5분 캐시 지연 가능 — 바로 안 보이면 5분 후 재확인
+```
+
 ### 발행 전 반드시 확인할 항목
 
 | 체크 | 확인 방법 |
 |------|---------|
 | D-1 준비 성공 여부 | GitHub Actions Summary |
 | staging 종목 내용이 적절한가 | `review --show` 또는 Admin UI |
+| GROWTH_TRAJECTORY 3개 섹터 분산 확인 | 각 종목의 `sector` 필드 확인 |
 | narrative가 모두 APPROVED인가 | `review --show` 결과 확인 |
 | preflight --strict ERROR 없는가 | `preflight --strict` 출력 확인 |
 | context-note(시황 요약)가 작성됐는가 | preflight/prepare 실행 시 입력 |
+| 차트 JSON 5개 파일 존재하는가 | `data/mock/chart/{TICKER}_price_series.json` |
 
 ---
 
@@ -448,10 +529,11 @@ REM 3. git push
 
 | 작업 | 자동/수동 | 이유 |
 |------|---------|------|
-| 종목 스크리닝 | ✅ 자동 | 로직이 결정론적 |
+| 종목 스크리닝 (2버킷 선발) | ✅ 자동 | 로직이 결정론적 — GROWTH_TRAJECTORY 3개 + UNDERVALUED 2개 |
 | narrative 초안 생성 | ✅ 자동 | rule-based, 재현 가능 |
 | 품질 사전 점검 (기본) | ✅ 자동 | 읽기 전용 |
-| **내용 검토·승인** | ❌ 수동 | 내용 확인 없는 자동 승인 불가 |
+| **종목 내용 및 구성 검토** | ❌ 수동 | 섹터 분산, 논거 타당성, 내용 품질 확인 필요 |
+| **내용 승인** | ❌ 수동 | 내용 확인 없는 자동 승인 불가 |
 | **strict 점검** | ❌ 수동 | 승인 완료 후 운영자 직접 확인 |
 | **발행 파일 생성** | ❌ 수동 | 되돌리기 어려운 작업 |
 | **git push (발행 확정)** | ❌ 수동 | **즉시 프로덕션 반영** |
@@ -621,6 +703,38 @@ VOL.4 발행을 준비하려고 해.
 
 발행 전에 뭘 확인해야 하는지, 어떤 명령어를 순서대로 실행하면 되는지 안내해줘.
 이번 에디션 시황 노트: "[시황 요약 문구]"
+```
+
+---
+
+#### 예시 6 — 종목 추천 로직 관련 질문/수정
+
+```
+Weekly Suggest 프로젝트야.
+먼저 CLAUDE.md, docs/PROJECT_CONTEXT.md 를 읽어줘.
+
+추천 로직에 대해 질문/수정 요청이 있어:
+[질문 또는 수정 내용]
+
+예: GROWTH_TRAJECTORY 선정 기준에서 EPS 리비전 가중치를 높이고 싶어.
+현재 growth_trend_score 내에서 30% 인데, 40%로 올리고 싶어.
+scorer.py를 수정하고 CLAUDE.md와 PROJECT_CONTEXT.md도 같이 업데이트해줘.
+```
+
+---
+
+#### 예시 7 — 발행 후 이슈 발생
+
+```
+Weekly Suggest 프로젝트야.
+먼저 CLAUDE.md, docs/INCIDENTS.md 를 읽어줘.
+
+VOL.N 발행 후 아래 문제가 발생했어:
+[문제 상황]
+
+예: 메인 페이지에서 GROWTH_TRAJECTORY 배지가 안 보여.
+"성장 추세" 배지 대신 아무것도 표시가 안 되는 상태야.
+Vercel 배포는 완료됐는데, 배지가 표시되지 않는 원인을 찾아줘.
 ```
 
 ---
